@@ -1,6 +1,6 @@
 // declare modules
 console.log('app.js') ;
-var app = angular.module("CleverZone", []);
+var app = angular.module("CleverZone", ['ngCookies']);
 //  
 //.config(['$routeProvider', function ($routeProvider) {
 // 

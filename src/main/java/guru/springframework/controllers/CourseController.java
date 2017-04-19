@@ -71,27 +71,21 @@ public class CourseController {
 
    //-------------------Retrieve Resisted Course--------------------------------------------------------
    
-   @RequestMapping(value = "/courseRegistedIn/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-   public ResponseEntity<List<Course>> getCoursesRegistedin(@PathVariable("id") long id) {
-       System.out.println("Fetching Course with ID " + id);
-       User user = userService.findOne(id);
-       if (user == null) {
-           System.out.println("User with ID " + id + " Not Found");
-           return new ResponseEntity<List<Course>>(HttpStatus.NOT_FOUND);
-       }
+   @RequestMapping(value = "/courseRegistedIn/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<List<Course>> getCoursesRegistedin() {
+       System.out.println("Fetching Registed ");
+       UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       User user = userService.findByuserName(userDetails.getUsername());
        return new ResponseEntity<List<Course>>(user.getCoursesRegistedin(), HttpStatus.OK);
    }
 
 //-------------------Retrieve Created Course--------------------------------------------------------
-   
-   @RequestMapping(value = "/courseCreated/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-   public ResponseEntity<List<Course>> getCoursesCreated(@PathVariable("id") long id) {
-       System.out.println("Fetching Course with ID " + id);
-       User user = userService.findOne(id);
-       if (user == null) {
-           System.out.println("User with ID " + id + " Not Found");
-           return new ResponseEntity<List<Course>>(HttpStatus.NOT_FOUND);
-       }
+   @PreAuthorize("hasRole('ROLE_TEACHER')")
+   @RequestMapping(value = "/courseCreated/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<List<Course>> getCoursesCreated() {
+	   System.out.println("Fetching Created ");
+       UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       User user = userService.findByuserName(userDetails.getUsername());
        return new ResponseEntity<List<Course>>(user.getCoursesCreated(), HttpStatus.OK);
    }
     

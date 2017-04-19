@@ -1,22 +1,30 @@
-app.controller('CourseController', ["$scope", "$http" ,function ($scope, $http, $location) {
-    $scope.get = function () {
-    	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($scope.username + ':' + $scope.password);
+app.controller('CourseController', ["$scope", "$http","$cookieStore" ,function ($scope, $http, $cookieStore) {
+    $scope.getCourseRegisted = function () {
+    	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($cookieStore.get('username') + ':' + $cookieStore.get('password')  );
         $http({
         	  method: 'GET',
-        	  url: 'http://localhost:8080/userRole/'
+        	  url: 'http://localhost:8080/courseRegistedIn/'
         	}).then(function successCallback(response) {
         		console.log(response.data);
-        		for(var i in response.data){ 
-        			if(i == "ROLE_TEACHER")window.location = "/website-instructor-dashboard.html";
-        			else window.location = "/website-student-dashboard.html";
-        		}
-        		
+        		$scope.RegistedCourse = response.data; 
         	  }, function errorCallback(response) {
-        	    
-        		  alert("a7a");
+        	
+        		  alert("Course Registed in fetching failed");
         	  });
     }
-    
+    $scope.getCourseCreated = function () {
+    	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($cookieStore.get('username') + ':' + $cookieStore.get('password')  );
+        $http({
+        	  method: 'GET',
+        	  url: 'http://localhost:8080/courseCreated/'
+        	}).then(function successCallback(response) {
+        		console.log(response.data);
+        		$scope.CreatedCourse = response.data; 
+        	  }, function errorCallback(response) {
+        	
+        		  alert("Course Registed in fetching failed");
+        	  });
+    }
     
     
     
