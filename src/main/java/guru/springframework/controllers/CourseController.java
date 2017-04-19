@@ -46,6 +46,8 @@ public class CourseController {
    @RequestMapping(value = "/course/", method = RequestMethod.GET)
    public ResponseEntity<List<Course>> listAllCourses() {
        List<Course> courses = CourseService.findAll();
+       UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       System.out.println(userDetails.getUsername());
        if(courses.isEmpty()){
            return new ResponseEntity<List<Course>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
        }
@@ -67,7 +69,31 @@ public class CourseController {
        return new ResponseEntity<Course>(course, HttpStatus.OK);
    }
 
-    
+   //-------------------Retrieve Resisted Course--------------------------------------------------------
+   
+   @RequestMapping(value = "/courseRegistedIn/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<List<Course>> getCoursesRegistedin(@PathVariable("id") long id) {
+       System.out.println("Fetching Course with ID " + id);
+       User user = userService.findOne(id);
+       if (user == null) {
+           System.out.println("User with ID " + id + " Not Found");
+           return new ResponseEntity<List<Course>>(HttpStatus.NOT_FOUND);
+       }
+       return new ResponseEntity<List<Course>>(user.getCoursesRegistedin(), HttpStatus.OK);
+   }
+
+//-------------------Retrieve Created Course--------------------------------------------------------
+   
+   @RequestMapping(value = "/courseCreated/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<List<Course>> getCoursesCreated(@PathVariable("id") long id) {
+       System.out.println("Fetching Course with ID " + id);
+       User user = userService.findOne(id);
+       if (user == null) {
+           System.out.println("User with ID " + id + " Not Found");
+           return new ResponseEntity<List<Course>>(HttpStatus.NOT_FOUND);
+       }
+       return new ResponseEntity<List<Course>>(user.getCoursesCreated(), HttpStatus.OK);
+   }
     
    //-------------------Create a Course--------------------------------------------------------
     

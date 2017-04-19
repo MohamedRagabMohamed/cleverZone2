@@ -52,9 +52,9 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
     	ArrayList<User> UsersData = new ArrayList<User>(); 
-    	User MCQTeacher = new User("supernour","nour" , "ahmed" , "pssword" ,new String[] {"ROLE_TEACHER","ROLE_ADMIN"} );
-    	User TFTeacher = new User("supernour1","nour1" , "ahmed1" , "pssword1" ,new String[] {"ROLE_TEACHER"} );
-    	User Student = new User("supernour1","nour1" , "ahmed1" , "pssword1" ,new String[] {"ROLE_STUDENT"} );
+    	User MCQTeacher = new User("T","nour" , "ahmed" , "P" ,new String[] {"ROLE_TEACHER","ROLE_ADMIN"} );
+    	User TFTeacher = new User("TT","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_TEACHER"} );
+    	User Student = new User("S","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_STUDENT"} );
 
 		ArrayList<Course> CoursesData = new ArrayList<Course>(); 
 		Course firstCourse = new Course("Arabic","the aradbic","thea arcbi");

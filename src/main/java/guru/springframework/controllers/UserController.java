@@ -7,6 +7,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +34,22 @@ public class UserController {
 		this.userService = userService;
 	}
      
+    //-------------------Retrieve get Users Roles --------------------------------------------------------
+
+    
+    @RequestMapping(value = "/userRole/", method = RequestMethod.GET)
+    public ResponseEntity<String[]> getUsersRoles() {
+    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	User user = userService.findByuserName(userDetails.getUsername());
+        return new ResponseEntity<String[]>( user.getRoles(),HttpStatus.OK);
+    }
+ 
+ 
+	
+	
+	
     //-------------------Retrieve All Users--------------------------------------------------------
-	@RequestMapping(value = "/Login/", method = RequestMethod.GET)
-	public @ResponseBody Boolean login(){
-		return false;
-	}
+
     
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers() {
@@ -62,7 +77,8 @@ public class UserController {
      
      
     //-------------------Create a User--------------------------------------------------------
-     
+    
+    @PreAuthorize("hasRole('ROLE_ANONYMOUS')")
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody User user,    UriComponentsBuilder ucBuilder) {
         System.out.println("Creating User " + user.getUserName());

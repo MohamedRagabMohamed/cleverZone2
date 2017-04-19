@@ -28,37 +28,39 @@ public class Course {
 	private final Long id;
 	@NotNull
 	@NotEmpty
-	String name;
+	private String name;
 	@NotEmpty
 	@NotNull
 	String descption;
 	@NotEmpty
 	@NotNull
 	String imageSrc;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="course",targetEntity = AbstractContent.class)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course", targetEntity = AbstractContent.class)
 	private List<AbstractContent> Contents;
 	@ManyToOne
 	User Teacher;
-	
-	@ManyToMany(mappedBy="CoursesRegistedin")
+
+	@ManyToMany(mappedBy = "CoursesRegistedin")
 	List<User> users;
-	
+
 	public Course() {
 		id = null;
 		Contents = new ArrayList<>();
 		users = new ArrayList<User>();
 	}
-	
-	public Course(String name , String desc , String imageSrc){
+
+	public Course(String name, String desc, String imageSrc) {
 		this();
 		this.descption = desc;
 		this.name = name;
 		this.imageSrc = imageSrc;
 	}
+
 	@JsonIgnore
 	public User getTeacher() {
 		return Teacher;
 	}
+
 	@JsonIgnore
 	public List<User> getUsers() {
 		return users;
@@ -76,16 +78,15 @@ public class Course {
 		return Contents;
 	}
 
-
 	public void addContents(AbstractContent content) {
 		content.setCourse(this);
 		Contents.add(content);
 	}
+
 	public void addStudent(User user) {
 		users.add(user);
 	}
 
-	
 	public String getName() {
 		return name;
 	}
@@ -105,6 +106,7 @@ public class Course {
 	public String getImageSrc() {
 		return imageSrc;
 	}
+
 	public Long getId() {
 		return this.id;
 	}
@@ -112,5 +114,5 @@ public class Course {
 	public void setImageSrc(String imageSrc) {
 		this.imageSrc = imageSrc;
 	}
-	
+
 }

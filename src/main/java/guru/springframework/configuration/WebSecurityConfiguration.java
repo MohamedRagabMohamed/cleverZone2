@@ -2,9 +2,11 @@ package guru.springframework.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -25,8 +27,21 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
-	}
+		http
+        .authorizeRequests()
+            .antMatchers("/","/login.html", "/index.html","/css/**", "/js/**", "/images/**","/scripts/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/user/").anonymous()
+            .anyRequest().authenticated()
+            .and().httpBasic().and().csrf().disable();
 	
+		
+	}
+
+	@Override
+    public void configure(WebSecurity web) throws Exception {
+      web
+        .ignoring()
+           .antMatchers("/resources/**"); // #3
+    }
 
 }
