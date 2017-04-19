@@ -41,19 +41,19 @@ public class User {
 	@NotEmpty
 	private String [] Roles;
 	
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="Teacher",targetEntity = Course.class)
 	private List<Course> CoursesCreated;
 	
 	
-//	@ManyToMany(cascade = {CascadeType.ALL})
-//	@JoinTable(name="USER_COURSE", 
-//				joinColumns={@JoinColumn(name="EMPLOYEE_ID")}, 
-//				inverseJoinColumns={@JoinColumn(name="MEETING_ID")})
-//	private Set<Course> meetings = new HashSet<Course>();
+	@ManyToMany(cascade = {CascadeType.ALL} )
+	private List<Course> CoursesRegistedin = new ArrayList<Course>();
+
 
 	User(){
 		id = null;
 		CoursesCreated = new ArrayList<>();
+		CoursesRegistedin = new ArrayList<Course>();
 	}
 	public User(String userName , String firstName, String lastName , String password , String [] roles){
 		this();
@@ -97,12 +97,20 @@ public class User {
 		return this.id;
 	}
 	
-	public List<Course> getCourses() {
-		return CoursesCreated;
-	}
 	public void addCourses(Course content) {
 		content.setTeacher(this);
 		CoursesCreated.add(content);
+	}
+	public List<Course> getCoursesCreated() {
+		return CoursesCreated;
+	}
+	
+	public List<Course> getCoursesRegistedin() {
+		return CoursesRegistedin;
+	}
+	public void addCoursesRegistedin(Course coursesRegistedin) {
+		coursesRegistedin.addStudent(this);
+		CoursesRegistedin.add(coursesRegistedin);
 	}
 	
 }

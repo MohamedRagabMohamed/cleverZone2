@@ -1,13 +1,16 @@
 package guru.springframework.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -37,10 +40,13 @@ public class Course {
 	@ManyToOne
 	User Teacher;
 	
+	@ManyToMany(mappedBy="CoursesRegistedin")
+	List<User> users;
 	
 	public Course() {
 		id = null;
 		Contents = new ArrayList<>();
+		users = new ArrayList<User>();
 	}
 	
 	public Course(String name , String desc , String imageSrc){
@@ -52,6 +58,14 @@ public class Course {
 	@JsonIgnore
 	public User getTeacher() {
 		return Teacher;
+	}
+	@JsonIgnore
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 	public void setTeacher(User teacher) {
@@ -67,7 +81,9 @@ public class Course {
 		content.setCourse(this);
 		Contents.add(content);
 	}
-
+	public void addStudent(User user) {
+		users.add(user);
+	}
 
 	
 	public String getName() {
