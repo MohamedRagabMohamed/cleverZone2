@@ -11,19 +11,17 @@ app.controller('LoginController', ["$scope", "$http","$cookieStore" ,function ($
         		$cookieStore.put('username',$scope.username);
         		$cookieStore.put('password',$scope.password);
         		
-        		for(var i in response.data){ 
-        			if(i == "ROLE_TEACHER"){$cookieStore.put('type','ROLE_TEACHER');
+        		for(var i in response.data){ 	
+        			if(response.data[i] == "ROLE_TEACHER"){$cookieStore.put('type','ROLE_TEACHER');
         									window.location = "/website-instructor-dashboard.html";}
-        			else {$cookieStore.put('type','ROLE_STUDENT');
+        			else if(response.data[i] == "ROLE_STUDENT") {
+        				$cookieStore.put('type','ROLE_STUDENT');
         					window.location = "/website-student-dashboard.html";}
         		}
         	  }, function errorCallback(response) {
         		  alert("a7a");
         	  });
         
-        
-    
-    
     
     }
     

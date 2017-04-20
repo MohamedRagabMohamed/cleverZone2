@@ -76,6 +76,7 @@ public class CourseController {
        System.out.println("Fetching Registed ");
        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
        User user = userService.findByuserName(userDetails.getUsername());
+       System.out.println(user.getCoursesRegistedin());
        return new ResponseEntity<List<Course>>(user.getCoursesRegistedin(), HttpStatus.OK);
    }
 
