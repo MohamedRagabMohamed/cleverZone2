@@ -21,11 +21,12 @@ public class MCQ_Question extends Questions {
 	public MCQ_Question(){
 		super();
 	}
-	public MCQ_Question( String Question ,String answer , String [] Choices){
+	public MCQ_Question( String Question ,String answer , String [] Choices,int time){
 		this();
 		this.setAnswer(answer);
 		this.setQuestion(Question);
 		this.Choices = Choices;
+		this.setTime(time);
 	}
 	@JsonIgnore
 	public MCQ_Game getMCQ_TheGame() {

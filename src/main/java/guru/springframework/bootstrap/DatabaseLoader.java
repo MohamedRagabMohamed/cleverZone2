@@ -67,13 +67,13 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
         MCQ_Game theThirdGame = new MCQ_Game("Game3", "the desdvsc", "isdmageSrc3");
         TF_Game thefourthGame = new TF_Game("Game4", "thesdv desc", "imageSrc2");
         
-        TF_Question firstQuestion = new TF_Question("Question1", "answer1");
+        TF_Question firstQuestion = new TF_Question("Question1", "answer1",10);
         String choices [] = new String [4];
         choices[0]="1";
         choices[1]="2";
         choices[2]="3";
         choices[3]="4";
-        MCQ_Question secondQuestion = new MCQ_Question("Question2", "Answer",choices);
+        MCQ_Question secondQuestion = new MCQ_Question("Question2", "Answer",choices,10);
         
 
         theFirstGame.addQuestion(secondQuestion);

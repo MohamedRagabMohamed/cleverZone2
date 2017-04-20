@@ -24,10 +24,11 @@ public class TF_Question extends Questions{
 	public TF_Question() {
 		super();
 	}
-	public TF_Question(String question,String answer) {
+	public TF_Question(String question,String answer,int time) {
 		this();
 		this.setQuestion(question);
 		this.setAnswer(answer);
+		this.setTime(time);
 	}
 	public TF_Question(String question,String answer,TF_Game game) {
 		this();

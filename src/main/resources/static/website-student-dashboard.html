@@ -14,7 +14,7 @@
   
    <script src="js/app/angular.min.js" type="text/javascript"></script>
    <script src="js/app/angular-cookies.js" type="text/javascript"></script>
-   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+   <script src="js/app/jqueryv1102.js"></script>
    
   <script src="js/scripts/app.js" type="text/javascript"></script>
   
@@ -28,15 +28,7 @@
   <div id="header"></div><br />
  
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
  
  
  
@@ -100,7 +92,7 @@
                 
                   <li class="list-group-item media v-middle"  ng-repeat="item in RegistedCourse|limitTo:3">
                     <div class="media-body">
-                      <a href="website-take-course.html" class="text-subhead list-group-link">{{item.name}}</a>
+                      <a href="" class="text-subhead list-group-link" ng-click="getCourse(item.id)">{{item.name}}</a>
                     </div>
                     <div class="media-right">
                       <div class="progress progress-mini width-100 margin-none">

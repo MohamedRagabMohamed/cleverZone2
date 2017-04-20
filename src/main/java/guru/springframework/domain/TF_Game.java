@@ -23,19 +23,12 @@ public class TF_Game extends Game {
 		this.setImageSrc(imageSrc);
 	}
 	
-	public TF_Game(String name , String desc , String imageSrc,Course course){
-		this();
-		this.setName(name);
-		this.setdescption(desc);
-		this.setImageSrc(imageSrc);
-		this.setCourse(course);
-		course.addContents(this);
-	}
 
 	public List<TF_Question> getQuestions() {
 		return Questions;
 	}
 	public void addQuestion(TF_Question question) {
+		this.addTotalTime(question.getTime());
 		question.setTF_TheGame(this);
 		Questions.add(question);
 	}

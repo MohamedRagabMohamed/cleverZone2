@@ -18,6 +18,10 @@ public abstract class Questions {
 	@NotEmpty
 	private String Answer;
 	
+	@NotNull
+	private int Time;
+	
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -43,7 +47,12 @@ public abstract class Questions {
 	public void setAnswer(String answer) {
 		Answer = answer;
 	}
-	
+	public int getTime() {
+		return Time;
+	}
+	public void setTime(int time) {
+		Time = time;
+	}
 	
 	
 

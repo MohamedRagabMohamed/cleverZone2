@@ -33,6 +33,7 @@ public class MCQ_Game extends  Game{
 		return Questions;
 	}
 	public void addQuestion(MCQ_Question question) {
+		this.addTotalTime(question.getTime());
 		question.setMCQ_TheGame(this);
 		Questions.add(question);
 	}
