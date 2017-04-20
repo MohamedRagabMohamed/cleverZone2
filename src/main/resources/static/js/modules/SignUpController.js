@@ -54,7 +54,7 @@
 
 console.log('SignUpController.js');
 app.controller('SignUpController', [ "$scope", "$http",
-		function($scope, $http, $location) {
+		function($scope, $http) {
 			$scope.register = function() {
 				
 				console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
@@ -73,10 +73,7 @@ app.controller('SignUpController', [ "$scope", "$http",
 				}).then(function successCallback(response) {
 					console.log(response.status);
 					console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-					if ($scope.type == "ROLE_TEACHER")
-						window.location = "/website-instructor-dashboard.html";
-					else
-						window.location = "/website-student-dashboard.html";
+						window.location = "/login.html";
 
 				}, function errorCallback(response) {
 

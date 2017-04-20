@@ -39,16 +39,17 @@ app.controller('CourseController', ["$scope", "$http","$cookieStore" ,function (
     
     
     $scope.getCourse = function(idd){
-    	
+    	console.log(idd);
     	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($cookieStore.get('username') + ':' + $cookieStore.get('password')  );
         $http({
         	  method: 'GET',
-        	  url: 'http://localhost:8080/course/',
-        	params: {id: idd}
+        	  url: 'http://localhost:8080/course/'+idd,
+        	
         	}).then(function successCallback(response) {
-        		alert("geting data");
-        		console.log(response.data);
         		$scope.Course = response.data;
+        		console.log($scope.Course);
+        		$scope.mazen = "55555555555555555555555";
+        		console.log($scope.mazen);
         		window.location = "/website-take-course.html";
         	  }, function errorCallback(response) {
         		  alert("Course data in fetching failed");

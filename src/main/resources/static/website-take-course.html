@@ -21,7 +21,7 @@
 
 </head>
 
-<body>
+<body data-ng-app="CleverZone">
 
   <!-- Fixed navbar -->
 	<div id="header"></div><br />
@@ -49,20 +49,20 @@
     </div>
   </div>
 
-  <div class="container"   data-ng-controller = "CourseController">
+  <div class="container"  >
 
     <div class="page-section">
       <div class="row">
 
         <div class="col-md-9">
 
-          <div class="page-section padding-top-none">
+          <div class="page-section padding-top-none" >
             <div class="media media-grid v-middle">
               <div class="media-left">
                 <span class="icon-block half bg-blue-300 text-white">1</span>
               </div>
-              <div class="media-body">
-                <h1 class="text-display-1 margin-none">{{Course.name}}</h1>
+              <div class="media-body" data-ng-controller = "CourseController">
+                <h1 class="text-display-1 margin-none">{{mazen[0]}}</h1>
               </div>
             </div>
             <br/>
