@@ -1,5 +1,16 @@
 app.controller('CourseController', ["$scope", "$http","$cookieStore" ,function ($scope, $http, $cookieStore) {
-    $scope.getCourseRegisted = function () {
+    
+	
+	$scope.init = function () {
+		
+	    if($cookieStore.get('type') == "ROLE_TEACHER" ){
+	    	$scope.getCourseCreated();
+	    }else{
+	    	$scope.getCourseRegisted();
+	    }
+	};
+	
+	$scope.getCourseRegisted = function () {
     	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($cookieStore.get('username') + ':' + $cookieStore.get('password')  );
         $http({
         	  method: 'GET',
@@ -21,8 +32,7 @@ app.controller('CourseController', ["$scope", "$http","$cookieStore" ,function (
         		console.log(response.data);
         		$scope.CreatedCourse = response.data; 
         	  }, function errorCallback(response) {
-        	
-        		  alert("Course Registed in fetching failed");
+        		  alert("Course Created in fetching failed");
         	  });
     }
     

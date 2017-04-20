@@ -13,6 +13,7 @@
   <link href="css/app/app.css" rel="stylesheet">
   
    <script src="js/app/angular.min.js" type="text/javascript"></script>
+   <script src="js/app/angular-cookies.js" type="text/javascript"></script>
   <script src="js/scripts/app.js" type="text/javascript"></script>
   
    <script src="js/modules/CourseController.js" type="text/javascript"></script>
@@ -220,13 +221,13 @@
                   <h4 class="text-headline margin-none">Courses</h4>
                   <p class="text-subhead text-light">Your recent courses</p>
                 </div>
-                <ul class="list-group" data-ng-controller = "CourseController">
+                <ul class="list-group" data-ng-controller = "CourseController" data-ng-init="init()">
                 
                 
                 
-                  <li class="list-group-item media v-middle"  ng-repeat="item in items|limitTo:4">
+                  <li class="list-group-item media v-middle"  ng-repeat="item in RegistedCourse|limitTo:3">
                     <div class="media-body">
-                      <a href="website-take-course.html" class="text-subhead list-group-link">Basics of HTML</a>
+                      <a href="website-take-course.html" class="text-subhead list-group-link">{{item.name}}</a>
                     </div>
                     <div class="media-right">
                       <div class="progress progress-mini width-100 margin-none">
