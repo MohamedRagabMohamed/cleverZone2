@@ -29,7 +29,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
         .authorizeRequests()
-            .antMatchers("/","/login.html","/*.html", "/index.html","/css/**", "/js/**", "/images/**","/scripts/**").permitAll()
+            .antMatchers("/","/login.html","/*.html","/website-student-dashboard.html","/website-instructor-dashboard.html","/sign-up.html", "/index.html","/css/**", "/js/**", "/images/**","/scripts/**").permitAll()
             .antMatchers(HttpMethod.POST, "/user/").anonymous()
             .anyRequest().authenticated()
             .and().httpBasic().and().csrf().disable();
