@@ -22,6 +22,24 @@ app.config(['$routeProvider',function($routeProvider) {
 		.otherwise({
 			redirectto :'/pages/login.html'
 			})
+			
+			
+//			.when('/logout', {
+//		        resolve: {
+//		            "check": function($cookies, $location) {
+//		                if($cookies.get("user_id")){
+//		                    alert("You have been Logout");
+//		                }
+//		                $cookies.remove("user_name");
+//		                $cookies.remove("user_id");
+//		                $cookies.remove("token");
+//		                $cookies.remove("dbname");
+//		                $location.path("/login");
+//		            }
+//		        }
+//		    });
+			
+			
 }]);
 
 
@@ -38,19 +56,8 @@ app.factory('CommonService', function () {
 
 
 
-app.controller('CourseController', ["$scope","$location", "$http","$cookieStore","CommonService",function ($scope, $http, $cookieStore,$location,CommonService) {
+app.controller('CourseController', ["$scope","$location", "$http","$cookieStore","CommonService",function ($scope,$location ,$http, $cookieStore,CommonService) {
     
-	 
-	CommonService.setData('Dataname',{name:"bla", price:25});
-	$scope.init = function () {
-		
-	    if($cookieStore.get('type') == "ROLE_TEACHER" ){
-	    	$scope.getCourseCreated();
-	    }else{
-	    	$scope.getCourseRegisted();
-	    }
-	};
-	
 	$scope.getCourseRegisted = function () {
     	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($cookieStore.get('username') + ':' + $cookieStore.get('password')  );
         $http({
@@ -78,6 +85,17 @@ app.controller('CourseController', ["$scope","$location", "$http","$cookieStore"
         	  });
     }
     
+	console.log("courseCountroller");
+	$scope.init = function () {
+		console.log("courseCountroller intin");
+	    if($cookieStore.get('type') == "ROLE_TEACHER" ){
+	    	$scope.getCourseCreated();
+	    }else{
+	    	$scope.getCourseRegisted();
+	    }
+	};
+	$scope.init();
+	
 
    
     $scope.getCourse = function(idd){
@@ -92,7 +110,7 @@ app.controller('CourseController', ["$scope","$location", "$http","$cookieStore"
         		console.log(response.data);
         		//$rootScope.aCourse = response.data;
         		 $scope.add = "555555555555555";
-        		 $location.path(view);
+        		
         	  }, function errorCallback(response) {
         		  alert("Course data in fetching failed");
         	  });
@@ -115,7 +133,7 @@ app.controller('Course2', [ "$scope", "$http", "$cookieStore","CommonService" ,f
 
 
 
-app.controller('LoginController', ["$route","$scope", "$http","$location","$cookieStore" ,function ($route,$scope, $http,  $location,$cookieStore) {
+app.controller('LoginController', ["$scope", "$http","$location","$cookieStore" ,function ($scope, $http,  $location,$cookieStore) {
     $scope.login = function () {
     	console.log($scope.Username);
     	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($scope.Username + ':' + $scope.Password);
@@ -129,13 +147,11 @@ app.controller('LoginController', ["$route","$scope", "$http","$location","$cook
         		for(var i in response.data){ 	
         			if(response.data[i] == "ROLE_TEACHER"){
         									$cookieStore.put('type','ROLE_TEACHER');
-        									$route.current = "/student";
-        									
+        															
         			}
         			else if(response.data[i] == "ROLE_STUDENT") {
         				$cookieStore.put('type','ROLE_STUDENT');
-        				//$window.location = "#/student";
-        				 $location.path('/student');
+        				$location.path('/student');
         			}
         		}
         	  }, function errorCallback(response) {
