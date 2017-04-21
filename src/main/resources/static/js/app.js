@@ -165,4 +165,41 @@ app.controller('LoginController', ["$scope", "$http","$location","$cookieStore" 
 
 
 
+app.controller('SignUpController', ["$route","$scope", "$http","$location","$cookieStore" ,function ($route,$scope, $http,  $location,$cookieStore) {
+	   
+	
+	
+	$scope.register = function() {
+		
+		console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
+		console.log('Role == ' + $scope.type);
+
+		$http({
+			method : 'POST',
+			url  : 'http://localhost:8080/user/',
+			data : {
+				'userName' : $scope.username,
+				'firstName' : $scope.firstname,
+				'lastName' : $scope.lastname,
+				'password' : $scope.password,
+				'roles' : [$scope.type]
+			}
+		}).then(function successCallback(response) {
+			console.log(response.status);
+			console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+			$location.path('/login');
+
+		}, function errorCallback(response) {
+
+			alert("Error! Registeration Failed");
+		});
+
+	}
+    	
+    	
+    
+}]);
+
+
+
 
