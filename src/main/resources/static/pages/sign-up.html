@@ -7,32 +7,33 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Please Sign In</h3>
+                        <h3 class="panel-title">Sign Up Form</h3>
                     </div>
                     <div class="panel-body">
                         <form role="form" data-ng-controller="SignUpController" name="myForm" data-ng-submit="register()" >
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" data-ng-model="username" id = "username" placeholder="User Name" name="username" type="text" autofocus required>
-                                    <label for="username">User Name</label>
+                                	<label for="username">User Name</label>
+                                    <input class="form-control" data-ng-model="username" id = "username" placeholder="User Name" name="username" type="text" autofocus required>  
                                 </div>
                                 <div class="form-group">
+                                <label for="firstname">First Name</label>
                                     <input class="form-control" data-ng-model="firstname" id = "firstname" placeholder="First Name" name="firstname" type="text" autofocus required>
-                                    <label for="firstname">User Name</label>
+                                    
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" data-ng-model="lastname" id = "lastname" placeholder="Lastt Name" name="lastname" type="text" autofocus required>
-                                    <label for="lastname">User Name</label>
+                                 	<label for="lastname">Last Name</label>
+                                    <input class="form-control" data-ng-model="lastname" id = "lastname" placeholder="Last Name" name="lastname" type="text" autofocus required>
                                 </div>
                                 <div class="form-group">
+                                	<label for="password">Password</label>
                                     <input class="form-control" data-ng-model="password" id = "password"  placeholder="Password" name="password" type="password" value=""  autofocus required>
-                                    <label for="password">Password</label>
                                 </div>
                                 <div class="form-group">
+                                	<label for="radio1">Teacher</label>
 									<input class="form-control" type="radio" name="type" id="radio1" value="ROLE_TEACHER" data-ng-model="type" required>
-									<label for="radio1">Teacher</label>
-									<input class="form-control" type="radio" name="type" id="radio2" checked value="ROLE_STUDENT" data-ng-model="type" required>
 									<label for="radio2">Student</label>
+									<input class="form-control" type="radio" name="type" id="radio2" checked value="ROLE_STUDENT" data-ng-model="type" required>
 								</div>
 								<div data-ng-controller="SignUpController">
 								<input type = "submit" class="btn btn-lg btn-success btn-block" value = "Register" data-ng-disabled="myForm.$invalid">
