@@ -19,10 +19,10 @@ app.config(['$routeProvider',function($routeProvider) {
 			templateUrl :'/pages/login.html',
 			controller : 'LoginController'
 		})
-		.when('/login',{
+		.when('/logout',{
 			
 			templateUrl :'/pages/login.html',
-	          resolve: {
+	         resolve: {
 	              init: function() {
 	                return function() {
 	                	$http.defaults.headers.common.Authorization = 'Basic ';
@@ -30,9 +30,13 @@ app.config(['$routeProvider',function($routeProvider) {
 	              }
 	            }
 		})
-		.otherwise({
-			redirectto :'/pages/login.html'
-			})
+		.when('/sign-up',{
+			
+			templateUrl :'/pages/sign-up.html',
+			controller : 'SignUpController'
+
+		})
+		.otherwise({redirectto :'/pages/login.html'});
 						
 			
 }]);
@@ -154,6 +158,54 @@ app.controller('LoginController', ["$scope", "$http","$location","$cookieStore" 
         
     
     }
+    
+}]);
+
+
+
+app.controller('SignUpController', ["$route","$scope", "$http","$location","$cookieStore" ,function ($route,$scope, $http,$location,$cookieStore) {
+	   
+	
+	
+	$scope.register = function() {
+		
+		console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
+		console.log('Role == ' + $scope.type);
+		
+		
+		$scope.xyz = {
+				'userName' : $scope.username,
+				'firstName' : $scope.firstname,
+				'lastName' : $scope.lastname,
+				'password' : $scope.password,
+				'roles' : [$scope.type]
+			};
+		
+		console.log($scope.xyz);
+		$http.defaults.headers.common.Authorization = 'Basic';
+		$http({
+			method : 'POST',
+			url  : 'http://localhost:8080/user/',
+			data : {
+				"userName" : $scope.username,
+				"firstName" : $scope.firstname,
+				"lastName" : $scope.lastname,
+				"password" : $scope.password,
+				"roles" : [$scope.type]
+			}
+		}).then(function successCallback(response) {
+			console.log(response.status);
+			console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+			$location.path('/login');
+
+		}, function errorCallback(response) {
+
+			alert("Error! Registeration Failed");
+		});
+
+	}
+    	
+    	
     
 }]);
 
