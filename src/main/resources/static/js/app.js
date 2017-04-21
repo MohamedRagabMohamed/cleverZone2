@@ -19,26 +19,21 @@ app.config(['$routeProvider',function($routeProvider) {
 			templateUrl :'/pages/login.html',
 			controller : 'LoginController'
 		})
+		.when('/login',{
+			
+			templateUrl :'/pages/login.html',
+	          resolve: {
+	              init: function() {
+	                return function() {
+	                	$http.defaults.headers.common.Authorization = 'Basic ';
+	                }
+	              }
+	            }
+		})
 		.otherwise({
 			redirectto :'/pages/login.html'
 			})
-			
-			
-//			.when('/logout', {
-//		        resolve: {
-//		            "check": function($cookies, $location) {
-//		                if($cookies.get("user_id")){
-//		                    alert("You have been Logout");
-//		                }
-//		                $cookies.remove("user_name");
-//		                $cookies.remove("user_id");
-//		                $cookies.remove("token");
-//		                $cookies.remove("dbname");
-//		                $location.path("/login");
-//		            }
-//		        }
-//		    });
-			
+						
 			
 }]);
 
@@ -59,7 +54,7 @@ app.factory('CommonService', function () {
 app.controller('CourseController', ["$scope","$location", "$http","$cookieStore","CommonService",function ($scope,$location ,$http, $cookieStore,CommonService) {
     
 	$scope.getCourseRegisted = function () {
-    	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($cookieStore.get('username') + ':' + $cookieStore.get('password')  );
+    	
         $http({
         	  method: 'GET',
         	  url: 'http://localhost:8080/courseRegistedIn/'
@@ -72,7 +67,7 @@ app.controller('CourseController', ["$scope","$location", "$http","$cookieStore"
         	  });
     }
     $scope.getCourseCreated = function () {
-    	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($cookieStore.get('username') + ':' + $cookieStore.get('password')  );
+    	
         $http({
         	  method: 'GET',
         	  url: 'http://localhost:8080/courseCreated/'
@@ -95,21 +90,20 @@ app.controller('CourseController', ["$scope","$location", "$http","$cookieStore"
 	    }
 	};
 	$scope.init();
-	
+	$scope.aCourse = [];
 
    
     $scope.getCourse = function(idd){
-    	console.log(idd);
-    	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($cookieStore.get('username') + ':' + $cookieStore.get('password')  );
+    	
         $http({
         	  method: 'GET',
         	  url: 'http://localhost:8080/course/'+idd,
         	
         	}).then(function successCallback(response) {
         		
-        		console.log(response.data);
-        		//$rootScope.aCourse = response.data;
-        		 $scope.add = "555555555555555";
+        		
+        		$scope.aCourse = response.data;
+        		
         		
         	  }, function errorCallback(response) {
         		  alert("Course data in fetching failed");
