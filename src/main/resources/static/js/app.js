@@ -19,6 +19,11 @@ app.config(['$routeProvider',function($routeProvider) {
 			templateUrl :'/pages/login.html',
 			controller : 'LoginController'
 		})
+		.when('/sign-up',{
+			
+			templateUrl :'/pages/sign-up.html',
+			controller : 'SignUpController'
+		})
 		.otherwise({
 			redirectto :'/pages/login.html'
 			})
@@ -165,7 +170,7 @@ app.controller('LoginController', ["$scope", "$http","$location","$cookieStore" 
 
 
 
-app.controller('SignUpController', ["$route","$scope", "$http","$location","$cookieStore" ,function ($route,$scope, $http,  $location,$cookieStore) {
+app.controller('SignUpController', ["$route","$scope", "$http","$location","$cookieStore" ,function ($route,$scope, $http,$location,$cookieStore) {
 	   
 	
 	
@@ -173,16 +178,27 @@ app.controller('SignUpController', ["$route","$scope", "$http","$location","$coo
 		
 		console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
 		console.log('Role == ' + $scope.type);
-
-		$http({
-			method : 'POST',
-			url  : 'http://localhost:8080/user/',
-			data : {
+		
+		
+		$scope.xyz = {
 				'userName' : $scope.username,
 				'firstName' : $scope.firstname,
 				'lastName' : $scope.lastname,
 				'password' : $scope.password,
 				'roles' : [$scope.type]
+			};
+		
+		console.log($scope.xyz);
+		$http.defaults.headers.common.Authorization = 'Basic';
+		$http({
+			method : 'POST',
+			url  : 'http://localhost:8080/user/',
+			data : {
+				"userName" : $scope.username,
+				"firstName" : $scope.firstname,
+				"lastName" : $scope.lastname,
+				"password" : $scope.password,
+				"roles" : [$scope.type]
 			}
 		}).then(function successCallback(response) {
 			console.log(response.status);
