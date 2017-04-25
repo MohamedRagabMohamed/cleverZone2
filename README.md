@@ -1,2 +1,2 @@
 # Clever Zone Web Application
-## Clever Spring Boot for MySQL
+## Restfull api for educational learning system
