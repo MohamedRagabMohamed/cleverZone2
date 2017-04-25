@@ -19,7 +19,7 @@
                         <!-- .panel-heading -->
                         <div class="panel-body">
                             <div class="panel-group" id="accordion" data-ng-repeat = "c in theCourse.contents">
-                                <div class="panel panel-default" data-ng-controller = "Games"  data-ng-click = "getGame(c.id,c.Type)">
+                                <div class="panel panel-default" data-ng-click = "getGame(c.id,c.Type)">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" class="">{{c.name}}</a>

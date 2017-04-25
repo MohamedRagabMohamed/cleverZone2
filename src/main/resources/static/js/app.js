@@ -40,6 +40,14 @@ app.config([ '$routeProvider', function($routeProvider) {
 				}
 			}
 		})
+		.when('/MCQ', {
+			templateUrl : '/pages/MCQGame.html',
+			controller : 'Games'
+		})
+		.when('/TF', {
+			templateUrl : '/pages/TFGame.html',
+			controller : 'Games'
+		})
 		.when('/addGames', {
 			templateUrl : '/pages/addGames.html',
 			controller : 'Games'
@@ -152,18 +160,14 @@ app.controller('CourseGetter', [ "$scope", "$http", "CommonService", function($s
 
 
 	$scope.theCourse = CommonService.getData('aCourse');
+
 	$scope.deleteCourse = function(idd) {
 		$http({
 			method : 'DELETE',
 			url : 'http://localhost:8080/course/' + idd,
 		}).then(function successCallback(response) {
 
-			if (CommonService.getData('type') == "ROLE_TEACHER") {
-				$location.path('/courseEdit');
-			} else {
-				$location.path('/course');
-			}
-
+			
 
 		}, function errorCallback(response) {
 			alert("Course data not delete");
@@ -175,28 +179,34 @@ app.controller('CourseGetter', [ "$scope", "$http", "CommonService", function($s
 
 app.controller('Games', [ "$scope", "$http", "CommonService", function($scope, $http, CommonService) {
 	
-	
-	$scope.TF = function(idd) {
-		$http({
-			method : 'POST',
-			url : 'http://localhost:8080/tfgame/'+idd,
-			data : {
-				"userName" : $scope.username,
-				"firstName" : $scope.firstname,
-				"lastName" : $scope.lastname,
-				"password" : $scope.password,
-				"roles" : [ $scope.type ]
-			}
-		}).then(function successCallback(response) {
-			console.log(response.status);
-			$location.path('/login');
-
-		}, function errorCallback(response) {
-
-			alert("Error! Registeration Failed");
-		});
-
+	$scope.getGame = function(id , type){
+		alert("yes");
+		if(type =="MCQ"){
+			
+			$http({
+				method : 'GET',
+				url : 'http://localhost:8080/mcqgame/'+id
+			}).then(function successCallback(response) {
+				CommonService.setData('game',response.data );
+			}, function errorCallback(response) {
+				alert("Game MCQ Failed");
+			});
+			$location.path('/MCQ');
+		}else if (type == "TF"){
+			$http({
+				method : 'GET',
+				url : 'http://localhost:8080/tfgame/'+id
+			}).then(function successCallback(response) {
+				CommonService.setData('game',response.data );
+			}, function errorCallback(response) {
+				alert("Game TF Failed");
+			});
+			$location.path('/TF');
+		}
+		
+		
 	}
+
 
 
 

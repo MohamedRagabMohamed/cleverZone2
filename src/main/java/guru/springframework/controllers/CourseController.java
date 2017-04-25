@@ -101,6 +101,7 @@ public class CourseController {
            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
        }
        User user = userService.findOne(userId);
+       
        if(user == null){
     	   System.out.println("A User with id " + userId + " was not found");
     	   return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
