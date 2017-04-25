@@ -16,6 +16,7 @@ public class MCQ_Game extends  Game{
 	
 	private List<MCQ_Question> Questions;
 	
+	
 
 	public MCQ_Game(){
 		super();
@@ -26,6 +27,7 @@ public class MCQ_Game extends  Game{
 		this.setName(name);
 		this.setdescption(desc);
 		this.setImageSrc(imageSrc);
+		this.setType("MCQ");
 	}
 	
 	

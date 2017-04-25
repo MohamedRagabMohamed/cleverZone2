@@ -34,6 +34,10 @@ public class MCQ_Question_Controller {
 			MCQGameService = mCQGameService;
 		}
 	
+		public Boolean isValidUser(MCQ_Question question){
+			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			return question.getMCQ_TheGame().getCourse().getTeacher().getUserName().equals(userDetails.getUsername());
+		}
 	
 	  //-------------------Retrieve Single MCQ_Question--------------------------------------------------------
     
@@ -65,24 +69,24 @@ public class MCQ_Question_Controller {
    //------------------- Update a MCQQuestion -------------------------
    
    @PreAuthorize("hasRole('ROLE_TEACHER')")
-   @RequestMapping(value = "/mcqquestion/{id}", method = RequestMethod.PUT)
-   public ResponseEntity<MCQ_Question> updateQuestion(@PathVariable("id") long id, @RequestBody MCQ_Question Q) {
+   @RequestMapping(value = "/MCQQuestion/{id}", method = RequestMethod.PUT)
+   public ResponseEntity<MCQ_Question> updateQuestion(@PathVariable("id") long id, @RequestBody MCQ_Question question) {
        System.out.println("Updating MCQQuestion " + id);
        MCQ_Question currentQuestion = MCQQuestionService.findOne(id);
-       UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       
        if (currentQuestion == null) {
            System.out.println("Question with ID " + id + " not found");
            return new ResponseEntity<MCQ_Question>(HttpStatus.NOT_FOUND);
            
-       }else if(!currentQuestion.getMCQ_TheGame().getCourse().getTeacher().getUserName().equals(userDetails.getUsername())){
+       }else if(!isValidUser(question)){
     	   System.out.println("tring to update Course not belonging to the user ");
     	   return new ResponseEntity<MCQ_Question>(HttpStatus.NOT_ACCEPTABLE);
     	   
        }
        
-       currentQuestion.setAnswer(Q.getAnswer());
-       currentQuestion.setChoices(Q.getChoices());
-       currentQuestion.setQuestion(Q.getQuestion());
+       currentQuestion.setAnswer(question.getAnswer());
+       currentQuestion.setChoices(question.getChoices());
+       currentQuestion.setQuestion(question.getQuestion());
        
        MCQQuestionService.save(currentQuestion);
        return new ResponseEntity<MCQ_Question>(currentQuestion, HttpStatus.OK);
@@ -91,16 +95,16 @@ public class MCQ_Question_Controller {
 //------------------- Delete a MCQQuestion --------------------------------------------------------
    
    @PreAuthorize("hasRole('ROLE_TEACHER')")
-   @RequestMapping(value = "/mcqquestion/{id}", method = RequestMethod.DELETE)
+   @RequestMapping(value = "/MCQQuestion/{id}", method = RequestMethod.DELETE)
    public ResponseEntity<MCQ_Question> deleteQuestion(@PathVariable("id") long id) {
 	   
        System.out.println("Fetching & Deleting MCQQuestion with ID " + id);
-       UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      
        MCQ_Question currentQuestion = MCQQuestionService.findOne(id);
        if (currentQuestion == null) {
            System.out.println("Unable to delete. MCQQuestion with ID " + id + " not found");
            return new ResponseEntity<MCQ_Question>(HttpStatus.NOT_FOUND);
-       }else if(!currentQuestion.getMCQ_TheGame().getCourse().getTeacher().getUserName().equals(userDetails.getUsername())){
+       }else if(!isValidUser(currentQuestion)){
     	   System.out.println("tring to update MCQQuestion not belonging to the user ");
     	   return new ResponseEntity<MCQ_Question>(HttpStatus.NOT_ACCEPTABLE);
     	   
@@ -113,7 +117,7 @@ public class MCQ_Question_Controller {
    //-------------------Create a MCQQuestion--------------------------------------------------------
    
    @PreAuthorize("hasRole('ROLE_TEACHER')")
-   @RequestMapping(value = "/mcqquestion/{gameId}", method = RequestMethod.POST)
+   @RequestMapping(value = "/MCQQuestion/{gameId}", method = RequestMethod.POST)
    public ResponseEntity<Void> createQuestion(@PathVariable("gameId") long gameId,@RequestBody MCQ_Question Question,    UriComponentsBuilder ucBuilder) {
        System.out.println("Creating MCQ Question ");
        MCQ_Game Game = MCQGameService.findOne(gameId);
@@ -123,10 +127,15 @@ public class MCQ_Question_Controller {
        }
        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
        if(!Game.getCourse().getTeacher().getUserName().equals(userDetails.getUsername())){
-    	   System.out.println("tring to update MCQQuestion not belonging to the user ");
+    	   System.out.println("tring to Create MCQQuestion not belonging to the user ");
     	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
        }
+       if(Question.getChoices().length != 4||!Question.isValid()){
+    	   System.out.println("tring to Create MCQQuestion havs choics not equal to 4 ");
+    	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+       }       
        Game.addQuestion(Question);
+       MCQQuestionService.save(Question);
        HttpHeaders headers = new HttpHeaders();
        headers.setLocation(ucBuilder.path("/mcqquestion/{id}").buildAndExpand(Question.getId()).toUri());
        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);

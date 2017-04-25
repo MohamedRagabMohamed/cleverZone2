@@ -1,6 +1,7 @@
 package guru.springframework.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -40,14 +41,14 @@ public class MCQ_Game_Controller {
 	}
 	//-------------------Retrieve MCQ Game -------------------------
     @RequestMapping(value = "/mcqgame/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MCQ_Game> getGame() {
+    public ResponseEntity<List<MCQ_Game > > getGame() {
         System.out.println("Fetching all mcq Games");
-        ArrayList<MCQ_Game> game = (ArrayList<MCQ_Game>) MCQService.findAll();
+        List<MCQ_Game > game = (ArrayList<MCQ_Game>) MCQService.findAll();
         if (game == null) {
             System.out.println("no game  found");
-            return new ResponseEntity<MCQ_Game>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<List<MCQ_Game >>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<MCQ_Game>(HttpStatus.OK);
+        return new ResponseEntity<List<MCQ_Game > >(game,HttpStatus.OK);
     }
     //-------------------Retrieve MCQ Game ------------------------------
     

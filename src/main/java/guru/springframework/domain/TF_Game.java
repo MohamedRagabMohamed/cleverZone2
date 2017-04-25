@@ -21,6 +21,7 @@ public class TF_Game extends Game {
 		this.setName(name);
 		this.setdescption(desc);
 		this.setImageSrc(imageSrc);
+		this.setType("TF");
 	}
 	
 
