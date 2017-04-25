@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import guru.springframework.domain.User;
-import guru.springframework.repositories.UserRepository;
 
 @Configuration
 @EnableWebSecurity
