@@ -8,11 +8,9 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">My Courses</h1>
+					<h1 class="page-header">My Courses <a href='#!/create-course'> <span class='glyphicon glyphicon-plus pull-right'></span></a> </h1>
 				</div>
-				<button type="submit" class="btn btn-link pull-right">
-							<span class="glyphicon glyphicon-plus"></span>
-				</button>
+				 
 				<!-- /.col-lg-12 -->
 			</div>
 			<!-- /.row -->
@@ -23,7 +21,7 @@
                            {{c.name}}
                         </div>
                         <div class="panel-body" data-ng-click = "getCourse(c.id)">
-                           {{c.imageSrc}}
+                           {{c.descption}}
                         </div>
                     </div>
                 </div>
