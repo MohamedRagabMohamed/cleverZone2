@@ -1,7 +1,17 @@
 // declare modules
 
-var app = angular.module("CleverZone", ['ngCookies' , 'ngRoute']);
+var app = angular.module("CleverZone", ['ngCookies' , 'ngRoute','ui.bootstrap']);
 
+app.factory('CommonService', function () {
+	var headInfo = [];
+	return {
+	    setData: function (key, data) {
+	        headInfo[key] = data;
+	    },
+	    getData: function (key) {
+	        return headInfo[key];
+	    }
+	}});
 
 app.config(['$routeProvider',function($routeProvider) {
 	
@@ -13,6 +23,29 @@ app.config(['$routeProvider',function($routeProvider) {
 		.when('/student',{
 			templateUrl :'/pages/StudentDashboard.html',
 			controller : 'CourseController'
+		})
+		.when('/teacher',{
+			templateUrl :'/pages/TeacherDashboard.html',
+			controller : 'CourseController',
+			resolve:{
+			        "check":function($location,CommonService){   
+			            if(CommonService.getData('type') == "ROLE_TEACHER"){ 
+			                //no need to Do something
+			            	
+			            }else{
+			                $location.path('/login');    //redirect user to login.
+			                alert("You don't have access here");
+			            }
+			        }
+			    }
+		})
+		.when('/courseEdit',{
+			templateUrl :'/pages/editCourse.html',
+			controller : 'CourseGetter'
+		})
+		.when('/course',{
+			templateUrl :'/pages/TakeCourse.html',
+			controller : 'CourseGetter'
 		})
 		.when('/login',{
 			
@@ -42,16 +75,7 @@ app.config(['$routeProvider',function($routeProvider) {
 }]);
 
 
-app.factory('CommonService', function () {
-	var headInfo = [];
-	return {
-	    setData: function (key, data) {
-	        headInfo[key] = data;
-	    },
-	    getData: function (key) {
-	        return headInfo[key];
-	    }
-	}});
+
 
 
 
@@ -86,27 +110,29 @@ app.controller('CourseController', ["$scope","$location", "$http","$cookieStore"
     
 	console.log("courseCountroller");
 	$scope.init = function () {
-		console.log("courseCountroller intin");
-	    if($cookieStore.get('type') == "ROLE_TEACHER" ){
+		console.log(CommonService.getData('type'));
+	    if(CommonService.getData('type') == "ROLE_TEACHER" ){
 	    	$scope.getCourseCreated();
 	    }else{
 	    	$scope.getCourseRegisted();
 	    }
 	};
 	$scope.init();
-	$scope.aCourse = [];
 
    
     $scope.getCourse = function(idd){
-    	
         $http({
         	  method: 'GET',
         	  url: 'http://localhost:8080/course/'+idd,
         	
         	}).then(function successCallback(response) {
-        		
-        		
-        		$scope.aCourse = response.data;
+        		CommonService.setData('aCourse',  response.data);
+        		if(CommonService.getData('type') == "ROLE_TEACHER" ){
+        	    	$scope.getCourseCreated();
+        	    	$location.path('/courseEdit');
+        	    }else{
+        	    	$location.path('/course');
+        	    }
         		
         		
         	  }, function errorCallback(response) {
@@ -120,10 +146,10 @@ app.controller('CourseController', ["$scope","$location", "$http","$cookieStore"
 
 
 
-app.controller('Course2', [ "$scope", "$http", "$cookieStore","CommonService" ,function($scope, $http, $cookieStore,CommonService) {
-
-	console.log(CommonService.getData('Dataname'));
-	CommonService.getData('Dataname');
+app.controller('CourseGetter', [ "$scope", "$http","CommonService" ,function($scope, $http,CommonService) {
+	
+	
+	$scope.theCourse = CommonService.getData('aCourse');
 
 } ]);
 
@@ -131,7 +157,7 @@ app.controller('Course2', [ "$scope", "$http", "$cookieStore","CommonService" ,f
 
 
 
-app.controller('LoginController', ["$scope", "$http","$location","$cookieStore" ,function ($scope, $http,  $location,$cookieStore) {
+app.controller('LoginController', ["$scope", "$http","$location" ,"CommonService",function ($scope, $http,  $location,CommonService) {
     $scope.login = function () {
     	console.log($scope.Username);
     	$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($scope.Username + ':' + $scope.Password);
@@ -139,16 +165,17 @@ app.controller('LoginController', ["$scope", "$http","$location","$cookieStore" 
         	  method: 'GET',
         	  url: 'http://localhost:8080/userRole/'
         	}).then(function successCallback(response) {
-        		$cookieStore.put('username',$scope.Username);
-        		$cookieStore.put('password',$scope.Password);
+        		CommonService.setData('username',$scope.Username);
+        		CommonService.setData('password',$scope.Password);
         		
         		for(var i in response.data){ 	
         			if(response.data[i] == "ROLE_TEACHER"){
-        									$cookieStore.put('type','ROLE_TEACHER');
-        															
+        									
+        									CommonService.setData('type','ROLE_TEACHER');
+        									$location.path('/teacher');						
         			}
         			else if(response.data[i] == "ROLE_STUDENT") {
-        				$cookieStore.put('type','ROLE_STUDENT');
+        				CommonService.setData('type','ROLE_STUDENT');
         				$location.path('/student');
         			}
         		}
@@ -168,9 +195,6 @@ app.controller('SignUpController', ["$route","$scope", "$http","$location","$coo
 	
 	
 	$scope.register = function() {
-		
-		console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
-		console.log('Role == ' + $scope.type);
 		
 		
 		$scope.xyz = {
@@ -195,7 +219,6 @@ app.controller('SignUpController', ["$route","$scope", "$http","$location","$coo
 			}
 		}).then(function successCallback(response) {
 			console.log(response.status);
-			console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
 			$location.path('/login');
 
 		}, function errorCallback(response) {

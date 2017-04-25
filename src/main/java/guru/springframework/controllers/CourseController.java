@@ -94,7 +94,7 @@ public class CourseController {
     
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/course/{userId}", method = RequestMethod.POST)
-   public ResponseEntity<Void> createUser(@PathVariable("userId") long userId,@RequestBody Course course,    UriComponentsBuilder ucBuilder) {
+   public ResponseEntity<Void> createCourse(@PathVariable("userId") long userId,@RequestBody Course course,    UriComponentsBuilder ucBuilder) {
        System.out.println("Creating Course " + course.getName());
        if ( CourseService.findByname(course.getName()) != null  ) {
            System.out.println("A Course with name " + course.getName() + " already exist");
