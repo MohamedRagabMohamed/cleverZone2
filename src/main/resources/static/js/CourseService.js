@@ -12,6 +12,10 @@
             return $http.get(urlBase + 'courseCreated/');
         };
         
+        this.getAllCourse = function () {
+            return $http.get(urlBase + 'course/');
+        };
+        
         this.getCourse = function (id) {
             return $http.get(urlBase + 'course/' + id);
         };

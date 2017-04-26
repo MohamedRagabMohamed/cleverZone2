@@ -21,7 +21,7 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 	}
 	
 	$scope.getScore = function(data) {
-		console.log(data);
+		
 	}
 	
 	$scope.create = function() {

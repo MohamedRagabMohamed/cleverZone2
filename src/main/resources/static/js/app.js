@@ -12,6 +12,14 @@ app.config([ '$routeProvider', function($routeProvider) {
 			templateUrl : '/pages/login.html',
 			controller : 'UserController'
 		})
+		.when('/studentHome', {
+			templateUrl : '/pages/StudentHome.html',
+			controller : 'CourseController'
+		})
+		.when('/teacherHome', {
+			templateUrl : '/pages/StudentDashboard.html',
+			controller : 'CourseController'
+		})
 		.when('/student', {
 			templateUrl : '/pages/StudentDashboard.html',
 			controller : 'CourseController'

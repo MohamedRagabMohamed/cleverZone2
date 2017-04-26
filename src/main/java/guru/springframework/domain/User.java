@@ -68,7 +68,7 @@ public class User {
 	/** The Courses registedin. */
 	@ManyToMany(cascade = {CascadeType.ALL} )
 	private List<Course> CoursesRegistedin = new ArrayList<Course>();
-
+	
 
 	/**
 	 * Instantiates a new user.
