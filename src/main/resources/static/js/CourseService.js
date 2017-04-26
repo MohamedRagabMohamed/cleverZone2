@@ -1,8 +1,8 @@
  app.service('CourseService', ['$http', function ($http) {
 
         var urlBase = 'http://localhost:8080/';
-        var selectedCourse ;
-        
+        var selectedCourseToPlay ;
+        var selectedCourseToEdit ;
         
         this.getRegistedCourses = function () {
             return $http.get(urlBase+'courseRegistedIn/');
@@ -16,12 +16,20 @@
             return $http.get(urlBase + 'course/' + id);
         };
         
-        this.setSelectedCourse = function(data){
-        	return this.selectedCourse = data;
+        this.setSelectedCourseToPlay = function(data){
+        	return this.selectedCourseToPlay = data;
         }
         
-        this.getSelectedCourse = function(){
-        	return this.selectedCourse;
+        this.getSelectedCourseToPlay = function(){
+        	return this.selectedCourseToPlay;
+        }
+        
+        this.setSelectedCourseToEdit = function(data){
+        	return this.selectedCourseToEdit = data;
+        }
+        
+        this.getSelectedCourseToEdit = function(){
+        	return this.selectedCourseToEdit;
         }
 
 //        this.insertCustomer = function (cust) {

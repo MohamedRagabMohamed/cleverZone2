@@ -1,6 +1,7 @@
 app.controller('UserController', [	"$scope","$http","$location","UserService",	function($scope, $http, $location, UserService) {
 		$scope.login = function() {
 			console.log($scope.Username);
+			console.log($scope.Password);
 			$http.defaults.headers.common['Authorization'] = 'Basic '+ btoa($scope.Username + ':' + $scope.Password);
 			
 			UserService.login()
@@ -20,7 +21,26 @@ app.controller('UserController', [	"$scope","$http","$location","UserService",	f
 
 		}
 
-	
+		$scope.register = function() {
+			data = {
+			"userName" : $scope.username,
+			"firstName" : $scope.firstname,
+			"lastName" : $scope.lastname,
+			"password" : $scope.password,
+			"roles" : [ $scope.type ]
+			}
+			
+			UserService.insertUser(data)
+			.then(function successCallback(response) {
+				console.log(response.status);
+				$location.path('/');
+
+			}, function errorCallback(response) {
+
+				alert("Error! Registeration Failed");
+			});
+
+		}
 
 
 

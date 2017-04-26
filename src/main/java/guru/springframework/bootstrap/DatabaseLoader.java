@@ -124,7 +124,11 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
         MCQTeacher.addCourses(thirdCourse);
         TFTeacher.addCourses(secondCourse);
         TFTeacher.addCourses(fourthCourse);
+        
         Student.addCoursesRegistedin(firstCourse);
+        Student.addCoursesRegistedin(secondCourse);
+        Student.addCoursesRegistedin(thirdCourse);
+        Student.addCoursesRegistedin(fourthCourse);
         
         UsersData.add(TFTeacher);
         UsersData.add(MCQTeacher);

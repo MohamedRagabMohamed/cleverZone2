@@ -8,7 +8,7 @@
 
         this.insertUser = function (user) {
         	$http.defaults.headers.common.Authorization = 'Basic';
-            return $http.post(urlBase, user);
+            return $http.post(urlBase+'user/', user);
         };
         
         this.setUser = function(data){

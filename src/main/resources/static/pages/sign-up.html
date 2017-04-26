@@ -10,7 +10,7 @@
                         <h3 class="panel-title">Sign Up Form</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form" data-ng-controller="SignUpController" name="myForm" data-ng-submit="register()" >
+                        <form role="form"  name="myForm" data-ng-submit="register()" >
                             <fieldset>
                                 <div class="form-group">
                                 	<label for="username">User Name</label>
@@ -35,7 +35,7 @@
 									<label for="radio2">Student</label>
 									<input class="form-control" type="radio" name="type" id="radio2" checked value="ROLE_STUDENT" data-ng-model="type" required>
 								</div>
-								<div data-ng-controller="SignUpController">
+								<div >
 								<input type = "submit" class="btn btn-lg btn-success btn-block" value = "Register" data-ng-disabled="myForm.$invalid">
 								</div>
                             </fieldset>
