@@ -177,10 +177,10 @@ app.controller('CourseGetter', [ "$scope", "$http", "CommonService", function($s
 
 } ]);
 
-app.controller('Games', [ "$scope", "$http", "CommonService", function($scope, $http, CommonService) {
+app.controller('Games', [ "$scope", "$http", "$location","CommonService", function($scope, $http, $location ,CommonService) {
 	
 	$scope.getGame = function(id , type){
-		alert("yes");
+		alert(type);
 		if(type =="MCQ"){
 			
 			$http({
