@@ -26,19 +26,42 @@ import guru.springframework.domain.MCQ_Game;
 import guru.springframework.domain.TF_Game;
 import guru.springframework.domain.User;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MCQ_Game_Controller.
+ */
 @RestController
 public class MCQ_Game_Controller {
 
+	/** The MCQ service. */
 	MCQGameRepository MCQService;
+	
+	/** The user service. */
 	UserRepository userService;
+	
+	/** The course service. */
 	CourseRepository courseService;
+	
+	/**
+	 * Instantiates a new MC Q game controller.
+	 *
+	 * @param m the m
+	 * @param userService the user service
+	 * @param courseService the course service
+	 */
 	@Autowired
-    public MCQ_Game_Controller(MCQGameRepository m, UserRepository userService,
+    public MCQ_Game_Controller(MCQGameRepository mcqgame, UserRepository userService,
 			CourseRepository courseService) {
-		this.MCQService = m;
+		this.MCQService = mcqgame;
 		this.userService = userService;
 		this.courseService = courseService;
 	}
+	
+	/**
+	 * Gets the game.
+	 *
+	 * @return the game
+	 */
 	//-------------------Retrieve MCQ Game -------------------------
     @RequestMapping(value = "/mcqgame/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MCQ_Game > > getGame() {
@@ -52,6 +75,12 @@ public class MCQ_Game_Controller {
     }
     //-------------------Retrieve MCQ Game ------------------------------
     
+    /**
+     * Gets the game.
+     *
+     * @param id the id
+     * @return the game
+     */
     @RequestMapping(value = "/mcqgame/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MCQ_Game> getGame(@PathVariable("id") long id) {
         System.out.println("Fetching mcqGame with id " + id);
@@ -67,6 +96,14 @@ public class MCQ_Game_Controller {
 
 	//-------------------Create a MCQ game-------------------------------------
 
+	/**
+	 * Creates the MCQ game.
+	 *
+	 * @param courseId the course id
+	 * @param Game the game
+	 * @param ucBuilder the uc builder
+	 * @return the response entity
+	 */
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
     @RequestMapping(value = "/mcqgame/{courseId}", method = RequestMethod.POST)
     public ResponseEntity<Void> createMCQGame(@PathVariable("courseId") long courseId,@RequestBody MCQ_Game Game,    UriComponentsBuilder ucBuilder) {
@@ -95,6 +132,12 @@ public class MCQ_Game_Controller {
     
     //------------------- Delete a mcq game --------------------------------
     
+    /**
+     * Delete game.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @RequestMapping(value = "/mcqgame/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<MCQ_Game> deleteGame(@PathVariable("id") long id) {
     	MCQ_Game game = MCQService.findOne(id);
@@ -115,6 +158,13 @@ public class MCQ_Game_Controller {
     
     //------------------- Update a mcq Game --------------------------------------------------------
     
+    /**
+     * Update game.
+     *
+     * @param id the id
+     * @param game the game
+     * @return the response entity
+     */
     @RequestMapping(value = "/mcqgame/{id}", method = RequestMethod.PUT)
     public ResponseEntity<MCQ_Game> updateGame(@PathVariable("id") long id, @RequestBody TF_Game game) {
         System.out.println("Updating Game " + id);

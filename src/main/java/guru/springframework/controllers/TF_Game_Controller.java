@@ -22,12 +22,29 @@ import guru.springframework.domain.Course;
 import guru.springframework.domain.TF_Game;
 import guru.springframework.domain.User;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TF_Game_Controller.
+ */
 @RestController
 public class TF_Game_Controller {
 
+	/** The T F repository. */
 	TFGameRepository TF_Repository;
+	
+	/** The user service. */
 	UserRepository userService;
+	
+	/** The course service. */
 	CourseRepository courseService;
+	
+	/**
+	 * Instantiates a new t F game controller.
+	 *
+	 * @param tF_Repository the t F repository
+	 * @param userService the user service
+	 * @param courseService the course service
+	 */
 	@Autowired
     public TF_Game_Controller(TFGameRepository tF_Repository, UserRepository userService,
 			CourseRepository courseService) {
@@ -37,6 +54,12 @@ public class TF_Game_Controller {
 	}
     //-------------------Retrieve TF Game ------------------------------
     
+    /**
+     * Gets the game.
+     *
+     * @param id the id
+     * @return the game
+     */
     @RequestMapping(value = "/tfgame/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TF_Game> getGame(@PathVariable("id") long id) {
         System.out.println("Fetching tfGame with id " + id);
@@ -50,7 +73,15 @@ public class TF_Game_Controller {
     
     //-------------------Create a TF game-------------------------------------
 
-	@PreAuthorize("hasRole('ROLE_TEACHER')")
+	/**
+     * Creates the TF game.
+     *
+     * @param courseId the course id
+     * @param Game the game
+     * @param ucBuilder the uc builder
+     * @return the response entity
+     */
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
     @RequestMapping(value = "/tfgame/{courseId}", method = RequestMethod.POST)
     public ResponseEntity<Void> createTFGame(@PathVariable("courseId") long courseId,@RequestBody TF_Game Game,    UriComponentsBuilder ucBuilder) {
         System.out.println("Creating T/F Game " + Game.getName());
@@ -78,6 +109,12 @@ public class TF_Game_Controller {
     
     //------------------- Delete a TF game --------------------------------
     
+    /**
+     * Delete game.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @RequestMapping(value = "/tfgame/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<TF_Game> deleteGame(@PathVariable("id") long id) {
     	TF_Game game = TF_Repository.findOne(id);
@@ -98,6 +135,13 @@ public class TF_Game_Controller {
     
     //------------------- Update a TF Game --------------------------------------------------------
     
+    /**
+     * Update game.
+     *
+     * @param id the id
+     * @param game the game
+     * @return the response entity
+     */
     @RequestMapping(value = "/tfgame/{id}", method = RequestMethod.PUT)
     public ResponseEntity<TF_Game> updateGame(@PathVariable("id") long id, @RequestBody TF_Game game) {
         System.out.println("Updating Game " + id);

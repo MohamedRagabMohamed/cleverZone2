@@ -22,18 +22,38 @@ import guru.springframework.domain.MCQ_Question;
 import guru.springframework.repositories.MCQGameRepository;
 import guru.springframework.repositories.MCQQuestionRepository;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MCQ_Question_Controller.
+ */
 @RestController
 public class MCQ_Question_Controller {
+	
+	/** The MCQ question service. */
 	MCQQuestionRepository MCQQuestionService;
+	
+	/** The MCQ game service. */
 	MCQGameRepository MCQGameService;
 
 	
+	/**
+	 * Instantiates a new MC Q question controller.
+	 *
+	 * @param mCQQuestionService the m CQ question service
+	 * @param mCQGameService the m CQ game service
+	 */
 	@Autowired
 	   public MCQ_Question_Controller(MCQQuestionRepository mCQQuestionService, MCQGameRepository mCQGameService) {
 			MCQQuestionService = mCQQuestionService;
 			MCQGameService = mCQGameService;
 		}
 	
+		/**
+		 * Checks if is valid user.
+		 *
+		 * @param question the question
+		 * @return the boolean
+		 */
 		public Boolean isValidUser(MCQ_Question question){
 			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			return question.getMCQ_TheGame().getCourse().getTeacher().getUserName().equals(userDetails.getUsername());
@@ -41,7 +61,13 @@ public class MCQ_Question_Controller {
 	
 	  //-------------------Retrieve Single MCQ_Question--------------------------------------------------------
     
-	   @RequestMapping(value = "/MCQQuestion/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	   /**
+  	 * Gets the MCQ question.
+  	 *
+  	 * @param id the id
+  	 * @return the MCQ question
+  	 */
+  	@RequestMapping(value = "/MCQQuestion/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	   public ResponseEntity<MCQ_Question> getMCQQuestion(@PathVariable("id") long id) {
 	       System.out.println("Fetching Course with ID " + id);
 	       MCQ_Question question = MCQQuestionService.findOne(id);
@@ -58,7 +84,12 @@ public class MCQ_Question_Controller {
 	
 	   //-------------------Retrieve All MCQ Questions --------------------------------------------------------
     
-	   @RequestMapping(value = "/MCQQuestion/", method = RequestMethod.GET)
+	   /**
+   	 * List all MC Q question.
+   	 *
+   	 * @return the response entity
+   	 */
+   	@RequestMapping(value = "/MCQQuestion/", method = RequestMethod.GET)
 	   public ResponseEntity<List<MCQ_Question>> listAllMCQ_Question() {
 	       List<MCQ_Question> Questions = MCQQuestionService.findAll();
 	       if(Questions.isEmpty()){
@@ -68,6 +99,13 @@ public class MCQ_Question_Controller {
 	   }
    //------------------- Update a MCQQuestion -------------------------
    
+   /**
+    * Update question.
+    *
+    * @param id the id
+    * @param question the question
+    * @return the response entity
+    */
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/MCQQuestion/{id}", method = RequestMethod.PUT)
    public ResponseEntity<MCQ_Question> updateQuestion(@PathVariable("id") long id, @RequestBody MCQ_Question question) {
@@ -94,7 +132,13 @@ public class MCQ_Question_Controller {
 
 //------------------- Delete a MCQQuestion --------------------------------------------------------
    
-   @PreAuthorize("hasRole('ROLE_TEACHER')")
+   /**
+ * Delete question.
+ *
+ * @param id the id
+ * @return the response entity
+ */
+@PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/MCQQuestion/{id}", method = RequestMethod.DELETE)
    public ResponseEntity<MCQ_Question> deleteQuestion(@PathVariable("id") long id) {
 	   
@@ -116,6 +160,14 @@ public class MCQ_Question_Controller {
    
    //-------------------Create a MCQQuestion--------------------------------------------------------
    
+   /**
+    * Creates the question.
+    *
+    * @param gameId the game id
+    * @param Question the question
+    * @param ucBuilder the uc builder
+    * @return the response entity
+    */
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/MCQQuestion/{gameId}", method = RequestMethod.POST)
    public ResponseEntity<Void> createQuestion(@PathVariable("gameId") long gameId,@RequestBody MCQ_Question Question,    UriComponentsBuilder ucBuilder) {

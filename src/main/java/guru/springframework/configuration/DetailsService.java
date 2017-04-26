@@ -10,12 +10,21 @@ import org.springframework.security.core.userdetails.User;
 
 import guru.springframework.repositories.UserRepository;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DetailsService.
+ */
 @Component
 public class DetailsService implements UserDetailsService {
+	
+	/** The user repository. */
 	@Autowired
 	UserRepository userRepository;
 	
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		guru.springframework.domain.User theUser = userRepository.findByuserName(username);

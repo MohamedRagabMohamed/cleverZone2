@@ -23,12 +23,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 import guru.springframework.domain.User;
 import guru.springframework.repositories.UserRepository;;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserController.
+ */
 @RestController
 public class UserController {
 	//TODO make it only admin can use this controller
 
-    UserRepository userService;  //Service which will do all data retrieval/manipulation work
+    /** The user service. */
+	UserRepository userService;  //Service which will do all data retrieval/manipulation work
  
+	/**
+	 * Instantiates a new user controller.
+	 *
+	 * @param userService the user service
+	 */
 	@Autowired
 	public UserController(UserRepository userService) {
 		this.userService = userService;
@@ -37,6 +47,11 @@ public class UserController {
     //-------------------Retrieve get Users Roles --------------------------------------------------------
 
     
+    /**
+     * Gets the user.
+     *
+     * @return the user
+     */
     @RequestMapping(value = "/getuser/", method = RequestMethod.GET)
     public ResponseEntity<User> getUser() {
     	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -51,6 +66,11 @@ public class UserController {
     //-------------------Retrieve All Users--------------------------------------------------------
 
     
+    /**
+     * List all users.
+     *
+     * @return the response entity
+     */
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers() {
         List<User> users = userService.findAll();
@@ -63,6 +83,12 @@ public class UserController {
  
     //-------------------Retrieve Single User--------------------------------------------------------
      
+    /**
+     * Gets the user.
+     *
+     * @param id the id
+     * @return the user
+     */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") long id) {
         System.out.println("Fetching User with id " + id);
@@ -78,6 +104,13 @@ public class UserController {
      
     //-------------------Create a User--------------------------------------------------------
     
+    /**
+     * Creates the user.
+     *
+     * @param user the user
+     * @param ucBuilder the uc builder
+     * @return the response entity
+     */
     @PreAuthorize("hasRole('ROLE_ANONYMOUS')")
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody User user,    UriComponentsBuilder ucBuilder) {
@@ -98,6 +131,13 @@ public class UserController {
      
     //------------------- Update a User --------------------------------------------------------
      
+    /**
+     * Update user.
+     *
+     * @param id the id
+     * @param user the user
+     * @return the response entity
+     */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
         System.out.println("Updating User " + id);
@@ -121,6 +161,12 @@ public class UserController {
  
     //------------------- Delete a User --------------------------------------------------------
      
+    /**
+     * Delete user.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
         System.out.println("Fetching & Deleting User with id " + id);
