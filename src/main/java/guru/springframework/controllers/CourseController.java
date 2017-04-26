@@ -26,13 +26,26 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CourseController.
+ */
 @RestController
 public class CourseController {
 	
 	
+	/** The Course service. */
 	private CourseRepository CourseService ; //Service which will do all data retrieval/manipulation work
+	
+	/** The user service. */
 	private UserRepository userService;
 	
+	/**
+	 * Instantiates a new course controller.
+	 *
+	 * @param CourseService the course service
+	 * @param userService the user service
+	 */
 	@Autowired
 	public CourseController(CourseRepository CourseService , UserRepository userService) {
 		this.CourseService = CourseService;
@@ -43,6 +56,11 @@ public class CourseController {
     
    //-------------------Retrieve All Courses--------------------------------------------------------
     
+   /**
+    * List all courses.
+    *
+    * @return the response entity
+    */
    @RequestMapping(value = "/course/", method = RequestMethod.GET)
    public ResponseEntity<List<Course>> listAllCourses() {
        List<Course> courses = CourseService.findAll();
@@ -58,6 +76,12 @@ public class CourseController {
 
    //-------------------Retrieve Single Course--------------------------------------------------------
     
+   /**
+    * Gets the course.
+    *
+    * @param id the id
+    * @return the course
+    */
    @RequestMapping(value = "/course/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<Course> getCourse(@PathVariable("id") long id) {
        System.out.println("Fetching Course with ID " + id);
@@ -71,6 +95,11 @@ public class CourseController {
 
    //-------------------Retrieve Resisted Course--------------------------------------------------------
    
+   /**
+    * Gets the courses registedin.
+    *
+    * @return the courses registedin
+    */
    @RequestMapping(value = "/courseRegistedIn/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<List<Course>> getCoursesRegistedin() {
        System.out.println("Fetching Registed ");
@@ -80,6 +109,11 @@ public class CourseController {
        return new ResponseEntity<List<Course>>(user.getCoursesRegistedin(), HttpStatus.OK);
    }
 
+/**
+ * Gets the courses created.
+ *
+ * @return the courses created
+ */
 //-------------------Retrieve Created Course--------------------------------------------------------
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/courseCreated/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,6 +126,14 @@ public class CourseController {
     
    //-------------------Create a Course--------------------------------------------------------
     
+   /**
+    * Creates the course.
+    *
+    * @param userId the user id
+    * @param course the course
+    * @param ucBuilder the uc builder
+    * @return the response entity
+    */
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/course/{userId}", method = RequestMethod.POST)
    public ResponseEntity<Void> createCourse(@PathVariable("userId") long userId,@RequestBody Course course,    UriComponentsBuilder ucBuilder) {
@@ -118,6 +160,13 @@ public class CourseController {
     
    //------------------- Update a Course--------------------------------------------------------
    
+   /**
+    * Update course.
+    *
+    * @param id the id
+    * @param course the course
+    * @return the response entity
+    */
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/course/{id}", method = RequestMethod.PUT)
    public ResponseEntity<Course> updateCourse(@PathVariable("id") long id, @RequestBody Course course) {
@@ -144,6 +193,12 @@ public class CourseController {
 
    //------------------- Delete a Course --------------------------------------------------------
    
+   /**
+    * Delete course.
+    *
+    * @param id the id
+    * @return the response entity
+    */
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/course/{id}", method = RequestMethod.DELETE)
    public ResponseEntity<Course> deleteCourse(@PathVariable("id") long id) {

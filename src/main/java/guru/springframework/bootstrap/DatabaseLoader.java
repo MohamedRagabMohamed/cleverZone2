@@ -20,21 +20,46 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DatabaseLoader.
+ */
 @Component
 public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent> {
 
+    /** The user service. */
     private UserRepository userService;
+    
+    /** The Course service. */
     private CourseRepository CourseService;
+    
+    /** The mcq service. */
     private MCQGameRepository mcqService;
+    
+    /** The tf service. */
     private TFGameRepository tfService;
+    
+    /** The mcq question service. */
     private MCQQuestionRepository mcqQuestionService;
+    
+    /** The tf question service. */
     private TFQuestionRepository tfQuestionService;
 
     
   //  private Logger log = Logger.getLogger(DatabaseLoader.class);
 
 
-    @Autowired
+    /**
+   * Instantiates a new database loader.
+   *
+   * @param userService the user service
+   * @param courseService the course service
+   * @param mcqService the mcq service
+   * @param tfService the tf service
+   * @param mcqQuestionService the mcq question service
+   * @param tfQuestionService the tf question service
+   */
+  @Autowired
 	public DatabaseLoader(UserRepository userService, CourseRepository courseService, MCQGameRepository mcqService,
 			TFGameRepository tfService, MCQQuestionRepository mcqQuestionService,
 			TFQuestionRepository tfQuestionService) {
@@ -48,6 +73,9 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
     
     
     
+    /* (non-Javadoc)
+     * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
+     */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
@@ -66,7 +94,7 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
         TF_Game theSecondGame = new TF_Game("Game2", "thesdv desc", "imageSrc2");
         MCQ_Game theThirdGame = new MCQ_Game("Game3", "the desdvsc", "isdmageSrc3");
         TF_Game thefourthGame = new TF_Game("Game4", "thesdv desc", "imageSrc2");
-        
+        // testing not magic numbers 
         TF_Question firstQuestion = new TF_Question("Question1", "answer1",10);
         String choices [] = new String [4];
         choices[0]="1";

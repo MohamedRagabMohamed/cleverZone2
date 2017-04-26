@@ -23,12 +23,26 @@ import guru.springframework.domain.TF_Question;
 import guru.springframework.repositories.TFGameRepository;
 import guru.springframework.repositories.TFQuestionRepository;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TF_Question_Controller.
+ */
 @RestController
 public class TF_Question_Controller {
+	
+	/** The TF question service. */
 	TFQuestionRepository TFQuestionService;
+	
+	/** The TF game service. */
 	TFGameRepository TFGameService;
 
 	
+	/**
+	 * Instantiates a new t F question controller.
+	 *
+	 * @param tFQuestionService the t F question service
+	 * @param tFGameService the t F game service
+	 */
 	@Autowired
 	public TF_Question_Controller(TFQuestionRepository tFQuestionService, TFGameRepository tFGameService) {
 		TFQuestionService = tFQuestionService;
@@ -37,7 +51,13 @@ public class TF_Question_Controller {
 	
 	  //-------------------Retrieve Single MCQ_Question--------------------------------------------------------
     
-	   @RequestMapping(value = "/tfquestion/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	   /**
+  	 * Gets the TF question.
+  	 *
+  	 * @param id the id
+  	 * @return the TF question
+  	 */
+  	@RequestMapping(value = "/tfquestion/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	   public ResponseEntity<TF_Question> getTFQuestion(@PathVariable("id") long id) {
 	       System.out.println("Fetching Course with ID " + id);
 	       TF_Question question = TFQuestionService.findOne(id);
@@ -52,7 +72,12 @@ public class TF_Question_Controller {
 	
 	   //-------------------Retrieve All TF Questions --------------------------------------------------------
     
-	   @RequestMapping(value = "/tfquestion/", method = RequestMethod.GET)
+	   /**
+   	 * List all questions.
+   	 *
+   	 * @return the response entity
+   	 */
+   	@RequestMapping(value = "/tfquestion/", method = RequestMethod.GET)
 	   public ResponseEntity<List<TF_Question>> listAllQuestions() {
 	       List<TF_Question> Questions = TFQuestionService.findAll();
 	       if(Questions.isEmpty()){
@@ -62,6 +87,13 @@ public class TF_Question_Controller {
 	   }
    //------------------- Update a Question -------------------------
    
+   /**
+    * Update question.
+    *
+    * @param id the id
+    * @param Q the q
+    * @return the response entity
+    */
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/tfquestion/{id}", method = RequestMethod.PUT)
    public ResponseEntity<TF_Question> updateQuestion(@PathVariable("id") long id, @RequestBody TF_Question Q) {
@@ -87,7 +119,13 @@ public class TF_Question_Controller {
 
 //------------------- Delete a T/F Question --------------------------------------------------------
    
-   @PreAuthorize("hasRole('ROLE_TEACHER')")
+   /**
+ * Delete question.
+ *
+ * @param id the id
+ * @return the response entity
+ */
+@PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/tfquestion/{id}", method = RequestMethod.DELETE)
    public ResponseEntity<TF_Question> deleteQuestion(@PathVariable("id") long id) {
 	   
@@ -109,6 +147,14 @@ public class TF_Question_Controller {
    
    //-------------------Create a T/F Question--------------------------------------------------------
    
+   /**
+    * Creates the question.
+    *
+    * @param gameId the game id
+    * @param Question the question
+    * @param ucBuilder the uc builder
+    * @return the response entity
+    */
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/tfquestion/{gameId}", method = RequestMethod.POST)
    public ResponseEntity<Void> createQuestion(@PathVariable("gameId") long gameId,@RequestBody TF_Question Question,    UriComponentsBuilder ucBuilder) {
