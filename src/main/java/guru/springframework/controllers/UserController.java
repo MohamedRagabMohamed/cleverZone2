@@ -37,11 +37,11 @@ public class UserController {
     //-------------------Retrieve get Users Roles --------------------------------------------------------
 
     
-    @RequestMapping(value = "/userRole/", method = RequestMethod.GET)
-    public ResponseEntity<String[]> getUsersRoles() {
+    @RequestMapping(value = "/getuser/", method = RequestMethod.GET)
+    public ResponseEntity<User> getUser() {
     	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	User user = userService.findByuserName(userDetails.getUsername());
-        return new ResponseEntity<String[]>( user.getRoles(),HttpStatus.OK);
+        return new ResponseEntity<User>( user,HttpStatus.OK);
     }
  
  

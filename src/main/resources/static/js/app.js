@@ -1,6 +1,8 @@
 // declare modules
 
+
 var app = angular.module("CleverZone", [ 'ngCookies', 'ngRoute', 'ui.bootstrap' ]);
+
 
 app.factory('CommonService', function() {
 	var headInfo = [];
@@ -15,6 +17,7 @@ app.factory('CommonService', function() {
 });
 
 app.config([ '$routeProvider', function($routeProvider) {
+
 
 	$routeProvider
 		.when('/', {
@@ -31,10 +34,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 			resolve : {
 				"check" : function($location, CommonService) {
 					if (CommonService.getData('type') == "ROLE_TEACHER") {
-						//no need to Do something
+						// no need to Do something
 
 					} else {
-						$location.path('/login'); //redirect user to login.
+						$location.path('/login'); // redirect user to login.
 						alert("You don't have access here");
 					}
 				}
@@ -78,15 +81,19 @@ app.config([ '$routeProvider', function($routeProvider) {
 			templateUrl : '/pages/sign-up.html',
 			controller : 'SignUpController'
 		})
-		.otherwise({
-			redirectto : '/pages/login.html'
-		});
+		.when('/create-course', {
 
+		templateUrl : '/pages/create-course.html',
+		controller : 'CreateCourseController'
+	}).when('/create-game', {
+
+		templateUrl : '/pages/create-game.html',
+		controller : 'CreateGameController'
+	}).otherwise({
+		redirectto : '/pages/login.html'
+	});
 
 } ]);
-
-
-
 
 
 
@@ -215,70 +222,150 @@ app.controller('Games', [ "$scope", "$http", "$location","CommonService", functi
 
 
 
-app.controller('LoginController', [ "$scope", "$http", "$location", "CommonService", function($scope, $http, $location, CommonService) {
-	$scope.login = function() {
-		console.log($scope.Username);
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($scope.Username + ':' + $scope.Password);
-		$http({
-			method : 'GET',
-			url : 'http://localhost:8080/userRole/'
-		}).then(function successCallback(response) {
-			CommonService.setData('username', $scope.Username);
-			CommonService.setData('password', $scope.Password);
+app.controller('LoginController', [
+		"$scope",
+		"$http",
+		"$location",
+		"CommonService",
+		function($scope, $http, $location, CommonService) {
+			$scope.login = function() {
+				console.log($scope.Username);
+				$http.defaults.headers.common['Authorization'] = 'Basic '
+						+ btoa($scope.Username + ':' + $scope.Password);
+				$http({
+					method : 'GET',
+					url : 'http://localhost:8080/getuser/'
+				}).then(function successCallback(response) {
+					CommonService.setData('username', $scope.Username);
+					CommonService.setData('password', $scope.Password);
+					// console.log(response.data);
+					CommonService.setData('user', response.data);
+					for ( var i in response.data.roles) {
+						if (response.data.roles[i] == "ROLE_TEACHER") {
 
-			for (var i in response.data) {
-				if (response.data[i] == "ROLE_TEACHER") {
+							CommonService.setData('type', 'ROLE_TEACHER');
+							$location.path('/teacher');
+						} else if (response.data.roles[i] == "ROLE_STUDENT") {
+							CommonService.setData('type', 'ROLE_STUDENT');
+							$location.path('/student');
+						}
+					}
+				}, function errorCallback(response) {
+					alert("failure");
+				});
 
-					CommonService.setData('type', 'ROLE_TEACHER');
+			}
+
+		} ]);
+
+app.controller('SignUpController', [ "$route", "$scope", "$http", "$location",
+		function($route, $scope, $http, $location) {
+
+			$scope.register = function() {
+
+		
+
+				$http.defaults.headers.common.Authorization = 'Basic';
+				$http({
+					method : 'POST',
+					url : 'http://localhost:8080/user/',
+					data : {
+						"userName" : $scope.username,
+						"firstName" : $scope.firstname,
+						"lastName" : $scope.lastname,
+						"password" : $scope.password,
+						"roles" : [ $scope.type ]
+					}
+				}).then(function successCallback(response) {
+					console.log(response.status);
+					$location.path('/login');
+
+				}, function errorCallback(response) {
+
+					alert("Error! Registeration Failed");
+				});
+
+			}
+
+		} ]);
+
+app.controller('CreateCourseController', [ "$route", "$scope", "$http",
+		"$location", "CommonService",
+		function($route, $scope, $http, $location, CommonService) {
+
+			$scope.user = CommonService.getData('user');
+
+			$scope.create = function() {
+				$http({
+					method : 'POST',
+					url : 'http://localhost:8080/course/' + $scope.user.id,
+					data : {
+
+						"name" : $scope.name,
+						"descption" : $scope.decription,
+						"imageSrc" : $scope.imgsrc
+
+					}
+				}).then(function successCallback(response) {
+					console.log(response.status);
+					console.log("course created successfully");
 					$location.path('/teacher');
-				} else if (response.data[i] == "ROLE_STUDENT") {
-					CommonService.setData('type', 'ROLE_STUDENT');
-					$location.path('/student');
+
+				}, function errorCallback(response) {
+
+					alert("Error! Course Creation Failed");
+				});
+
+			}
+
+		} ]);
+
+app.controller('CreateGameController', [
+		"$route",
+		"$scope",
+		"$http",
+		"$location",
+		"CommonService",
+		function($route, $scope, $http, $location, CommonService) {
+
+			$scope.course = CommonService.getData('aCourse');
+			console.log($scope.course);
+			alert($scope.course.id);
+
+			$scope.create = function() {
+
+				$scope.url;
+				if ($scope.type = "MCQ_GAME")
+					$scope.url = 'http://localhost:8080/mcqgame/' + $scope.course.id;
+				else if ($scope.type = "TF_GAME")
+					$scope.url = 'http://localhost:8080/tfgame/' + $scope.course.id;
+				else {
+					alert("ERROR!!!");
+					$location.path('/teacher');
 				}
+
+				$http({
+					method : 'POST',
+					url : $scope.url,
+					data : {
+
+						"name" : $scope.name,
+						"descption" : $scope.decription,
+						"imageSrc" : $scope.imgsrc
+					}
+				}).then(function successCallback(response) {
+					console.log(response.status);
+					console.log("Game created successfully");
+					$location.path('/teacher');
+
+				}, function errorCallback(response) {
+
+					alert("Error! Game Creation Failed");
+				});
+
 			}
-		}, function errorCallback(response) {
-			alert("a7a");
-		});
 
-
-	}
-
-} ]);
+		} ]);
 
 
 
-app.controller('SignUpController', [ "$route", "$scope", "$http", "$location", "$cookieStore", function($route, $scope, $http, $location, $cookieStore) {
-
-
-
-	$scope.register = function() {
-
-
-
-
-		console.log($scope.xyz);
-		$http.defaults.headers.common.Authorization = 'Basic';
-		$http({
-			method : 'POST',
-			url : 'http://localhost:8080/user/',
-			data : {
-				"userName" : $scope.username,
-				"firstName" : $scope.firstname,
-				"lastName" : $scope.lastname,
-				"password" : $scope.password,
-				"roles" : [ $scope.type ]
-			}
-		}).then(function successCallback(response) {
-			console.log(response.status);
-			$location.path('/login');
-
-		}, function errorCallback(response) {
-
-			alert("Error! Registeration Failed");
-		});
-
-	}
-
-
-
-} ]);

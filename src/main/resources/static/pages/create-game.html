@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create Game Form</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form"  name="myForm" data-ng-submit="create()" >
+                            <fieldset>
+                                <div class="form-group">
+                                	<label for="username">Name</label>
+                                    <input class="form-control" data-ng-model="name" id = "rname" placeholder="Name" name="name" type="text" autofocus required>  
+                                </div>
+                                <div class="form-group">
+                                <label for="decription">Description</label>
+                                    <textarea class="form-control" data-ng-model="decription" id="decription" name="decription" autofocus required>Description</textarea>
+                                </div>
+                                <div class="form-group">
+                                 	<label for="imgsrc">Image Source</label>
+                                    <input class="form-control" data-ng-model="imgsrc" id = "imgsrc" placeholder="Image Source" name="imgsrc" type="text" autofocus required>
+                                </div>
+                                <div class="form-group">
+                                	<label for="radio1">MCQ Game</label>
+									<input class="form-control" type="radio" name="type" id="radio1" value="MCQ_GAME" data-ng-model="type" required>
+									<label for="radio2">TRUE/False Game</label>
+									<input class="form-control" type="radio" name="type" id="radio2" checked value="TF_GAME" data-ng-model="type" required>
+								</div>
+								<div>
+								<input type = "submit" class="btn btn-lg btn-success btn-block" value = "Create Game" data-ng-disabled="myForm.$invalid">
+								</div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+
+
