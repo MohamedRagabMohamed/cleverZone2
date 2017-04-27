@@ -87,7 +87,7 @@ app.config([ '$routeProvider', function($routeProvider) {
 		})
 		.when('/create-course', {
 			templateUrl : '/pages/create-course.html',
-			controller : 'CreateCourseController'
+			controller : 'CourseController'
 		})
 		.when('/create-game', {
 			templateUrl : '/pages/create-game.html',
