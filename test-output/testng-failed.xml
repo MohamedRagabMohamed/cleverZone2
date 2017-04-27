@@ -3,13 +3,14 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="Testing.CreateCourse">
+      <class name="Testing.CreateGame">
         <methods>
+          <include name="CreateGameTest2"/>
+          <include name="CreateGameTest1"/>
           <include name="terminateBrowser"/>
           <include name="Start"/>
-          <include name="CreateCourseTest1"/>
         </methods>
-      </class> <!-- Testing.CreateCourse -->
+      </class> <!-- Testing.CreateGame -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

@@ -24,60 +24,56 @@ public class CreateGame  {
 	WebDriver driver ;
 	MCQGameRepository mcqGameRepository;
 	TFGameRepository tfGameRepository;
-	String login="F:\\SpringBoot\\cleverZone2-masterLastVersion1\\src\\main\\resources\\static\\pages\\login.html";
-	String tmpCreateGame="F:\\SpringBoot\\cleverZone2-masterLastVersion1\\src\\main\\resources\\static\\pages\\create-game.html";
-	String mcqGameName = "MCQ_Game";
+	String login="http://localhost:8080/#!/login";
+	String teacherProfile="http://localhost:8080/#!/teacher";
+	String mcqGameName = "MCQ_Game1";
 	String mcqGameDesc = "MCQ_Game";
 	String mcqGameImgSrc = "MCQ_Game";
-	String tfGameName = "TF_Game";
+	String tfGameName = "TF_Game1";
 	String tfGameDesc = "TF_Game";
 	String tfGameImgSrc = "TF_Game";
 	@BeforeMethod // execute before each function
-	public void Start(){
+	public void Start() throws InterruptedException{
 		driver = new ChromeDriver();
-		driver.get(tmpCreateGame);
-		/*
-		// login => profile => my courses => choose course => addGame 
-		driver = new ChromeDriver();
+		driver.get(login);
         driver.findElement(By.name("username")).sendKeys("T");
         driver.findElement(By.name("password")).sendKeys("P");
-        driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/form/fieldset/button")).click();
-        */
-        // => go to profile here => my courses button => my courses button => choose course => click on add game <<====
+        driver.findElement(By.xpath("/html/body/main/div/div/div/div/div[2]/form/fieldset/button")).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath("//*[@id=\"page-wrapper\"]/div[2]/div[2]/div/div[1]")).click();
+        Thread.sleep(500);
 	}
 	
 	// Create valid MCQ Game 
 	@Test(priority = 0)
-	public void CreateGameTest1(){
-        driver.findElement(By.name("name")).sendKeys(mcqGameName);
-        driver.findElement(By.name("decription")).sendKeys(mcqGameDesc);
-        driver.findElement(By.name("imgsrc")).sendKeys(mcqGameImgSrc);
+	public void CreateGameTest1() throws InterruptedException{
+		Thread.sleep(500);
+		driver.findElement(By.xpath("//*[@id=\"page-wrapper\"]/div[2]/div/div/div[1]/a[3]/span")).click();
+		Thread.sleep(500);
+		driver.findElement(By.xpath("//*[@id=\"rname\"]")).sendKeys(mcqGameName);
+        driver.findElement(By.xpath("//*[@id=\"decription\"]")).sendKeys(mcqGameDesc);
+        driver.findElement(By.xpath("//*[@id=\"imgsrc\"]")).sendKeys(mcqGameImgSrc);
         driver.findElement(By.xpath("//*[@id=\"radio1\"]")).click();
-        driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/form/fieldset/div[5]/input")).click();
-        MCQ_Game mcqGame = mcqGameRepository.findByname(mcqGameName);
-        assertNotEquals(null, mcqGame);
-        assertEquals(mcqGameDesc, mcqGame.getImageSrc());
-        assertEquals(mcqGameImgSrc, mcqGame.getdescption());
+        driver.findElement(By.xpath("/html/body/main/div/div/div/div/div[2]/form/fieldset/div[5]/input")).click();
+        Thread.sleep(500);
+        String currentUrl=driver.getCurrentUrl();
+        assertEquals(teacherProfile, currentUrl);
 	}
 	// Create valid TF Game 
 	@Test(priority = 1)
-	public void CreateGameTest2(){
-        driver.findElement(By.name("name")).sendKeys(tfGameName);
-        driver.findElement(By.name("decription")).sendKeys(tfGameDesc);
-        driver.findElement(By.name("imgsrc")).sendKeys(tfGameImgSrc);
+	public void CreateGameTest2() throws InterruptedException{
+		Thread.sleep(200);
+		driver.findElement(By.xpath("//*[@id=\"page-wrapper\"]/div[2]/div/div/div[1]/a[3]/span")).click();
+		Thread.sleep(200);
+		driver.findElement(By.xpath("//*[@id=\"rname\"]")).sendKeys(mcqGameName);
+        driver.findElement(By.xpath("//*[@id=\"decription\"]")).sendKeys(mcqGameDesc);
+        driver.findElement(By.xpath("//*[@id=\"imgsrc\"]")).sendKeys(mcqGameImgSrc);
         driver.findElement(By.xpath("//*[@id=\"radio2\"]")).click();
-        driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/form/fieldset/div[5]/input")).click();
-        TF_Game tfGame = tfGameRepository.findByname(mcqGameName);
-        assertNotEquals(null, tfGame);
-        assertEquals(tfGameDesc, tfGame.getImageSrc());
-        assertEquals(tfGameImgSrc, tfGame.getdescption());
-	}
-	// Create not valid TF Game (not his course)
-	@Test(priority = 2)
-	public void CreateGameTest3(){
-		// try to create a game for another teacher course 
-	}
-	
+        driver.findElement(By.xpath("/html/body/main/div/div/div/div/div[2]/form/fieldset/div[5]/input")).click();
+        Thread.sleep(200);
+        String currentUrl=driver.getCurrentUrl();
+        assertEquals(teacherProfile, currentUrl);
+	}	
 	@AfterMethod // execute after each function
 	 public void terminateBrowser() {
 		  System.out.println("Closing the browser ...");
