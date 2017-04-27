@@ -107,6 +107,7 @@ public class MCQ_Question extends Questions {
 	 *
 	 * @return the boolean
 	 */
+	@JsonIgnore
 	public Boolean isValid(){
 			Boolean flag = false;
 			for(int i=0;i<Choices.length;i++){

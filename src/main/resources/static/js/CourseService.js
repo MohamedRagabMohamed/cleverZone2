@@ -35,10 +35,12 @@
         this.getSelectedCourseToEdit = function(){
         	return this.selectedCourseToEdit;
         }
+		
+		this.insertCourse = function (userID ,data) {
+            return $http.post(urlBase + 'course/' + userID, data);
+        };
 
-//        this.insertCustomer = function (cust) {
-//            return $http.post(urlBase, cust);
-//        };
+
 //
 //        this.updateCustomer = function (cust) {
 //            return $http.put(urlBase + '/' + cust.ID, cust)

@@ -15,25 +15,24 @@
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						{{theCourse.name}}
-						<button type="submit" class="btn btn-link pull-right">
-							<span class="glyphicon glyphicon-trash"></span>
-						</button>
-						<a href='#!/create-game'> <span class='glyphicon glyphicon-plus pull-right'></span></a>
-						<button type="submit" class="btn btn-link pull-right">
-							<span class="glyphicon glyphicon-pencil"></span>
-						</button>
-						
+						{{theCourse.name}} <a href=''> <span
+							class='glyphicon glyphicon-trash pull-right'></span></a> <a href=''>
+							<span class='glyphicon glyphicon-pencil pull-right'></span>
+						</a> <a href='#!/create-game'> <span
+							class='glyphicon glyphicon-plus pull-right'></span></a>
 					</div>
 					<!-- .panel-heading -->
 					<div class="panel-body">
 						<div class="panel-group" id="accordion"
-							data-ng-repeat="c in theCourse.contents">
-							<div class ="panel panel-default">
+							data-ng-repeat="c in theCourse.contents" data-ng-controller = "GamesController">
+							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordion"
-											href="#collapseOne" aria-expanded="true" class="">{{c.name}}</a>
+										<a data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="true" class="">{{c.name}}</a>
+
+										<a href=''> <span class='glyphicon glyphicon-trash pull-right'></span></a>
+										<a href=''> <span class='glyphicon glyphicon-pencil pull-right'></span></a>
+										<a href='' data-ng-click = "setGameToEdit(c.id, c.type)"> <span class='glyphicon glyphicon-plus pull-right' ></span></a>
 									</h4>
 								</div>
 								<div id="collapseOne" class="panel-collapse collapse in"

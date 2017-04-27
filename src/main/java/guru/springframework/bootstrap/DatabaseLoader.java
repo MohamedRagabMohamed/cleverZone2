@@ -83,6 +83,7 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
     	User MCQTeacher = new User("T","nour" , "ahmed" , "P" ,new String[] {"ROLE_TEACHER","ROLE_ADMIN"} );
     	User TFTeacher = new User("TT","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_TEACHER"} );
     	User Student = new User("S","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_STUDENT"} );
+    	User Student2 = new User("S2","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_STUDENT"} );
 
 		ArrayList<Course> CoursesData = new ArrayList<Course>(); 
 		Course firstCourse = new Course("Arabic","the aradbic","thea arcbi");
@@ -130,9 +131,16 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
         Student.addCoursesRegistedin(thirdCourse);
         Student.addCoursesRegistedin(fourthCourse);
         
+        Student2.addCoursesRegistedin(firstCourse);
+        Student2.addCoursesRegistedin(secondCourse);
+        Student2.addCoursesRegistedin(thirdCourse);
+        Student2.addCoursesRegistedin(fourthCourse);
+        
+        
         UsersData.add(TFTeacher);
         UsersData.add(MCQTeacher);
         UsersData.add(Student);
+        UsersData.add(Student2);
         System.out.println(TFTeacher.getCoursesCreated().size());
         System.out.println(MCQTeacher.getCoursesCreated().size());
         /*mcqQuestionService.save(secondQuestion);

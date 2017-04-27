@@ -77,18 +77,27 @@ app.config([ '$routeProvider', function($routeProvider) {
 			templateUrl : '/pages/sign-up.html',
 			controller : 'UserController'
 		})
+		.when('/add-mcq-question', {
+			templateUrl : '/pages/add-mcq-question.html',
+			controller : 'GamesController'
+		})
+		.when('/add-tf-question', {
+			templateUrl : '/pages/add-tf-question.html',
+			controller : 'GamesController'
+		})
 		.when('/create-course', {
 			templateUrl : '/pages/create-course.html',
 			controller : 'CreateCourseController'
 		})
 		.when('/create-game', {
-		templateUrl : '/pages/create-game.html',
-		controller : 'GamesController'
+			templateUrl : '/pages/create-game.html',
+			controller : 'GamesController'
 	}).otherwise({
 		redirectto : '/pages/login.html'
 	});
 
 } ]);
+
 //
 //
 //
