@@ -79,13 +79,12 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 	$scope.addQuestion = function() {
 		
 		
-		alert(GamesService.getSelectedGameToEdit().type);
-		var data ;
-		if($scope.type == "MCQ")
+		alert( $scope.choice1);
+		console.log(GamesService.getSelectedGameToEdit().type);
+		$scope.senddata ;
+		if(GamesService.getSelectedGameToEdit().type == "MCQ")
 		{
-			data = {
-				    
-				    //"valid": false,
+			$scope.senddata = {
 				    "choices": [
 				      $scope.choice1,
 				      $scope.choice2,
@@ -93,29 +92,40 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 				      $scope.choice4
 				    ],
 				    "time": $scope.time,
-				    "answer": $scope.answer, // to be edited ////////////////
+				    "answer": $scope.answer, 
 				    "question": $scope.question
 				  }
 		}
-		else if($scope.type == "TF")
+		else if(GamesService.getSelectedGameToEdit().type == "TF")
 		{
-			data = {
+			$scope.senddata = {
 				    "time": $scope.time,
 				    "answer": $scope.answer,
 				    "question": $scope.question
 		  	   		}
 		}
 		
-		console.log(':::::  ' + GamesService.getSelectedGameToEdit().type + ':::::');
+		console.log($scope.senddata);
 		
-		QuestionService.insertQuestion(GamesService.getSelectedGameToEdit().id, data ,GamesService.getSelectedGameToEdit().type) // scope.type may be bug
+		QuestionService.insertQuestion(GamesService.getSelectedGameToEdit().id, $scope.senddata ,GamesService.getSelectedGameToEdit().type) // scope.type may be bug
 		.then(function successCallback(response) {
 			console.log(response.status);
 			console.log("Question added successfully");
-			if($scope.type == "MCQ")
-				$location.path('/add-mcq-question');
-			else if($scope.type == "TF")
-				$location.path('/add-tf-question');
+			//alert("555555555555555555555555 :: "+ GamesService.getSelectedGameToEdit().type);
+			if(GamesService.getSelectedGameToEdit().type == "MCQ"){
+				  $scope.choice1 = angular.copy($scope.master);
+			      $scope.choice2 = angular.copy($scope.master);
+			      $scope.choice3 = angular.copy($scope.master);
+			      $scope.choice4 = angular.copy($scope.master);
+			      $scope.time = angular.copy($scope.master);
+				  $scope.answer = angular.copy($scope.master);
+				  $scope.question = angular.copy($scope.master);
+			}
+			else if(GamesService.getSelectedGameToEdit().type == "TF"){
+				  $scope.time = angular.copy($scope.master);
+				  $scope.answer = angular.copy($scope.master);
+				  $scope.question = angular.copy($scope.master);
+			}
 
 		}, function errorCallback(response) {
 
@@ -131,6 +141,26 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 	{
 		$location.path(path);
 	}
+	
+//	$scope.resetForm = function() {
+//		
+//		if(GamesService.getSelectedGameToEdit().type == "MCQ"){
+//			$scope.choice1 = angular.copy($scope.master);
+//		      $scope.choice2 = angular.copy($scope.master);
+//		      $scope.choice3 = angular.copy($scope.master);
+//		      $scope.choice4 = angular.copy($scope.master);
+//		      $scope.time = angular.copy($scope.master);
+//			  $scope.answer = angular.copy($scope.master);
+//			  $scope.question = angular.copy($scope.master);
+//		}
+//		else if(GamesService.getSelectedGameToEdit().type == "TF"){
+//			  
+//		      $scope.time = angular.copy($scope.master);
+//			  $scope.answer = angular.copy($scope.master);
+//			  $scope.question = angular.copy($scope.master);
+//		}
+//          
+//      };
 	
 	
 	

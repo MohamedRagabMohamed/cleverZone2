@@ -182,7 +182,7 @@ public class MCQ_Question_Controller {
     	   System.out.println("tring to Create MCQQuestion not belonging to the user ");
     	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
        }
-       if(Question.getChoices().length != 4||!Question.isValid()){
+       if(Question.getChoices().length != 4){
     	   System.out.println("tring to Create MCQQuestion havs choics not equal to 4 ");
     	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
        }       

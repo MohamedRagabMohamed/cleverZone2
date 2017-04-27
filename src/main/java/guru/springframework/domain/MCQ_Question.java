@@ -101,20 +101,5 @@ public class MCQ_Question extends Questions {
 	public void setChoices(String [] choices) {
 		Choices = choices;
 	}
-	
-	/**
-	 * Checks if is valid.
-	 *
-	 * @return the boolean
-	 */
-	@JsonIgnore
-	public Boolean isValid(){
-			Boolean flag = false;
-			for(int i=0;i<Choices.length;i++){
-	    	   if(Choices[i].equals(this.getAnswer())){
-	    		   flag = true;
-	    	   }
-	       }
-			return flag;
-	}
+
 }
