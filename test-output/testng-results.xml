@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="40802" started-at="2017-04-27T14:29:37Z" finished-at="2017-04-27T14:30:18Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="40802" started-at="2017-04-27T14:29:37Z" finished-at="2017-04-27T14:30:18Z">
+      <class name="Testing.CreateGame">
+        <test-method status="PASS" signature="Start()[pri:0, instance:Testing.CreateGame@17d0008]" name="Start" is-config="true" duration-ms="14168" started-at="2017-04-27T16:29:37Z" finished-at="2017-04-27T16:29:51Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Start -->
+        <test-method status="PASS" signature="CreateGameTest1()[pri:0, instance:Testing.CreateGame@17d0008]" name="CreateGameTest1" duration-ms="7063" started-at="2017-04-27T16:29:51Z" finished-at="2017-04-27T16:29:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- CreateGameTest1 -->
+        <test-method status="PASS" signature="terminateBrowser()[pri:0, instance:Testing.CreateGame@17d0008]" name="terminateBrowser" is-config="true" duration-ms="527" started-at="2017-04-27T16:29:58Z" finished-at="2017-04-27T16:29:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- terminateBrowser -->
+        <test-method status="PASS" signature="Start()[pri:0, instance:Testing.CreateGame@17d0008]" name="Start" is-config="true" duration-ms="10889" started-at="2017-04-27T16:29:59Z" finished-at="2017-04-27T16:30:10Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Start -->
+        <test-method status="PASS" signature="CreateGameTest2()[pri:1, instance:Testing.CreateGame@17d0008]" name="CreateGameTest2" duration-ms="5581" started-at="2017-04-27T16:30:10Z" finished-at="2017-04-27T16:30:15Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- CreateGameTest2 -->
+        <test-method status="PASS" signature="terminateBrowser()[pri:0, instance:Testing.CreateGame@17d0008]" name="terminateBrowser" is-config="true" duration-ms="2480" started-at="2017-04-27T16:30:15Z" finished-at="2017-04-27T16:30:18Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- terminateBrowser -->
+      </class> <!-- Testing.CreateGame -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
