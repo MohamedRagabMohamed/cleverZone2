@@ -61,25 +61,35 @@ app.controller('CourseController', [ "$scope", "$location", "$http", "CourseServ
 	$scope.getCourseToEdit = function() {
 		$scope.theCourse = CourseService.getSelectedCourseToEdit();
 	}
-	
+
 	$scope.createCourse = function() {
 		data = {
 			"name" : $scope.name,
 			"descption" : $scope.decription,
 			"imageSrc" : $scope.imgsrc
 		}
-		
-		CourseService.insertCourse(UserService.getUser().id , data)
-		.then(function successCallback(response) {
-		console.log(response.status);
-		console.log("course created successfully");
-		$location.path('/teacher');
 
-	}, function errorCallback(response) {
+		CourseService.insertCourse(UserService.getUser().id, data)
+			.then(function successCallback(response) {
+				console.log(response.status);
+				console.log("course created successfully");
+				$location.path('/teacher');
 
-		alert("Error! Course Creation Failed");
-	});
+			}, function errorCallback(response) {
 
-}
+				alert("Error! Course Creation Failed");
+			});
+	}
+
+	$scope.RegisteInaCourse = function(courseId) {
+			CourseService.RegisteInCourse(UserService.getUser().id, courseId)
+			.then(function successCallback(response) {
+				console.log("Registed");
+			}, function errorCallback(response) {
+
+				alert("Error! Course Register Failed");
+			});
+
+	}
 
 } ]);

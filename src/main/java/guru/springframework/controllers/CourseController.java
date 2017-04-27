@@ -124,6 +124,35 @@ public class CourseController {
        return new ResponseEntity<List<Course>>(user.getCoursesCreated(), HttpStatus.OK);
    }
     
+   
+   
+   //-------------------Registed a Course--------------------------------------------------------
+   
+   /**
+    * Creates the course.
+    *
+    * @param userId the user id
+    * @param course the course
+    * @param ucBuilder the uc builder
+    * @return the response entity
+    */
+   @RequestMapping(value = "/course/{userId}/{courseId}", method = RequestMethod.GET)
+   public ResponseEntity<Void> RegistedIn(@PathVariable("userId") long userId,@PathVariable("courseId") long courseId) {
+	   Course course = CourseService.findOne(courseId);
+       if ( course == null  ) {
+           System.out.println("A Course with name " + courseId + " already exist");
+           return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+       }
+       User user = userService.findOne(userId) ;
+       if(user == null){
+    	   System.out.println("A User with id " + userId + " was not found");
+    	   return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+       }
+       user.addCoursesRegistedin(course);
+       userService.save(user);
+       
+       return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+   }
    //-------------------Create a Course--------------------------------------------------------
     
    /**

@@ -39,7 +39,10 @@
 		this.insertCourse = function (userID ,data) {
             return $http.post(urlBase + 'course/' + userID, data);
         };
-
+        
+        this.RegisteInCourse = function (userID ,courseID) {
+            return $http.get(urlBase + 'course/' + userID +'/' + courseID );
+        };
 
 //
 //        this.updateCustomer = function (cust) {

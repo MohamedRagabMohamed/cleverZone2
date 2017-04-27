@@ -2,7 +2,7 @@
 
 
 	<div id="wrapper">
-		<div data-ng-include="'pages/_studentNavbar.html'"></div>
+		<div data-ng-include="'pages/_teacherNavbar.html'"></div>
 
 
 		<div id="page-wrapper">
@@ -13,14 +13,17 @@
 				<!-- /.col-lg-12 -->
 			</div>
 			<!-- /.row -->
-			<div class="row"   data-ng-init="getCourseRegisted()">
-				<div class="col-lg-4"   data-ng-repeat="c in RegistedCourse">
-                    <div class="panel panel-default"  data-ng-click = "setCourseToPlay(c.id)">
+			<div class="row"   data-ng-init="getAllCourses()">
+				<div class="col-lg-4"   data-ng-repeat="c in allCourse">
+                    <div class="panel panel-default" >
                         <div class="panel-heading" >
                            {{c.name}}
                         </div>
-                    	<div class="panel-body" >
+                        <div class="panel-body">
                            {{c.descption}}
+                        </div>
+                        <div class="panel-footer" data-ng-click = "RegisteInaCourse(c.id)">
+                           Register 
                         </div>
                     </div>
                 </div>

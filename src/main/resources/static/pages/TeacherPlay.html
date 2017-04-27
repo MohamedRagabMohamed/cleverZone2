@@ -2,7 +2,7 @@
 
 
 	<div id="wrapper">
-		<div data-ng-include="'pages/_studentNavbar.html'"></div>
+		<div data-ng-include="'pages/_teacherNavbar.html'"></div>
 
 
 		<div id="page-wrapper">
@@ -19,7 +19,7 @@
                         <div class="panel-heading" >
                            {{c.name}}
                         </div>
-                    	<div class="panel-body" >
+                        <div class="panel-body" data-ng-click = "getCourse(c.id)">
                            {{c.descption}}
                         </div>
                     </div>

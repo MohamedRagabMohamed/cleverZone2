@@ -17,7 +17,11 @@ app.config([ '$routeProvider', function($routeProvider) {
 			controller : 'CourseController'
 		})
 		.when('/teacherHome', {
-			templateUrl : '/pages/StudentDashboard.html',
+			templateUrl : '/pages/TeacherHome.html',
+			controller : 'CourseController'
+		})
+		.when('/teacherPlay', {
+			templateUrl : '/pages/TeacherPlay.html',
 			controller : 'CourseController'
 		})
 		.when('/student', {
