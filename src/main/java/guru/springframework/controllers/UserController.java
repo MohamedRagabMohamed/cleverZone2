@@ -20,7 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import guru.springframework.domain.Game;
+import guru.springframework.domain.MCQ_Game;
+import guru.springframework.domain.Score;
+import guru.springframework.domain.TF_Game;
 import guru.springframework.domain.User;
+import guru.springframework.repositories.MCQGameRepository;
+import guru.springframework.repositories.TFGameRepository;
 import guru.springframework.repositories.UserRepository;;
 
 // TODO: Auto-generated Javadoc
@@ -33,15 +39,19 @@ public class UserController {
 
     /** The user service. */
 	UserRepository userService;  //Service which will do all data retrieval/manipulation work
- 
+	MCQGameRepository mcqService;
+	TFGameRepository tfService;
+	
 	/**
 	 * Instantiates a new user controller.
 	 *
 	 * @param userService the user service
 	 */
 	@Autowired
-	public UserController(UserRepository userService) {
+	public UserController(UserRepository userService,MCQGameRepository mcqService,TFGameRepository tfService) {
 		this.userService = userService;
+		this.mcqService = mcqService;
+		this.tfService = tfService;
 	}
      
     //-------------------Retrieve get Users Roles --------------------------------------------------------
@@ -180,6 +190,41 @@ public class UserController {
         
         userService.delete(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+    }
+    
+    
+    //-------------------Score a User--------------------------------------------------------
+    
+    /**
+     * Score the user.
+     *
+     * @param user the user
+     * @return the response entity
+     */
+    @RequestMapping(value = "/user/{userId}/{gameId}/{score}", method = RequestMethod.GET)
+    public ResponseEntity<Void> scoreUser(@PathVariable("userId") long userId,@PathVariable("gameId") long gameId,
+    		@PathVariable("score") long scoreValue) {
+        System.out.println("Creating Score with userId " + userId + " and gameId " +gameId );
+        User user = userService.findOne(userId);
+        MCQ_Game game = mcqService.findOne(gameId);
+        TF_Game game2 = tfService.findOne(gameId);
+         
+        if (user == null||(game == null && game2 == null)) {
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        if(game != null){
+        	Score score = new Score(game);
+        	score.setScoreValue(scoreValue);
+        	user.addScores(score);
+        }else if(game2 != null){
+        	Score score = new Score(game2);
+        	score.setScoreValue(scoreValue);
+        	user.addScores(score);
+        }
+ 
+        userService.save(user);
+ 
+        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
  
 }

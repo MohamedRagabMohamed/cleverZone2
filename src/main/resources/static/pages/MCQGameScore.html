@@ -3,11 +3,12 @@
 	<div data-ng-controller="UserController" data-ng-include="getTheUserType()"></div>
 
 
-	<div id="page-wrapper" data-ng-init="getGamePlay()">
+	<div id="page-wrapper" data-ng-init="getTheScore()">
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">MCQ Game</h1>
-				<h3>{{GamePlay.name}}</h3>
+				<h3>{{theScore.name}}</h3>
+				<h4>{{theScore.scoreFront}}</h4>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
@@ -27,16 +28,16 @@
 						</thead>
 						<tbody>
 							<!--Value: {{model.name}} <input data-ng-model="model.name"> -->
-							<tr data-ng-repeat="Q in GamePlay.questions">
+							<tr data-ng-repeat="Q in theScore.questions" data-ng-class="{ 'danger'   : Q.result === 0,'success' : Q.result === 1}">
 								<td>{{Q.question}}</td>
-								<td><input type="radio" data-ng-model="Q.UserInput" value="CHOICE1">{{Q.choices[0]}}</td>
-								<td><input type="radio" data-ng-model="Q.UserInput" value="CHOICE2">{{Q.choices[1]}}</td>
-								<td><input type="radio" data-ng-model="Q.UserInput" value="CHOICE3">{{Q.choices[2]}}</td>
-								<td><input type="radio" data-ng-model="Q.UserInput" value="CHOICE4">{{Q.choices[3]}}</td>
+								<td><input type="radio" data-ng-model="Q.UserInput" value="0">{{Q.choices[0]}}</td>
+								<td><input type="radio" data-ng-model="Q.UserInput" value="1">{{Q.choices[1]}}</td>
+								<td><input type="radio" data-ng-model="Q.UserInput" value="2">{{Q.choices[2]}}</td>
+								<td><input type="radio" data-ng-model="Q.UserInput" value="3">{{Q.choices[3]}}</td>
 							</tr>
 						</tbody>
 					</table>
-					<a data-ng-click ="getScore(GamePlay)" class="btn btn-primary pull-right">Submit</a>
+					<a href="#!/course" class="btn btn-primary pull-right">Back To Course</a>
 				</div>
 				<!-- /.panel -->
 			</div>

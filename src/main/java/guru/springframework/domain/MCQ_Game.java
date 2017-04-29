@@ -38,12 +38,13 @@ public class MCQ_Game extends  Game{
 	 * @param desc the desc
 	 * @param imageSrc the image src
 	 */
-	public MCQ_Game(String name , String desc , String imageSrc){
+	public MCQ_Game(String name , String desc , String imageSrc ,int totalTime){
 		this();
 		this.setName(name);
 		this.setdescption(desc);
 		this.setImageSrc(imageSrc);
 		this.setType("MCQ");
+		this.setTotalTime(totalTime);
 	}
 	
 	
@@ -62,7 +63,6 @@ public class MCQ_Game extends  Game{
 	 * @param question the question
 	 */
 	public void addQuestion(MCQ_Question question) {
-		this.addTotalTime(question.getTime());
 		question.setMCQ_TheGame(this);
 		Questions.add(question);
 	}

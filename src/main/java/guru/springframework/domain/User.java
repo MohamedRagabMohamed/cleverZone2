@@ -1,16 +1,12 @@
 package guru.springframework.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -69,6 +65,12 @@ public class User {
 	@ManyToMany(cascade = {CascadeType.ALL} )
 	private List<Course> CoursesRegistedin = new ArrayList<Course>();
 	
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE} )
+    private List<Score> Scores = new ArrayList<Score>();
+	
+	
+
+
 
 	/**
 	 * Instantiates a new user.
@@ -77,6 +79,7 @@ public class User {
 		id = null;
 		CoursesCreated = new ArrayList<>();
 		CoursesRegistedin = new ArrayList<Course>();
+		Scores = new ArrayList<Score>();
 	}
 	
 	/**
@@ -232,6 +235,16 @@ public class User {
 	public void addCoursesRegistedin(Course coursesRegistedin) {
 		coursesRegistedin.addStudent(this);
 		CoursesRegistedin.add(coursesRegistedin);
+	}
+	
+	public List<Score> getScores() {
+		return Scores;
+	}
+	
+	public void addScores(Score score) {
+		score.setUser(this);
+		Scores.add(score);
+		
 	}
 	
 }

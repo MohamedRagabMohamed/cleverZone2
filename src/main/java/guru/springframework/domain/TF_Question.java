@@ -53,11 +53,10 @@ public class TF_Question extends Questions{
 	 * @param answer the answer
 	 * @param time the time
 	 */
-	public TF_Question(String question,String answer,int time) {
+	public TF_Question(String question,String answer) {
 		this();
 		this.setQuestion(question);
 		this.setAnswer(answer);
-		this.setTime(time);
 	}
 	
 	/**

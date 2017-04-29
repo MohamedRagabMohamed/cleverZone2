@@ -25,9 +25,7 @@ public abstract class Questions {
 	@NotEmpty
 	private String Answer;
 	
-	/** The Time. */
-	@NotNull
-	private int Time;
+	
 	
 	
 	
@@ -90,23 +88,6 @@ public abstract class Questions {
 		Answer = answer;
 	}
 	
-	/**
-	 * Gets the time.
-	 *
-	 * @return the time
-	 */
-	public int getTime() {
-		return Time;
-	}
-	
-	/**
-	 * Sets the time.
-	 *
-	 * @param time the new time
-	 */
-	public void setTime(int time) {
-		Time = time;
-	}
 	
 	
 

@@ -32,12 +32,13 @@ public class TF_Game extends Game {
 	 * @param desc the desc
 	 * @param imageSrc the image src
 	 */
-	public TF_Game(String name , String desc , String imageSrc){
+	public TF_Game(String name , String desc , String imageSrc,int totalTime){
 		this();
 		this.setName(name);
 		this.setdescption(desc);
 		this.setImageSrc(imageSrc);
 		this.setType("TF");
+		this.setTotalTime(totalTime);
 	}
 	
 
@@ -56,7 +57,6 @@ public class TF_Game extends Game {
 	 * @param question the question
 	 */
 	public void addQuestion(TF_Question question) {
-		this.addTotalTime(question.getTime());
 		question.setTF_TheGame(this);
 		Questions.add(question);
 	}

@@ -1,6 +1,13 @@
 package guru.springframework.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -9,7 +16,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * The Class Game.
  */
-@MappedSuperclass
+//@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Game extends AbstractContent {
 	
 	/** The name. */
@@ -32,7 +41,8 @@ public abstract class Game extends AbstractContent {
 	@NotNull
 	private int totalTime;
 	
-
+	@OneToMany(mappedBy = "game")
+    private List<Score> score = new ArrayList<Score>();
 	
 
 	/**
@@ -40,6 +50,7 @@ public abstract class Game extends AbstractContent {
 	 */
 	public Game(){
 		super();
+		score = new ArrayList<Score>();
 		name = descption = imageSrc = null;
 		totalTime = 0;
 	}
@@ -112,8 +123,9 @@ public abstract class Game extends AbstractContent {
 	 *
 	 * @param totalTime the total time
 	 */
-	public void addTotalTime(int totalTime) {
-		this.totalTime += totalTime;
+	public void setTotalTime(int totalTime) {
+		this.totalTime = totalTime;
 	}
 	
+
 }

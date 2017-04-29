@@ -51,6 +51,14 @@ app.config([ '$routeProvider', function($routeProvider) {
 			templateUrl : '/pages/TFGame.html',
 			controller : 'GamesController'
 		})
+		.when('/TFScore', {
+			templateUrl : '/pages/TFGameScore.html',
+			controller : 'GamesController'
+		})
+		.when('/MCQScore', {
+			templateUrl : '/pages/MCQGameScore.html',
+			controller : 'GamesController'
+		})
 		.when('/addGames', {
 			templateUrl : '/pages/addGames.html',
 			controller : 'GamesController'
@@ -69,6 +77,7 @@ app.config([ '$routeProvider', function($routeProvider) {
 		})
 		.when('/logout', {
 			templateUrl : '/pages/login.html',
+			controller : 'UserController',
 			resolve : {
 				init : function() {
 					return function() {

@@ -40,12 +40,11 @@ public class MCQ_Question extends Questions {
 	 * @param Choices the choices
 	 * @param time the time
 	 */
-	public MCQ_Question( String Question ,String answer , String [] Choices,int time){
+	public MCQ_Question( String Question ,String answer , String [] Choices){
 		this();
 		this.setAnswer(answer);
 		this.setQuestion(Question);
 		this.Choices = Choices;
-		this.setTime(time);
 	}
 	
 	/**

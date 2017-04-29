@@ -1,9 +1,11 @@
-app.controller('GamesController', [ "$scope", "$location", "$http","GamesService","CourseService", "QuestionService", function($scope, $location, $http,GamesService,CourseService, QuestionService) {
+app.controller('GamesController',
+[ "$scope", "$location", "$http","GamesService","CourseService", "QuestionService","UserService", 
+function($scope, $location, $http,GamesService,CourseService, QuestionService,UserService) {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	$scope.setGamePlay = function(id,type) {
-		alert(type);
+		
 		GamesService.getGame(id , type)
 		.then(function successCallback(response) {
 			GamesService.setSelectedGameToPlay(response.data);
@@ -26,6 +28,7 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	$scope.setGameToEdit = function(idd, type) {
+		console.log(idd + " " + type);
 		GamesService.getGame(idd, type)
 		.then(function successCallback(response) {
 			console.log(response.data.type);
@@ -48,6 +51,40 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 	
 	$scope.getScore = function(data) {
 		console.log(data);
+		if(data.type == "MCQ"){
+			var score=0;
+			for(var i in data.questions){
+				if(data.questions[i].UserInput == data.questions[i].answer){
+					score+=100;
+					data.questions[i].result = 1;
+				}else{
+					data.questions[i].result = 0;
+				}
+			}
+			data.scoreFront = score;
+			GamesService.setGameScore(data,UserService.getUser().id,GamesService.getSelectedGameToPlay().id);
+			$location.path('/MCQScore');
+		}else if(data.type == "TF"){
+			var score=0;
+			for(var i in data.questions){
+				if(data.questions[i].UserInput == data.questions[i].answer){
+					score+=100;
+					data.questions[i].result = 1;
+				}else{
+					data.questions[i].result = 0;
+				}
+			}
+			data.scoreFront = score;
+			GamesService.setGameScore(data,UserService.getUser().id,GamesService.getSelectedGameToPlay().id);
+			$location.path('/TFScore');
+		}
+		
+		
+	}
+	
+	$scope.getTheScore = function(data) {
+		$scope.theScore = GamesService.getGameScore(data);
+		console.log($scope.theScore);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +95,9 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 		data = {
 			"name" : $scope.name,
 			"descption" : $scope.decription,
-			"imageSrc" : $scope.imgsrc
+			"imageSrc" : $scope.imgsrc,
+			"totalTime" :$scope.time,
+			"type" : $scope.type
 		}
 		GamesService.insertGame(CourseService.getSelectedCourseToEdit().id,data ,$scope.type)
 		.then(function successCallback(response) {
@@ -79,7 +118,7 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 	$scope.addQuestion = function() {
 		
 		
-		alert( $scope.choice1);
+		
 		console.log(GamesService.getSelectedGameToEdit().type);
 		$scope.senddata ;
 		if(GamesService.getSelectedGameToEdit().type == "MCQ")
@@ -91,7 +130,7 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 				      $scope.choice3,
 				      $scope.choice4
 				    ],
-				    "time": $scope.time,
+				    
 				    "answer": $scope.answer, 
 				    "question": $scope.question
 				  }
@@ -99,7 +138,6 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 		else if(GamesService.getSelectedGameToEdit().type == "TF")
 		{
 			$scope.senddata = {
-				    "time": $scope.time,
 				    "answer": $scope.answer,
 				    "question": $scope.question
 		  	   		}
@@ -111,7 +149,6 @@ app.controller('GamesController', [ "$scope", "$location", "$http","GamesService
 		.then(function successCallback(response) {
 			console.log(response.status);
 			console.log("Question added successfully");
-			//alert("555555555555555555555555 :: "+ GamesService.getSelectedGameToEdit().type);
 			if(GamesService.getSelectedGameToEdit().type == "MCQ"){
 				  $scope.choice1 = angular.copy($scope.master);
 			      $scope.choice2 = angular.copy($scope.master);

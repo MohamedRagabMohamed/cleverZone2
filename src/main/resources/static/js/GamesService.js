@@ -2,8 +2,10 @@
 
         var mcqBase = 'http://localhost:8080/mcqgame/';
         var tfBase = 'http://localhost:8080/tfgame/';
+        var user = 'http://localhost:8080/user/';
         var selectedGameToPlay ;
         var selectedGameToEdit ;
+        var gameScore;
         
       
         this.getGame = function (id , type) {
@@ -27,7 +29,16 @@
         this.getSelectedGameToEdit = function(){
         	return this.selectedGameToEdit;
         }
+        
+        this.setGameScore = function(data,userId,gameId){
+        	$http.get(user +userId + '/' +gameId+'/'+data.scoreFront );
+        	return this.gameScore = data;
+        }
 
+        this.getGameScore = function(data){
+        	return this.gameScore;
+        }
+        
         this.insertGame = function (id,data ,type) {
         	if(type == "MCQ")return $http.post(mcqBase + id,data);
         	else if(type == "TF" ) return $http.post(tfBase + id,data);

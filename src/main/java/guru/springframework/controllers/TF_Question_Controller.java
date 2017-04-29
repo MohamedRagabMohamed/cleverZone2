@@ -158,7 +158,7 @@ public class TF_Question_Controller {
    @PreAuthorize("hasRole('ROLE_TEACHER')")
    @RequestMapping(value = "/tfquestion/{gameId}", method = RequestMethod.POST)
    public ResponseEntity<Void> createQuestion(@PathVariable("gameId") long gameId,@RequestBody TF_Question Question,    UriComponentsBuilder ucBuilder) {
-       System.out.println("Creating T/F Question ");
+       System.out.println("Creating T/F Question "+ gameId);
        TF_Game Game = TFGameService.findOne(gameId);
        if(Game == null){
     	   System.out.println("A Game with id " + gameId + " was not found");

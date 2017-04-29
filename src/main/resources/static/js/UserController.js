@@ -41,6 +41,19 @@ app.controller('UserController', [	"$scope","$http","$location","UserService",	f
 			});
 
 		}
+		
+		$scope.getTheUserType = function(){
+			var aUser = UserService.getUser();
+			for(var i in aUser.roles){
+				if(aUser.roles[i] == "ROLE_STUDENT"){
+					return "pages/_studentNavbar.html";
+				}
+				else if(aUser.roles[i] == "ROLE_TEACHER"){
+					return "pages/_teacherNavbar.html";
+				}
+			}
+			
+		}
 
 
 
