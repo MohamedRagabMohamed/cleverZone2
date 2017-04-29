@@ -170,6 +170,7 @@ public class TF_Question_Controller {
     	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
        }
        Game.addQuestion(Question);
+       TFQuestionService.save(Question);
        HttpHeaders headers = new HttpHeaders();
        headers.setLocation(ucBuilder.path("/tfquestion/{id}").buildAndExpand(Question.getId()).toUri());
        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
