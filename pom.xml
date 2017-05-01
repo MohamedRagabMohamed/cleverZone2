@@ -5,7 +5,7 @@
 
 	<groupId>guru.springframework</groupId>
 	<version>0.0.1-SNAPSHOT</version>
-<!-- 	<packaging>war</packaging> -->
+	<!-- <packaging>war</packaging> -->
 	<packaging>jar</packaging>
 
 	<name>Clever Zone Web Application</name>
@@ -214,6 +214,14 @@
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<mainClass>guru.springframework.SpringBootWebApplication</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
 				</plugin>
 
 			</plugins>
