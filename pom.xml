@@ -217,7 +217,6 @@
 					<configuration>
 						<archive>
 							<manifest>
-								<addClasspath>true</addClasspath>
 								<mainClass>guru.springframework.SpringBootWebApplication</mainClass>
 							</manifest>
 						</archive>
