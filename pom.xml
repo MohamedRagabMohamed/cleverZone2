@@ -5,7 +5,8 @@
 
 	<groupId>guru.springframework</groupId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
+<!-- 	<packaging>jar</packaging> -->
 
 	<name>Clever Zone Web Application</name>
 	<description>Clever Zone Web Application</description>
@@ -209,6 +210,29 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+				
+				<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.3</version>
+          <executions>
+              <execution>
+                  <phase>package</phase>
+                  <goals><goal>copy</goal></goals>
+                  <configuration>
+                      <artifactItems>
+                          <artifactItem>
+                              <groupId>com.github.jsimone</groupId>
+                              <artifactId>webapp-runner</artifactId>
+                              <version>8.5.11.3</version>
+                              <destFileName>webapp-runner.jar</destFileName>
+                          </artifactItem>
+                      </artifactItems>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
+			
 			</plugins>
 		</pluginManagement>
 	</build>
