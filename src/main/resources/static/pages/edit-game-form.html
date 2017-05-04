@@ -2,40 +2,35 @@
 
 <body>
 
-    <div class="container">
+    <div class="container" data-ng-init = "getGameToEdit()">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Create Game Form</h3>
+                        <h3 class="panel-title">Edit Game Form</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form"  name="myForm" data-ng-submit="createGame()" >
+                        <form role="form"  name="myForm" data-ng-submit="editGame()" >
                             <fieldset>
                                 <div class="form-group">
                                 	<label for="name">Name</label>
-                                    <input class="form-control" data-ng-model="name" id = "name" placeholder="Name" name="name" type="text" autofocus required>  
+                                    <input class="form-control" data-ng-model="name" id = "name" data-ng-init ="name = theGame.name" name="name" type="text" autofocus required>  
                                 </div>
                                 <div class="form-group">
                                 <label for="decription">Description</label>
-                                    <textarea class="form-control" data-ng-model="decription" id="decription" name="decription" autofocus required>Description</textarea>
+                                    <textarea class="form-control" data-ng-model="decription" id="decription" data-ng-init ="decription = theGame.descption" name="decription" autofocus required>Description</textarea>
                                 </div>
                                 <div class="form-group">
                                  	<label for="imgsrc">Image Source</label>
-                                    <input class="form-control" data-ng-model="imgsrc" id = "imgsrc" placeholder="Image Source" name="imgsrc" type="text" autofocus required>
+                                    <input class="form-control" data-ng-model="imgsrc" id = "imgsrc" data-ng-init ="imgsrc = theGame.imageSrc" name="imgsrc" type="text" autofocus required>
                                 </div>
                                 <div class="form-group">
                                 	<label for="time">Time</label>
-                                    <input class="form-control" data-ng-model="time" id = "time" placeholder="Time" name="time" type="number" autofocus required>  
+                                    <input class="form-control" data-ng-model="time" id = "time" data-ng-init ="time = theGame.totalTime" name="time" type="number" autofocus required>  
                                 </div>
-                                <div class="form-group">
-                                	<label for="radio1">MCQ Game</label>
-									<input class="form-control" type="radio" name="type" id="radio1" value="MCQ" data-ng-model="type" required>
-									<label for="radio2">TRUE/FALSE Game</label>
-									<input class="form-control" type="radio" name="type" id="radio2" checked value="TF" data-ng-model="type" required>
-								</div>
+
 								<div>
-								<input type = "submit" class="btn btn-lg btn-success btn-block" value = "Create Game" data-ng-disabled="myForm.$invalid">
+								<input type = "submit" class="btn btn-lg btn-success btn-block" value = "Save Changes" data-ng-disabled="myForm.$invalid">
 								</div>
                             </fieldset>
                         </form>

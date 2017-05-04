@@ -27,23 +27,31 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	$scope.setGameToEdit = function(idd, type) {
+	$scope.setGameToEdit = function(idd, type, functionality) {
 		console.log(idd + " " + type);
 		GamesService.getGame(idd, type)
 		.then(function successCallback(response) {
 			console.log(response.data.type);
 			GamesService.setSelectedGameToEdit(response.data);
-			if(type == "MCQ")
-				$location.path('/add-mcq-question');
-			else if(type == "TF")
-				$location.path('/add-tf-question');
+			if(functionality == "EDIT")
+			{
+				$location.path('/gameEdit');
+			}
+			else if(functionality == "ADDQUESTION")
+			{
+				if(type == "MCQ")
+					$location.path('/add-mcq-question');
+				else if(type == "TF")
+					$location.path('/add-tf-question');
+			}	
 		}, function errorCallback(response) {
 			alert("Game data in fetching failed");
 		});
 	}
 	
-	$scope.getGameToEdit = function() { //  may be not needed
+	$scope.getGameToEdit = function() {
 		$scope.theGame = GamesService.getSelectedGameToEdit();
+		console.log($scope.theGame);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +120,28 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 
 	}
 	
+	$scope.editGame = function() {
+
+		data = {
+			"name" : $scope.name,
+			"descption" : $scope.decription,
+			"imageSrc" : $scope.imgsrc,
+			"totalTime" :$scope.time,
+		}
+		GamesService.updateGame(GamesService.getSelectedGameToEdit().id, data , GamesService.getSelectedGameToEdit().type)
+		.then(function successCallback(response) {
+			console.log(response.status);
+			console.log("Game Updated successfully");
+			GamesService.setSelectedGameToEdit(response.data);
+			$location.path('/gameEdit');
+
+		}, function errorCallback(response) {
+
+			alert("Error! Game update Failed");
+		});
+
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -167,6 +197,81 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 		}, function errorCallback(response) {
 
 			alert("Error! Question Insertion Failed");
+		});
+
+	}
+	
+	$scope.setQuestionToEdit = function(idd, type, functionality) {
+		console.log(idd + " " + type);
+		QuestionService.getQuestion(idd, type)
+		.then(function successCallback(response) {
+			QuestionService.setSelectedQuestionToEdit(response.data);
+			if(functionality == "EDIT")
+			{
+				if(type == "MCQ")
+					$location.path('/edit-mcq-question');
+				else if(type == "TF")
+					$location.path('/edit-tf-question');
+			}
+		}, function errorCallback(response) {
+			alert("Question data fetching failed");
+		});
+	}
+	
+	
+	
+	$scope.getQuestionToEdit = function() {
+		$scope.theQuestion = QuestionService.getSelectedQuestionToEdit();
+		console.log($scope.theQuestion);
+	}
+	
+	
+	
+	$scope.editQuestion = function() {
+		if(GamesService.getSelectedGameToEdit().type == "MCQ")
+		{
+			data = {
+					"choices": [
+				      $scope.choice1,
+				      $scope.choice2,
+				      $scope.choice3,
+				      $scope.choice4
+				    ],
+					    
+				    "answer": $scope.answer, 
+				    "question": $scope.question
+				  }
+		}
+		else if(GamesService.getSelectedGameToEdit().type == "TF")
+		{
+			data = {
+				    "answer": $scope.answer,
+				    "question": $scope.question
+		  	   	   }
+		}
+		
+		QuestionService.updateQuestion(QuestionService.getSelectedQuestionToEdit().id, data , GamesService.getSelectedGameToEdit().type)
+		.then(function successCallback(response) {
+			console.log(response.status);
+			console.log("Question Updated successfully");
+			QuestionService.setSelectedQuestionToEdit(response.data);
+			/////////////////////////////////////////////////////////////// ** bug **
+			GamesService.getGame(GamesService.getSelectedGameToEdit().id, GamesService.getSelectedGameToEdit().type)
+			.then(function successCallback(response) {
+			alert('a7a fe a 1');
+			alert(response.data);
+			console.log(response.data);
+			GamesService.setSelectedGameToEdit(response.data);
+			alert('a7a fe a 2');
+			}, function errorCallback(response) {
+				alert("Fetching Game data after updating question failed");
+			});
+			///////////////////////////////////////////////////////////////
+			$location.path('/gameEdit');
+
+		}, function errorCallback(response) {
+
+			alert("Error! Question update Failed");
 		});
 
 	}

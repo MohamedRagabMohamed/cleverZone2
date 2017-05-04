@@ -116,11 +116,12 @@ public class MCQ_Question_Controller {
            System.out.println("Question with ID " + id + " not found");
            return new ResponseEntity<MCQ_Question>(HttpStatus.NOT_FOUND);
            
-       }else if(!isValidUser(question)){
-    	   System.out.println("tring to update Course not belonging to the user ");
-    	   return new ResponseEntity<MCQ_Question>(HttpStatus.NOT_ACCEPTABLE);
-    	   
        }
+//       else if(!isValidUser(question)){ ** maybe bug **
+//    	   System.out.println("tring to update Course not belonging to the user ");
+//    	   return new ResponseEntity<MCQ_Question>(HttpStatus.NOT_ACCEPTABLE);
+//    	   
+//       }
        
        currentQuestion.setAnswer(question.getAnswer());
        currentQuestion.setChoices(question.getChoices());

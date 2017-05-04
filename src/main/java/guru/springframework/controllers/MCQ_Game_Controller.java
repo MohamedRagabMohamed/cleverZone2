@@ -166,7 +166,7 @@ public class MCQ_Game_Controller {
      * @return the response entity
      */
     @RequestMapping(value = "/mcqgame/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<MCQ_Game> updateGame(@PathVariable("id") long id, @RequestBody TF_Game game) {
+    public ResponseEntity<MCQ_Game> updateGame(@PathVariable("id") long id, @RequestBody MCQ_Game game) {
         System.out.println("Updating Game " + id);
         MCQ_Game currentGame = MCQService.findOne(id);
         if (currentGame==null) {
@@ -179,7 +179,7 @@ public class MCQ_Game_Controller {
      	   System.out.println("tring to update a game to a Course not belonging to the user ");
      	   return new ResponseEntity<MCQ_Game>(HttpStatus.NOT_ACCEPTABLE);
         }
-        currentGame.setCourse(game.getCourse());
+        currentGame.setCourse(currentGame.getCourse());
         currentGame.setName(game.getName());
         currentGame.setdescption(game.getdescption());
         currentGame.setImageSrc(game.getImageSrc());

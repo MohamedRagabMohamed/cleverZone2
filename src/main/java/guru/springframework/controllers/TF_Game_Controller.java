@@ -156,7 +156,7 @@ public class TF_Game_Controller {
      	   System.out.println("tring to update a game to a Course not belonging to the user ");
      	   return new ResponseEntity<TF_Game>(HttpStatus.NOT_ACCEPTABLE);
         }
-        currentGame.setCourse(game.getCourse());
+        currentGame.setCourse(currentGame.getCourse());
         currentGame.setName(game.getName());
         currentGame.setdescption(game.getdescption());
         currentGame.setImageSrc(game.getImageSrc());
