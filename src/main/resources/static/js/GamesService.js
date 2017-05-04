@@ -43,6 +43,29 @@
         	if(type == "MCQ")return $http.post(mcqBase + id,data);
         	else if(type == "TF" ) return $http.post(tfBase + id,data);
         };
+        this.getAllGame = function(){
+        	var allGame = [];
+        	$http.get(mcqBase)
+        	.then(function successCallback(response) {
+    			allGame.push(response.data);
+    		}, function errorCallback(response) {
+    			alert("Game Failed");
+    		});
+        	$http.get(tfBase)
+        	.then(function successCallback(response) {
+    			allGame.push(response.data);
+    		}, function errorCallback(response) {
+    			alert("Game Failed");
+    		});
+        	return allGame;
+        }
+        
+        this.copygame = function(courseId , gameId,type){
+        	if(type == "MCQ")return $http.get(mcqBase + courseId + '/' + gameId );
+        	else if(type == "TF" ) return $http.get(tfBase + courseId + '/' + gameId);
+        }
+        
+        
 //
 //        this.updateCustomer = function (cust) {
 //            return $http.put(urlBase + '/' + cust.ID, cust)

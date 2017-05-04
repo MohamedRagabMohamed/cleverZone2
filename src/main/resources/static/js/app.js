@@ -47,6 +47,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 			templateUrl : '/pages/MCQGame.html',
 			controller : 'GamesController'
 		})
+		.when('/allGames', {
+			templateUrl : '/pages/allGames.html',
+			controller : 'GamesController'
+		})
 		.when('/TF', {
 			templateUrl : '/pages/TFGame.html',
 			controller : 'GamesController'
@@ -101,6 +105,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 		.when('/create-course', {
 			templateUrl : '/pages/create-course.html',
 			controller : 'CourseController'
+		})
+		.when('/notify', {
+			templateUrl : '/pages/notify.html',
+			controller : 'UserController'
 		})
 		.when('/create-game', {
 			templateUrl : '/pages/create-game.html',

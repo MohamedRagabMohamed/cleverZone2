@@ -54,6 +54,20 @@ app.controller('UserController', [	"$scope","$http","$location","UserService",	f
 			}
 			
 		}
+		$scope.getNotify = function(){
+			//$scope.notify = UserService.getUser().notify;
+			
+			$scope.notifys = [];
+			$scope.notifys.push({
+				"type" : "COMMENT",
+				"gameID" : 3
+			});
+			$scope.notifys.push({
+				"type" : "GAME",
+				"gameID" : 3
+			});
+			console.log($scope.notifys);
+		}
 
 
 

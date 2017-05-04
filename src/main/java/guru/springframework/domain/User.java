@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class User.
  */
@@ -61,7 +60,7 @@ public class User {
 	private List<Course> CoursesCreated;
 	
 	
-	/** The Courses registedin. */
+	/** The Courses register */
 	@ManyToMany(cascade = {CascadeType.ALL} )
 	private List<Course> CoursesRegistedin = new ArrayList<Course>();
 	

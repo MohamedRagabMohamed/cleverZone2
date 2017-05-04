@@ -179,26 +179,20 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 		$location.path(path);
 	}
 	
-//	$scope.resetForm = function() {
-//		
-//		if(GamesService.getSelectedGameToEdit().type == "MCQ"){
-//			$scope.choice1 = angular.copy($scope.master);
-//		      $scope.choice2 = angular.copy($scope.master);
-//		      $scope.choice3 = angular.copy($scope.master);
-//		      $scope.choice4 = angular.copy($scope.master);
-//		      $scope.time = angular.copy($scope.master);
-//			  $scope.answer = angular.copy($scope.master);
-//			  $scope.question = angular.copy($scope.master);
-//		}
-//		else if(GamesService.getSelectedGameToEdit().type == "TF"){
-//			  
-//		      $scope.time = angular.copy($scope.master);
-//			  $scope.answer = angular.copy($scope.master);
-//			  $scope.question = angular.copy($scope.master);
-//		}
-//          
-//      };
+	$scope.getAllGames = function(){
+		$scope.allGames = GamesService.getAllGame();
+	}
 	
+	$scope.copyGame = function(id,type){
+		GamesService.copygame(CourseService.getSelectedCourseToEdit.id , id , type)
+		.then(function successCallback(response) {
+			console.log("Game copy successfully");
+			$location.path('/courseEdit');
+
+		}, function errorCallback(response) {
+			alert("Error! Game copy Failed");
+		});
+	}
 	
 	
 

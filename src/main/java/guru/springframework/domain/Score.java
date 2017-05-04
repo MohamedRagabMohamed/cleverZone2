@@ -12,11 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @IdClass(ScorePK.class)
 public class Score {
 
-//	@Id
-//	private Long gameID;
-//
-//	@Id    
-//	private Long userID;
+
 	
 	@Id
 	@ManyToOne
