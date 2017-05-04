@@ -49,9 +49,8 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 		});
 	}
 	
-	$scope.getGameToEdit = function() {
-		$scope.theGame = GamesService.getSelectedGameToEdit();
-		console.log($scope.theGame);
+	$scope.getGameToEdit = function() {  
+			$scope.theGame = GamesService.getSelectedGameToEdit();	
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -228,6 +227,7 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 	
 	
 	$scope.editQuestion = function() {
+		
 		if(GamesService.getSelectedGameToEdit().type == "MCQ")
 		{
 			data = {
@@ -249,25 +249,13 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 				    "question": $scope.question
 		  	   	   }
 		}
-		
+		console.log(data);
 		QuestionService.updateQuestion(QuestionService.getSelectedQuestionToEdit().id, data , GamesService.getSelectedGameToEdit().type)
 		.then(function successCallback(response) {
 			console.log(response.status);
 			console.log("Question Updated successfully");
 			QuestionService.setSelectedQuestionToEdit(response.data);
-			/////////////////////////////////////////////////////////////// ** bug **
-			GamesService.getGame(GamesService.getSelectedGameToEdit().id, GamesService.getSelectedGameToEdit().type)
-			.then(function successCallback(response) {
-			alert('a7a fe a 1');
-			alert(response.data);
-			console.log(response.data);
-			GamesService.setSelectedGameToEdit(response.data);
-			alert('a7a fe a 2');
-			}, function errorCallback(response) {
-				alert("Fetching Game data after updating question failed");
-			});
-			///////////////////////////////////////////////////////////////
-			$location.path('/gameEdit');
+			$location.path('/courseEdit');
 
 		}, function errorCallback(response) {
 
@@ -297,6 +285,10 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 		}, function errorCallback(response) {
 			alert("Error! Game copy Failed");
 		});
+	}
+	
+	$scope.getComment = function (){
+		$scope.comments = GamesService.getSelectedGameToPlay().comments;
 	}
 	
 	
