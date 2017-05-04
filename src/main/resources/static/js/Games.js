@@ -255,11 +255,28 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 			console.log(response.status);
 			console.log("Question Updated successfully");
 			QuestionService.setSelectedQuestionToEdit(response.data);
-			$location.path('/courseEdit');
+			$location.path('/teacher');
 
 		}, function errorCallback(response) {
 
 			alert("Error! Question update Failed");
+		});
+
+	}
+	
+	
+	
+	$scope.deleteQuestion = function(questionID, questionType) {
+		
+		QuestionService.deleteQuestion(questionID, questionType)
+		.then(function successCallback(response) {
+			console.log(response.status);
+			console.log("Question Deleted successfully");
+			$location.path('/courseEdit');
+
+		}, function errorCallback(response) {
+
+			alert("Error! Question deletion Failed");
 		});
 
 	}

@@ -1,51 +1,54 @@
 
-<div id="wrapper">
-	<div data-ng-include="'pages/_teacherNavbar.html'"></div>
+<body>
 
-
-	<div id="page-wrapper" data-ng-init="getCourseToEdit()">
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">Edit Courses</h1>
-			</div>
-			<!-- /.col-lg-12 -->
-		</div>
-		<!-- /.row -->
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading"> {{theCourse.name}}
-						<a href=''> <span class='glyphicon glyphicon-trash pull-right'> </span> </a>
-						<a href=''> <span class='glyphicon glyphicon-pencil pull-right'> </span> </a>
-						<a href='#!/create-game'> <span class='glyphicon glyphicon-plus pull-right'> </span> </a>
-					</div>
-					
-					<!-- .panel-heading -->
-					<div class="panel-body">
-						<div class="panel-group" id="accordion" data-ng-repeat="c in theCourse.contents" data-ng-controller = "GamesController">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="true" class="">{{c.name}}</a>
-
-										<a href=''> <span class='glyphicon glyphicon-trash pull-right'></span></a>
-										<a href='' data-ng-click = "setGameToEdit(c.id, c.type, 'EDIT')"> <span class='glyphicon glyphicon-pencil pull-right'></span></a>
-										<a href='' data-ng-click = "setGameToEdit(c.id, c.type, 'ADDQUESTION')"> <span class='glyphicon glyphicon-plus pull-right' ></span></a>
-									</h4>
-								</div>
-								<div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true" style="">
-									<div class="panel-body">{{c.descption}}</div>
-								</div>
+    <div class="container" data-ng-init = "getQuestionToEdit()">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Edit TF Question Form</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form"  name="myForm" data-ng-submit="editQuestion()" >
+                        <fieldset>
+							<div class="form-group">
+								<label for="question">Question</label> 
+								<input class="form-control" data-ng-model="question" id="question" data-ng-init="question = theQuestion.question" 
+								name="question" type="text" autofocus required>
 							</div>
-						</div>
-					</div>
-					<!-- .panel-body -->
-				</div>
-				<!-- /.panel -->
-			</div>
-		</div>
-		<!-- /.row -->
-	</div>
-	<!-- /#page-wrapper -->
+							<div class="form-group">
+								<h3>
+									<label>Correct Answer</label>
+								</h3>
+								<label for="radio1">True</label> 
+								<input class="form-control" type="radio" name="answer" id="radio1" value="TRUE" data-ng-model="answer" required> 
+								<label for="radio2">False</label>
+								<input class="form-control" type="radio" name="answer" id="radio2" value="FALSE" data-ng-model="answer" required>
+							</div>
+							<div>
+								<input type="submit" class="btn btn-lg btn-success btn-block"
+									value="Save Changes" data-ng-disabled="myForm.$invalid">
+							</div>
+						</fieldset>
+					</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</div>
+<!--     jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+<!--     Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!--     Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!--     Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+
+

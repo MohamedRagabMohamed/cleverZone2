@@ -25,13 +25,10 @@
 								<div class="panel-heading">
 									<h4 class="panel-title">
 										<a data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="true" class="">{{singleQuestion.question}}</a>
-										<a href=''> <span class='glyphicon glyphicon-trash pull-right'> </span> </a>
+										<a href='' data-ng-click = "deleteQuestion(singleQuestion.id, theGame.type)"> <span class='glyphicon glyphicon-trash pull-right'> </span> </a>
 										<a href='' data-ng-click = "setQuestionToEdit(singleQuestion.id, theGame.type, 'EDIT')"> <span class='glyphicon glyphicon-pencil pull-right'></span></a>
 									</h4>
 								</div>
-<!-- 								<div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true" style=""> -->
-<!-- 									<div class="panel-body">hhhhhhhhhhhhhhhhh</div> -->
-<!-- 								</div> -->
 							</div>
 						</div>
 					</div>

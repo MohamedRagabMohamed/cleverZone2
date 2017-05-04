@@ -27,10 +27,11 @@
         	if(type == "MCQ")return $http.put(mcqBase + questionID, data);
         	else if(type == "TF" ) return $http.put(tfBase + questionID, data);
         };
-//
-//        this.deleteCustomer = function (id) {
-//            return $http.delete(urlBase + '/' + id);
-//        };
+
+        this.deleteQuestion = function (questionID, type) {
+        	if(type == "MCQ")return $http.delete(mcqBase + questionID);
+        	else if(type == "TF" ) return $http.delete(tfBase + questionID);
+        };
 //
 //        this.getOrders = function (id) {
 //            return $http.get(urlBase + '/' + id + '/orders');
