@@ -234,6 +234,7 @@ public class MCQ_Game_Controller {
         currentGame.setName(game.getName());
         currentGame.setdescption(game.getdescption());
         currentGame.setImageSrc(game.getImageSrc());
+        currentGame.setTotalTime(game.getTotalTime());
         MCQService.save(currentGame);
         return new ResponseEntity<MCQ_Game>(currentGame, HttpStatus.OK);
     }

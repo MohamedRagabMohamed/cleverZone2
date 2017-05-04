@@ -228,6 +228,7 @@ public class TF_Game_Controller {
         currentGame.setName(game.getName());
         currentGame.setdescption(game.getdescption());
         currentGame.setImageSrc(game.getImageSrc());
+        currentGame.setTotalTime(game.getTotalTime());
         TF_Repository.save(currentGame);
         return new ResponseEntity<TF_Game>(currentGame, HttpStatus.OK);
     }
