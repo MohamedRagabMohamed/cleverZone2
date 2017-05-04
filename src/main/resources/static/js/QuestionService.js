@@ -2,40 +2,31 @@
 
         var mcqBase = 'http://localhost:8080/MCQQuestion/';
         var tfBase = 'http://localhost:8080/tfquestion/';
-//        var selectedGameToPlay ;
-//        var selectedGameToEdit ;
-//        
-//      
-//        this.getQuestion = function (id , type) {
-//        	if(type == "MCQ")return $http.get(mcqBase + id);
-//        	else if(type == "TF" ) return $http.get(tfBase + id);
-//        };
-//        
-//        
-//        this.setSelectedQuestion = function(data){
-//        	return this.selectedGameToPlay = data;
-//        }
-//        
-//        this.getSelectedQuestion = function(){
-//        	return this.selectedGameToPlay;
-//        }
-//        
-//        this.setSelectedGameToEdit = function(data){
-//        	return this.selectedGameToEdit = data;
-//        }
-//        
-//        this.getSelectedGameToEdit = function(){
-//        	return this.selectedGameToEdit;
-//        }
+
+        var selectedQuestionToEdit ;
+     
+        this.getQuestion = function (questionID , type) {
+        	if(type == "MCQ")return $http.get(mcqBase + questionID);
+        	else if(type == "TF" ) return $http.get(tfBase + questionID);
+        };
+ 
+        this.setSelectedQuestionToEdit = function(data){
+        	return this.selectedQuestionToEdit = data;
+        }
+        
+        this.getSelectedQuestionToEdit = function(){
+        	return this.selectedQuestionToEdit;
+        }
 
         this.insertQuestion = function (gameID, data ,type) {
         	if(type == "MCQ")return $http.post(mcqBase + gameID, data);
         	else if(type == "TF" ) return $http.post(tfBase + gameID, data);
         };
-//
-//        this.updateCustomer = function (cust) {
-//            return $http.put(urlBase + '/' + cust.ID, cust)
-//        };
+
+        this.updateQuestion = function (questionID, data ,type) {
+        	if(type == "MCQ")return $http.put(mcqBase + questionID, data);
+        	else if(type == "TF" ) return $http.put(tfBase + questionID, data);
+        };
 //
 //        this.deleteCustomer = function (id) {
 //            return $http.delete(urlBase + '/' + id);

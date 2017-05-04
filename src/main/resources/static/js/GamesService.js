@@ -43,10 +43,11 @@
         	if(type == "MCQ")return $http.post(mcqBase + id,data);
         	else if(type == "TF" ) return $http.post(tfBase + id,data);
         };
-//
-//        this.updateCustomer = function (cust) {
-//            return $http.put(urlBase + '/' + cust.ID, cust)
-//        };
+
+        this.updateGame = function (id,data ,type) {
+        	if(type == "MCQ")return $http.put(mcqBase + id, data);
+        	else if(type == "TF" ) return $http.put(tfBase + id, data);
+        };
 //
 //        this.deleteCustomer = function (id) {
 //            return $http.delete(urlBase + '/' + id);

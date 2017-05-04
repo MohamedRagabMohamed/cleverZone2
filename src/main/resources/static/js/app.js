@@ -67,6 +67,22 @@ app.config([ '$routeProvider', function($routeProvider) {
 			templateUrl : '/pages/editCourse.html',
 			controller : 'CourseController'
 		})
+		.when('/gameEdit', {
+			templateUrl : '/pages/editGame.html',
+			controller : 'GamesController'
+		})
+		.when('/gameEditForm', {
+			templateUrl : '/pages/edit-game-form.html',
+			controller : 'GamesController'
+		})
+		.when('/edit-mcq-question', {
+			templateUrl : '/pages/edit-mcq-question-form.html',
+			controller : 'GamesController'
+		})
+		.when('/edit-tf-question', {
+			templateUrl : '/pages/edit-tf-question-form.html',
+			controller : 'GamesController'
+		})
 		.when('/course', {
 			templateUrl : '/pages/TakeCourse.html',
 			controller : 'CourseController'

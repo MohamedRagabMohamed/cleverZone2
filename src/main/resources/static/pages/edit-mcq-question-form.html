@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<body>
+
+    <div class="container" data-ng-init = "getQuestionToEdit()">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Edit MCQ Question Form</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form"  name="myForm" data-ng-submit="editQuestion()" >
+                            <fieldset>
+                                <div class="form-group">
+                                	<label for="question">Question</label>
+                                    <input class="form-control" data-ng-model="question" id = "question" data-ng-init ="question = theQuestion.question" name="question" type="text" autofocus required>  
+                                </div>
+                                <div class="form-group">
+                                	<label for="choice1">Choice 1</label>
+                                    <input class="form-control" data-ng-model="choice1" id = "choice1" data-ng-init ="choice1 = theQuestion.choices[0]" name="choice1" type="text" autofocus required>  
+                                </div>
+                                 <div class="form-group">
+                                	<label for="choice2">Choice 2</label>
+                                    <input class="form-control" data-ng-model="choice2" id = "choice2" data-ng-init ="choice2 = theQuestion.choices[1]" name="choice2" type="text" autofocus required>  
+                                </div>
+                                 <div class="form-group">
+                                	<label for="choice3">Choice 3</label>
+                                    <input class="form-control" data-ng-model="choice3" id = "choice3" data-ng-init ="choice3 = theQuestion.choices[2]" name="choice3" type="text" autofocus required>  
+                                </div>
+                                 <div class="form-group">
+                                	<label for="choice4">Choice 4</label>
+                                    <input class="form-control" data-ng-model="choice4" id = "choice4" data-ng-init ="choice4 = theQuestion.choices[3]" name="choice4" type="text" autofocus required>  
+                                </div>
+                                <div class="form-group">
+                                	<h3><label>Correct Answer</label></h3>
+                                	<label for="radio1">Choice 1</label>
+									<input class="form-control" type="radio" name="answer" id="radio1" value="CHOICE1" data-ng-model="answer" required>
+									<label for="radio2">Choice 2</label>
+									<input class="form-control" type="radio" name="answer" id="radio2" value="CHOICE2" data-ng-model="answer" required>
+									<label for="radio3">Choice 3</label>
+									<input class="form-control" type="radio" name="answer" id="radio3" value="CHOICE3" data-ng-model="answer" required>
+									<label for="radio4">Choice 4</label>
+									<input class="form-control" type="radio" name="answer" id="radio4" value="CHOICE4" data-ng-model="answer" required>
+								</div>
+								<div>
+								<input type = "submit"  class="btn btn-lg btn-success btn-block" value = "Save Changes" data-ng-disabled = "myForm.$invalid">
+								</div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--     jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+<!--     Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!--     Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!--     Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+
+
