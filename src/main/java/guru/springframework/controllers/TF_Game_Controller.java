@@ -1,5 +1,8 @@
 package guru.springframework.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+
 import guru.springframework.repositories.CourseRepository;
 import guru.springframework.repositories.TFGameRepository;
 import guru.springframework.repositories.UserRepository;
+import guru.springframework.domain.Comment;
 import guru.springframework.domain.Course;
+import guru.springframework.domain.MCQ_Game;
 import guru.springframework.domain.TF_Game;
 import guru.springframework.domain.User;
 
@@ -45,6 +51,18 @@ public class TF_Game_Controller {
 	 * @param userService the user service
 	 * @param courseService the course service
 	 */
+    private boolean isOwner(User user){
+        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getUserName().equals(userDetails.getUsername());
+    }
+    private boolean isCollaborator(TF_Game game){
+    	boolean valid=false;
+    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        for(User user : game.getCollaborators()){
+        	 valid|=user.getUserName().equals(userDetails.getUsername());
+        }
+        return valid;
+    }
 	@Autowired
     public TF_Game_Controller(TFGameRepository tF_Repository, UserRepository userService,
 			CourseRepository courseService) {
@@ -52,8 +70,61 @@ public class TF_Game_Controller {
 		this.userService = userService;
 		this.courseService = courseService;
 	}
+	
+    //-------------------Cancel specific TF game -------------------------
+    @RequestMapping(value = "/canceltfgame/{gameId}/{state}", method = RequestMethod.POST)
+    public ResponseEntity<Void> cancelGame(@PathVariable("gameId") long gameId , @PathVariable("state") boolean state) {
+    	TF_Game game = TF_Repository.findOne(gameId);
+        if (game == null) {
+            System.out.println("no game  found");
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        game.setCancled(state);
+        TF_Repository.save(game);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+	//-------------------Retrieve all TFGame Comments  -------------------------
+    @RequestMapping(value = "/tfgamecomment/{gameId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<	List<Comment> > getcomment(@PathVariable("gameId") long gameId) {
+        System.out.println("Fetching all tf Games");
+        TF_Game game = TF_Repository.findOne(gameId);
+        if (game == null) {
+            System.out.println("no game  found");
+            return new ResponseEntity<List<Comment >>(HttpStatus.NOT_FOUND);
+        }
+        List<Comment>comments = game.getComments();
+        return new ResponseEntity<List<Comment > >(comments,HttpStatus.OK);
+    }
+    //-------------------comment on tf game -------------------------
+    @RequestMapping(value = "/tfgamecomment/{gameId}", method = RequestMethod.POST)
+    public ResponseEntity<Void> addComment(@PathVariable("gameId") long gameId , @RequestBody Comment comment) {
+    	TF_Game game = TF_Repository.findOne(gameId);
+        if (game == null) {
+            System.out.println("no game  found");
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        game.addComment(comment);
+        TF_Repository.save(game);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+	/**
+	 * Gets the game.
+	 *
+	 * @return the game
+	 */
+	//-------------------Retrieve all TF Games -------------------------
+    @RequestMapping(value = "/tfgame/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TF_Game > > getGame() {
+        System.out.println("Fetching all tf Games");
+        List<TF_Game > game = (ArrayList<TF_Game>) TF_Repository.findAll();
+        if (game == null) {
+            System.out.println("no game  found");
+            return new ResponseEntity<List<TF_Game >>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<TF_Game > >(game,HttpStatus.OK);
+    }
     //-------------------Retrieve TF Game ------------------------------
-    
+
     /**
      * Gets the game.
      *
@@ -95,8 +166,7 @@ public class TF_Game_Controller {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
         User user = course.getTeacher();
-        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(!user.getUserName().equals(userDetails.getUsername())){
+        if(!isOwner(user)){
      	   System.out.println("tring to create a game to a Course not belonging to the user ");
      	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
         }
@@ -123,8 +193,7 @@ public class TF_Game_Controller {
             return new ResponseEntity<TF_Game>(HttpStatus.NOT_FOUND);
         }
         User user = game.getCourse().getTeacher();
-        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(!user.getUserName().equals(userDetails.getUsername())){
+        if(!isOwner(user)){
      	   System.out.println("tring to delete a game to a Course not belonging to the user ");
      	   return new ResponseEntity<TF_Game>(HttpStatus.NOT_ACCEPTABLE);
         }
@@ -151,8 +220,7 @@ public class TF_Game_Controller {
             return new ResponseEntity<TF_Game>(HttpStatus.NOT_FOUND);
         }
         User user = currentGame.getCourse().getTeacher();
-        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(!user.getUserName().equals(userDetails.getUsername())){
+        if(!isOwner(user) && !isCollaborator(currentGame)){
      	   System.out.println("tring to update a game to a Course not belonging to the user ");
      	   return new ResponseEntity<TF_Game>(HttpStatus.NOT_ACCEPTABLE);
         }

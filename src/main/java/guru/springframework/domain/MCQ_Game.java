@@ -38,8 +38,9 @@ public class MCQ_Game extends  Game{
 	 * @param desc the desc
 	 * @param imageSrc the image src
 	 */
-	public MCQ_Game(String name , String desc , String imageSrc ,int totalTime){
+	public MCQ_Game(String name , String desc , String imageSrc ,int totalTime,boolean cancled){
 		this();
+		this.setCancled(cancled);
 		this.setName(name);
 		this.setdescption(desc);
 		this.setImageSrc(imageSrc);

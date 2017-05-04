@@ -3,9 +3,11 @@ package guru.springframework.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -32,6 +34,9 @@ public abstract class Game extends AbstractContent {
 	@NotEmpty
 	private String descption;
 	
+
+	private boolean Cancled;
+	
 	/** The image src. */
 	@NotNull
 	@NotEmpty
@@ -41,8 +46,34 @@ public abstract class Game extends AbstractContent {
 	@NotNull
 	private int totalTime;
 	
-	@OneToMany(mappedBy = "game")
+
+
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "game",targetEntity = Score.class)
     private List<Score> score = new ArrayList<Score>();
+	
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy="game",targetEntity = Comment.class)
+    private List<Comment> Comments = new ArrayList<Comment>();	
+	
+	@ManyToMany(mappedBy = "GamesCollaboratoredIn")
+	private List<User> Collaborators = new ArrayList<User>();
+	
+	public List<User> getCollaborators() {
+		return Collaborators;
+	}
+
+	public void setCollaborators(List<User> collaborators) {
+		Collaborators = collaborators;
+	}
+
+	public List<Comment> getComments() {
+		return Comments;
+	}
+	public void addComment(Comment comment) {
+		Comments.add(comment);
+	}
+	public void setComments(List<Comment> comments) {
+		Comments = comments;
+	}
 	
 
 	/**
@@ -53,8 +84,17 @@ public abstract class Game extends AbstractContent {
 		score = new ArrayList<Score>();
 		name = descption = imageSrc = null;
 		totalTime = 0;
+		Cancled = false;
 	}
 	
+	public boolean isCancled() {
+		return Cancled;
+	}
+
+	public void setCancled(boolean isCancled) {
+		this.Cancled = isCancled;
+	}
+
 	/**
 	 * Gets the name.
 	 *
@@ -125,6 +165,10 @@ public abstract class Game extends AbstractContent {
 	 */
 	public void setTotalTime(int totalTime) {
 		this.totalTime = totalTime;
+	}
+	
+	public void addCollaborator(User user) {
+		Collaborators.add(user);
 	}
 	
 

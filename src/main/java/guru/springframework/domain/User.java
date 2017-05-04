@@ -61,15 +61,21 @@ public class User {
 	private List<Course> CoursesCreated;
 	
 	
-	/** The Courses registedin. */
+	/** The Courses registed in. */
 	@ManyToMany(cascade = {CascadeType.ALL} )
 	private List<Course> CoursesRegistedin = new ArrayList<Course>();
 	
+
+
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE} )
     private List<Score> Scores = new ArrayList<Score>();
 	
-	
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE} )
+    private List<Comment> Comments = new ArrayList<Comment>();	
 
+
+	@ManyToMany( cascade = CascadeType.ALL )
+	private List<Game> GamesCollaboratoredIn = new ArrayList<Game>();
 
 
 	/**
@@ -105,10 +111,21 @@ public class User {
 	 *
 	 * @return the roles
 	 */
+	public List<Comment> getComments() {
+		return Comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		Comments = comments;
+	}
+	public void addComment(Comment comment) {
+		comment.setUser(this);
+		Comments.add(comment);
+	}
 	public String[] getRoles() {
 		return Roles;
 	}
-	
+
 	/**
 	 * Sets the roles.
 	 *
@@ -116,6 +133,13 @@ public class User {
 	 */
 	public void setRoles(String[] roles) {
 		Roles = roles;
+	}
+	public List<Game> getGamesCollaboratoredIn() {
+		return GamesCollaboratoredIn;
+	}
+
+	public void setGamesCollaboratoredIn(List<Game> gamesCollaboratoredIn) {
+		GamesCollaboratoredIn = gamesCollaboratoredIn;
 	}
 	
 	/**
@@ -227,6 +251,15 @@ public class User {
 		return CoursesRegistedin;
 	}
 	
+	/**
+	 * Adds the courses CollaboratoredIn.
+	 *
+	 * @param courseCollaboratoredIn the courses CollaboratoredIn
+	 */
+	public void addGameCollaboratoredIn(Game gameCollaboratoredIn) {
+		gameCollaboratoredIn.addCollaborator(this);
+		GamesCollaboratoredIn.add(gameCollaboratoredIn);
+	}
 	/**
 	 * Adds the courses registedin.
 	 *

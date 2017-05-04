@@ -21,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import guru.springframework.repositories.CourseRepository;
 import guru.springframework.repositories.MCQGameRepository;
 import guru.springframework.repositories.UserRepository;
+import guru.springframework.domain.Comment;
 import guru.springframework.domain.Course;
 import guru.springframework.domain.MCQ_Game;
 import guru.springframework.domain.TF_Game;
@@ -56,13 +57,66 @@ public class MCQ_Game_Controller {
 		this.userService = userService;
 		this.courseService = courseService;
 	}
-	
+    private boolean isOwner(User user){
+        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getUserName().equals(userDetails.getUsername());
+    }
+    private boolean isCollaborator(MCQ_Game game){
+    	boolean valid=false;
+    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        for(User user : game.getCollaborators()){
+        	 valid|=user.getUserName().equals(userDetails.getUsername());
+        }
+        return valid;
+    }
+    
+    //-------------------Cancel specific mcq game -------------------------
+    @RequestMapping(value = "/cancelmcqgame/{gameId}/{state}", method = RequestMethod.POST)
+    public ResponseEntity<Void> cancelGame(@PathVariable("gameId") long gameId , @PathVariable("state") boolean state) {
+    	MCQ_Game game = MCQService.findOne(gameId);
+        if (game == null) {
+            System.out.println("no game  found");
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        game.setCancled(state);
+        MCQService.save(game);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+    
+	//-------------------Retrieve all mcqGame Comments  -------------------------
+    @RequestMapping(value = "/mcqgamecomment/{gameId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<	List<Comment> > getcomment(@PathVariable("gameId") long gameId) {
+        System.out.println("Fetching all mcq Game comments ");
+        MCQ_Game game = MCQService.findOne(gameId);
+        if (game == null) {
+            System.out.println("no game  found");
+            return new ResponseEntity<List<Comment >>(HttpStatus.NOT_FOUND);
+        }
+        List<Comment>comments = game.getComments();
+        System.out.println(comments.size());
+        for(Comment c  : comments){
+        	System.out.println(c.getText());
+        }
+        return new ResponseEntity<List<Comment > >(comments,HttpStatus.OK);
+    }
+    //-------------------comment on mcq game -------------------------
+    @RequestMapping(value = "/mcqgamecomment/{gameId}", method = RequestMethod.POST)
+    public ResponseEntity<Void> addComment(@PathVariable("gameId") long gameId , @RequestBody Comment comment) {
+    	MCQ_Game game = MCQService.findOne(gameId);
+        if (game == null) {
+            System.out.println("no game  found");
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        game.addComment(comment);
+        MCQService.save(game);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
 	/**
 	 * Gets the game.
 	 *
 	 * @return the game
 	 */
-	//-------------------Retrieve MCQ Game -------------------------
+	//-------------------Retrieve all MCQ Game -------------------------
     @RequestMapping(value = "/mcqgame/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MCQ_Game > > getGame() {
         System.out.println("Fetching all mcq Games");
@@ -118,8 +172,7 @@ public class MCQ_Game_Controller {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
         User user = course.getTeacher();
-        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(!user.getUserName().equals(userDetails.getUsername())){
+        if(!isOwner(user)){
      	   System.out.println("tring to create a game to a Course not belonging to the user ");
      	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
         }
@@ -146,8 +199,7 @@ public class MCQ_Game_Controller {
             return new ResponseEntity<MCQ_Game>(HttpStatus.NOT_FOUND);
         }
         User user = game.getCourse().getTeacher();
-        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(!user.getUserName().equals(userDetails.getUsername())){
+        if(!isOwner(user)){
      	   System.out.println("tring to delete a game to a Course not belonging to the user ");
      	   return new ResponseEntity<MCQ_Game>(HttpStatus.NOT_ACCEPTABLE);
         }
@@ -174,11 +226,11 @@ public class MCQ_Game_Controller {
             return new ResponseEntity<MCQ_Game>(HttpStatus.NOT_FOUND);
         }
         User user = currentGame.getCourse().getTeacher();
-        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(!user.getUserName().equals(userDetails.getUsername())){
+        if(!isOwner(user) && !isCollaborator(currentGame)){
      	   System.out.println("tring to update a game to a Course not belonging to the user ");
      	   return new ResponseEntity<MCQ_Game>(HttpStatus.NOT_ACCEPTABLE);
         }
+        
         currentGame.setCourse(game.getCourse());
         currentGame.setName(game.getName());
         currentGame.setdescption(game.getdescption());

@@ -226,5 +226,32 @@ public class UserController {
  
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
- 
+    //	------------------- add a user to collaborated list --------------------------------
+    @RequestMapping(value = "/user/{userId}/{gameId}", method = RequestMethod.POST)
+    public ResponseEntity<Void> addCollaboratedUser(@PathVariable("userId") long userId,@PathVariable("gameId") long gameId){
+        User user = userService.findOne(userId);
+        MCQ_Game game1 = mcqService.findOne(gameId);
+        TF_Game game2 = tfService.findOne(gameId);
+         
+        if (user == null||(game1 == null && game2 == null)) {
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        Game game;
+        if(game1 == null){
+        	game=new MCQ_Game();
+        	game=game1;
+        }
+        else{
+        	game=new TF_Game();
+        	game=game2;
+        }
+        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!game.getCourse().getTeacher().getUserName().equals(userDetails.getUsername())){
+      	   System.out.println("tring to update a game to a Course not belonging to the user ");
+      	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        user.addGameCollaboratoredIn(game);
+        userService.save(user);
+        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
 }

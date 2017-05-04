@@ -32,8 +32,9 @@ public class TF_Game extends Game {
 	 * @param desc the desc
 	 * @param imageSrc the image src
 	 */
-	public TF_Game(String name , String desc , String imageSrc,int totalTime){
+	public TF_Game(String name , String desc , String imageSrc,int totalTime,boolean cancled){
 		this();
+		this.setCancled(cancled);
 		this.setName(name);
 		this.setdescption(desc);
 		this.setImageSrc(imageSrc);
