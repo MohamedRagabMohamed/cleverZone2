@@ -111,20 +111,21 @@ public class MCQ_Question_Controller {
    public ResponseEntity<MCQ_Question> updateQuestion(@PathVariable("id") long id, @RequestBody MCQ_Question question) {
        System.out.println("Updating MCQQuestion " + id);
        MCQ_Question currentQuestion = MCQQuestionService.findOne(id);
-       
+
        if (currentQuestion == null) {
            System.out.println("Question with ID " + id + " not found");
            return new ResponseEntity<MCQ_Question>(HttpStatus.NOT_FOUND);
            
-       }else if(!isValidUser(question)){
+       }
+       if(!isValidUser(currentQuestion)){
     	   System.out.println("tring to update Course not belonging to the user ");
     	   return new ResponseEntity<MCQ_Question>(HttpStatus.NOT_ACCEPTABLE);
-    	   
-       }
-       
+       }       
+       System.out.println("Updating MCQQuestion before sets");
        currentQuestion.setAnswer(question.getAnswer());
        currentQuestion.setChoices(question.getChoices());
        currentQuestion.setQuestion(question.getQuestion());
+       System.out.println("Updating MCQQuestion after sets");
        
        MCQQuestionService.save(currentQuestion);
        return new ResponseEntity<MCQ_Question>(currentQuestion, HttpStatus.OK);

@@ -18,7 +18,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * The Class Game.
  */
-//@MappedSuperclass
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Game extends AbstractContent {

@@ -125,8 +125,12 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
         theSecondGame.addQuestion(firstQuestion);
         theThirdGame.addQuestion(secondQuestion);
         thefourthGame.addQuestion(firstQuestion);
+<<<<<<< HEAD
+        
+=======
         theFirstGame.addQuestion(thirdQuestion);
         theThirdGame.addQuestion(thirdQuestion);
+>>>>>>> 45991d1ddb509641ffadc3e51debd83880e780a3
   	
         
         firstCourse.addContents(theFirstGame);

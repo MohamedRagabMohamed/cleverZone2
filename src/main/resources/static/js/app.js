@@ -47,6 +47,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 			templateUrl : '/pages/MCQGame.html',
 			controller : 'GamesController'
 		})
+		.when('/allGames', {
+			templateUrl : '/pages/allGames.html',
+			controller : 'GamesController'
+		})
 		.when('/TF', {
 			templateUrl : '/pages/TFGame.html',
 			controller : 'GamesController'
@@ -66,6 +70,22 @@ app.config([ '$routeProvider', function($routeProvider) {
 		.when('/courseEdit', {
 			templateUrl : '/pages/editCourse.html',
 			controller : 'CourseController'
+		})
+		.when('/gameEdit', {
+			templateUrl : '/pages/editGame.html',
+			controller : 'GamesController'
+		})
+		.when('/gameEditForm', {
+			templateUrl : '/pages/edit-game-form.html',
+			controller : 'GamesController'
+		})
+		.when('/edit-mcq-question', {
+			templateUrl : '/pages/edit-mcq-question-form.html',
+			controller : 'GamesController'
+		})
+		.when('/edit-tf-question', {
+			templateUrl : '/pages/edit-tf-question-form.html',
+			controller : 'GamesController'
 		})
 		.when('/course', {
 			templateUrl : '/pages/TakeCourse.html',
@@ -101,6 +121,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 		.when('/create-course', {
 			templateUrl : '/pages/create-course.html',
 			controller : 'CourseController'
+		})
+		.when('/notify', {
+			templateUrl : '/pages/notify.html',
+			controller : 'UserController'
 		})
 		.when('/create-game', {
 			templateUrl : '/pages/create-game.html',

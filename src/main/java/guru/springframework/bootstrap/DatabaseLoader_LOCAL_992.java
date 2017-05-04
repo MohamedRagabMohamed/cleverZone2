@@ -110,7 +110,6 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
         choices[2]="CHOICE3";
         choices[3]="CHOICE4";
         MCQ_Question secondQuestion = new MCQ_Question("Question2", "CHOICE2",choices);
-        MCQ_Question thirdQuestion = new MCQ_Question("Question3", "CHOICE3",choices);
         
         // add comments test
         Comment comment=new Comment(theThirdGame,"Commentttttttttttt Number 1");
@@ -125,8 +124,7 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
         theSecondGame.addQuestion(firstQuestion);
         theThirdGame.addQuestion(secondQuestion);
         thefourthGame.addQuestion(firstQuestion);
-        theFirstGame.addQuestion(thirdQuestion);
-        theThirdGame.addQuestion(thirdQuestion);
+        
   	
         
         firstCourse.addContents(theFirstGame);

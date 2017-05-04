@@ -61,7 +61,7 @@ public class User {
 	private List<Course> CoursesCreated;
 	
 	
-	/** The Courses registed in. */
+	/** The Courses register */
 	@ManyToMany(cascade = {CascadeType.ALL} )
 	private List<Course> CoursesRegistedin = new ArrayList<Course>();
 	
