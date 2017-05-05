@@ -155,13 +155,14 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
         Student2.addCoursesRegistedin(fourthCourse);
         
 //        Score StudentWithFirstGame = new Score(theFirstGame);
-//        StudentWithFirstGame.setScoreValue(100);
+//        StudentWithFirstGame.setScoreValue(100000);
 //        Student.addScores(StudentWithFirstGame);
         
         UsersData.add(TFTeacher);
         UsersData.add(MCQTeacher);
         UsersData.add(Student);
         UsersData.add(Student2);
+        
         System.out.println(TFTeacher.getCoursesCreated().size());
         System.out.println(MCQTeacher.getCoursesCreated().size());
         
@@ -171,6 +172,13 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
         mcqService.save(theFirstGame);mcqService.save(theThirdGame);
         CourseService.save(CoursesData);*/ 	
         userService.save(UsersData);
+        
+//        Score StudentWithFirstGame = new Score(theFirstGame);
+//        StudentWithFirstGame.setScoreValue(100000);
+//        User userScore = userService.findByuserName("S");
+//        userScore.addScores(StudentWithFirstGame);
+//        userService.save(userScore);
+//        
        // scoreService.save(StudentWithFirstGame);
     }
 

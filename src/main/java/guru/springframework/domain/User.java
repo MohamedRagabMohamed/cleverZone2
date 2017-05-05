@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -67,10 +68,10 @@ public class User {
 	
 
 
-	@OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE} )
+	@OneToMany(mappedBy="user", cascade = {CascadeType.MERGE},fetch = FetchType.EAGER )
     private List<Score> Scores = new ArrayList<Score>();
 	
-	@OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE} )
+	@OneToMany( mappedBy="user", cascade = {CascadeType.MERGE} )
     private List<Comment> Comments = new ArrayList<Comment>();	
 
 
@@ -86,6 +87,7 @@ public class User {
 		CoursesCreated = new ArrayList<>();
 		CoursesRegistedin = new ArrayList<Course>();
 		Scores = new ArrayList<Score>();
+		Comments = new ArrayList<Comment>();
 	}
 	
 	/**

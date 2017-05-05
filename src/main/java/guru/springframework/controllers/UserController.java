@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import guru.springframework.domain.Comment;
 import guru.springframework.domain.Game;
 import guru.springframework.domain.MCQ_Game;
 import guru.springframework.domain.Score;
@@ -201,11 +202,10 @@ public class UserController {
      * @param user the user
      * @return the response entity
      */
-    @RequestMapping(value = "/user/{userId}/{gameId}/{score}", method = RequestMethod.GET)
-    public ResponseEntity<Void> scoreUser(@PathVariable("userId") long userId,@PathVariable("gameId") long gameId,
-    		@PathVariable("score") long scoreValue) {
-        System.out.println("Creating Score with userId " + userId + " and gameId " +gameId );
-        User user = userService.findOne(userId);
+    @RequestMapping(value = "/user/{gameId}/{score}", method = RequestMethod.GET)
+    public ResponseEntity<Void> scoreUser(@PathVariable("gameId") long gameId,@PathVariable("score") long scoreValue) {
+    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	User user = userService.findByuserName(userDetails.getUsername());
         MCQ_Game game = mcqService.findOne(gameId);
         TF_Game game2 = tfService.findOne(gameId);
          
@@ -254,4 +254,29 @@ public class UserController {
         userService.save(user);
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
+    
+    //	------------------- add commet --------------------------------
+    @RequestMapping(value = "/comment/{gameId}", method = RequestMethod.POST)
+    public ResponseEntity<Void> addComment(@PathVariable("gameId") long gameId,@RequestBody Comment comment){
+    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	User user = userService.findByuserName(userDetails.getUsername());
+        MCQ_Game game1 = mcqService.findOne(gameId);
+        TF_Game game2 = tfService.findOne(gameId);
+         
+        if (user == null||(game1 == null && game2 == null)) {
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        Comment Newcomment;
+        System.out.println(comment.getText());
+        if(game1 == null){
+        	Newcomment=new Comment(game1, comment.getText());
+        }
+        else{
+        	Newcomment=new Comment(game1, comment.getText());
+        }
+        user.addComment(Newcomment);
+        userService.save(user);
+        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
+    
 }

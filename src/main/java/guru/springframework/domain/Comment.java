@@ -6,6 +6,8 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @IdClass(CommentPK.class)
 public class Comment {
@@ -36,8 +38,9 @@ public class Comment {
 	public Comment(Game game, String text) {
 		super();
 		this.game = game;
-		Text = text;
+		this.Text = text;
 	}
+	@JsonIgnore
 	public Game getGame() {
 		return game;
 	}
@@ -45,7 +48,7 @@ public class Comment {
 	public void setGame(Game game) {
 		this.game = game;
 	}
-
+	@JsonIgnore
 	public User getUser() {
 		return user;
 	}

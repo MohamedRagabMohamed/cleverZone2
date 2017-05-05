@@ -2,16 +2,9 @@ package guru.springframework.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 public class CommentPK implements Serializable {
 
     private Long game;
-
-    //@Id 
-    //@GeneratedValue 
-    //long id;
     
     private Long user;
 

@@ -47,10 +47,10 @@ public abstract class Game extends AbstractContent {
 	
 
 
-	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "game",targetEntity = Score.class)
+	@OneToMany( mappedBy = "game",targetEntity = Score.class,cascade = {CascadeType.MERGE})
     private List<Score> score = new ArrayList<Score>();
 	
-	@OneToMany(cascade = CascadeType.MERGE, mappedBy="game",targetEntity = Comment.class)
+	@OneToMany( mappedBy="game",targetEntity = Comment.class)
     private List<Comment> Comments = new ArrayList<Comment>();	
 	
 	@ManyToMany(mappedBy = "GamesCollaboratoredIn")
