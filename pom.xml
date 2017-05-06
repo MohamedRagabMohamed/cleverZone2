@@ -150,7 +150,18 @@
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<mainClass>guru.springframework.SpringBootWebApplication</mainClass>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
+
 				<plugin>
 					<artifactId>maven-resources-plugin</artifactId>
 					<executions>
@@ -211,7 +222,7 @@
 							<version>3.2.0</version>
 						</dependency>
 					</dependencies>
-				</plugin>		
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
