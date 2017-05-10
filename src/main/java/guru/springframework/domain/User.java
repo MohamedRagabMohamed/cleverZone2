@@ -68,7 +68,7 @@ public class User {
 	
 
 
-	@OneToMany(mappedBy="user", cascade = {CascadeType.MERGE},fetch = FetchType.EAGER )
+	@OneToMany(mappedBy="user", cascade = {CascadeType.MERGE} )
     private List<Score> Scores = new ArrayList<Score>();
 	
 	@OneToMany( mappedBy="user", cascade = {CascadeType.MERGE} )
@@ -78,7 +78,10 @@ public class User {
 	@ManyToMany( cascade = CascadeType.ALL )
 	private List<Game> GamesCollaboratoredIn = new ArrayList<Game>();
 
-
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", targetEntity = Notification.class)
+	private List<Notification> Notifications;
+	
+	
 	/**
 	 * Instantiates a new user.
 	 */
@@ -272,6 +275,14 @@ public class User {
 		CoursesRegistedin.add(coursesRegistedin);
 	}
 	
+	public List<Notification> getNotifications() {
+		return Notifications;
+	}
+
+	public void addNotifications(Notification notification) {
+		Notifications.add(notification);
+	}
+
 	public List<Score> getScores() {
 		return Scores;
 	}

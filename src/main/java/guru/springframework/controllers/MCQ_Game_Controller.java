@@ -20,10 +20,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import guru.springframework.repositories.CourseRepository;
 import guru.springframework.repositories.MCQGameRepository;
+import guru.springframework.repositories.NewGameNotificationRepository;
 import guru.springframework.repositories.UserRepository;
 import guru.springframework.domain.Comment;
 import guru.springframework.domain.Course;
 import guru.springframework.domain.MCQ_Game;
+import guru.springframework.domain.NewGameNotification;
 import guru.springframework.domain.TF_Game;
 import guru.springframework.domain.User;
 
@@ -43,6 +45,8 @@ public class MCQ_Game_Controller {
 	/** The course service. */
 	CourseRepository courseService;
 	
+	NewGameNotificationRepository notifyService;
+	
 	/**
 	 * Instantiates a new MC Q game controller.
 	 *
@@ -52,11 +56,25 @@ public class MCQ_Game_Controller {
 	 */
 	@Autowired
     public MCQ_Game_Controller(MCQGameRepository mcqgame, UserRepository userService,
-			CourseRepository courseService) {
+			CourseRepository courseService,NewGameNotificationRepository notifyService) {
 		this.MCQService = mcqgame;
 		this.userService = userService;
 		this.courseService = courseService;
+		this.notifyService =notifyService;
 	}
+	private void NotifyUsers(Long courseId,Long gameId){
+		Course course =  courseService.getOne(courseId);
+		List<User> users = course.getUsers();
+		List<NewGameNotification> notifys = new ArrayList<NewGameNotification>();
+		for(int i=0;i<users.size();i++){
+			NewGameNotification tmp = new NewGameNotification(users.get(i), course.getName(),gameId );
+			users.get(i).addNotifications(tmp);
+			notifys.add(tmp);
+		}
+		notifyService.save(notifys);
+		return;
+	}
+	
     private boolean isOwner(User user){
         UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return user.getUserName().equals(userDetails.getUsername());
@@ -99,18 +117,7 @@ public class MCQ_Game_Controller {
         }
         return new ResponseEntity<List<Comment > >(comments,HttpStatus.OK);
     }
-    //-------------------comment on mcq game -------------------------
-    @RequestMapping(value = "/mcqgamecomment/{gameId}", method = RequestMethod.POST)
-    public ResponseEntity<Void> addComment(@PathVariable("gameId") long gameId , @RequestBody Comment comment) {
-    	MCQ_Game game = MCQService.findOne(gameId);
-        if (game == null) {
-            System.out.println("no game  found");
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
-        game.addComment(comment);
-        MCQService.save(game);
-        return new ResponseEntity<Void>(HttpStatus.OK);
-    }
+ 
 	/**
 	 * Gets the game.
 	 *
@@ -177,7 +184,9 @@ public class MCQ_Game_Controller {
      	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
         }
         course.addContents(Game);
+        Game.setType("MCQ");
         MCQService.save(Game);
+        NotifyUsers(courseId,Game.getId());
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/course/{id}").buildAndExpand(course.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);

@@ -1,5 +1,6 @@
 package guru.springframework.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,19 +9,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import guru.springframework.domain.Comment;
+import guru.springframework.domain.CommentNotification;
 import guru.springframework.domain.Game;
 import guru.springframework.domain.MCQ_Game;
 import guru.springframework.domain.Score;
@@ -28,7 +27,8 @@ import guru.springframework.domain.TF_Game;
 import guru.springframework.domain.User;
 import guru.springframework.repositories.MCQGameRepository;
 import guru.springframework.repositories.TFGameRepository;
-import guru.springframework.repositories.UserRepository;;
+import guru.springframework.repositories.UserRepository;
+import guru.springframework.repositories.NewCommentNotificationRepository;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -42,6 +42,7 @@ public class UserController {
 	UserRepository userService;  //Service which will do all data retrieval/manipulation work
 	MCQGameRepository mcqService;
 	TFGameRepository tfService;
+	NewCommentNotificationRepository newCommentNotificationService;
 	
 	/**
 	 * Instantiates a new user controller.
@@ -49,11 +50,34 @@ public class UserController {
 	 * @param userService the user service
 	 */
 	@Autowired
-	public UserController(UserRepository userService,MCQGameRepository mcqService,TFGameRepository tfService) {
+	public UserController(UserRepository userService,MCQGameRepository mcqService,TFGameRepository tfService
+			,NewCommentNotificationRepository newCommentNotificationService) {
 		this.userService = userService;
 		this.mcqService = mcqService;
 		this.tfService = tfService;
+		this.newCommentNotificationService = newCommentNotificationService;
 	}
+	
+	
+	private void NotifyUsers(Game game,String commenterName){
+		List<User> users = game.getCourse().getUsers();
+		List<CommentNotification> notifys = new ArrayList<CommentNotification>();
+		for(int i=0;i<users.size();i++){
+			CommentNotification tmp = new CommentNotification(users.get(i), commenterName,game.getId() );
+			users.get(i).addNotifications(tmp);
+			notifys.add(tmp);
+		}
+		newCommentNotificationService.save(notifys);
+		return;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
      
     //-------------------Retrieve get Users Roles --------------------------------------------------------
 
@@ -268,7 +292,7 @@ public class UserController {
         }
         Comment Newcomment;
         System.out.println(comment.getText());
-        if(game1 == null){
+        if(game1 != null){
         	Newcomment=new Comment(game1, comment.getText());
         }
         else{
@@ -276,6 +300,12 @@ public class UserController {
         }
         user.addComment(Newcomment);
         userService.save(user);
+        if(game1 != null){
+        	NotifyUsers(game1, user.getUserName());
+        }
+        else{
+        	NotifyUsers(game2, user.getUserName());
+        }
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
     

@@ -20,11 +20,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 import guru.springframework.repositories.CourseRepository;
+import guru.springframework.repositories.NewGameNotificationRepository;
 import guru.springframework.repositories.TFGameRepository;
 import guru.springframework.repositories.UserRepository;
 import guru.springframework.domain.Comment;
 import guru.springframework.domain.Course;
-import guru.springframework.domain.MCQ_Game;
+import guru.springframework.domain.NewGameNotification;
 import guru.springframework.domain.TF_Game;
 import guru.springframework.domain.User;
 
@@ -44,13 +45,31 @@ public class TF_Game_Controller {
 	/** The course service. */
 	CourseRepository courseService;
 	
-	/**
-	 * Instantiates a new t F game controller.
-	 *
-	 * @param tF_Repository the t F repository
-	 * @param userService the user service
-	 * @param courseService the course service
-	 */
+	NewGameNotificationRepository notifyService;
+	
+	@Autowired
+    public TF_Game_Controller(TFGameRepository tF_Repository, UserRepository userService,
+			CourseRepository courseService,NewGameNotificationRepository notifyService ) {
+		TF_Repository = tF_Repository;
+		this.userService = userService;
+		this.courseService = courseService;
+		this.notifyService =notifyService;
+	}
+	
+	private void NotifyUsers(Long courseId,Long gameId){
+		Course course =  courseService.getOne(courseId);
+		List<User> users = course.getUsers();
+		List<NewGameNotification> notifys = new ArrayList<NewGameNotification>();
+		for(int i=0;i<users.size();i++){
+			NewGameNotification tmp = new NewGameNotification(users.get(i), course.getName(),gameId );
+			users.get(i).addNotifications(tmp);
+			notifys.add(tmp);
+		}
+		notifyService.save(notifys);
+		return;
+	}
+	
+	
     private boolean isOwner(User user){
         UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return user.getUserName().equals(userDetails.getUsername());
@@ -63,13 +82,7 @@ public class TF_Game_Controller {
         }
         return valid;
     }
-	@Autowired
-    public TF_Game_Controller(TFGameRepository tF_Repository, UserRepository userService,
-			CourseRepository courseService) {
-		TF_Repository = tF_Repository;
-		this.userService = userService;
-		this.courseService = courseService;
-	}
+
 	
     //-------------------Cancel specific TF game -------------------------
     @RequestMapping(value = "/canceltfgame/{gameId}/{state}", method = RequestMethod.POST)
@@ -94,18 +107,6 @@ public class TF_Game_Controller {
         }
         List<Comment>comments = game.getComments();
         return new ResponseEntity<List<Comment > >(comments,HttpStatus.OK);
-    }
-    //-------------------comment on tf game -------------------------
-    @RequestMapping(value = "/tfgamecomment/{gameId}", method = RequestMethod.POST)
-    public ResponseEntity<Void> addComment(@PathVariable("gameId") long gameId , @RequestBody Comment comment) {
-    	TF_Game game = TF_Repository.findOne(gameId);
-        if (game == null) {
-            System.out.println("no game  found");
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
-        game.addComment(comment);
-        TF_Repository.save(game);
-        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 	/**
 	 * Gets the game.
@@ -171,7 +172,9 @@ public class TF_Game_Controller {
      	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
         }
         course.addContents(Game);
+        Game.setType("TF");
         TF_Repository.save(Game);
+        NotifyUsers(courseId,Game.getId());
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/tfgame/{id}").buildAndExpand(Game.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);

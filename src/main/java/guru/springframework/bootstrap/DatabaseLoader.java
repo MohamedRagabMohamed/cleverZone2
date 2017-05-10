@@ -179,6 +179,7 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
 //        userScore.addScores(StudentWithFirstGame);
 //        userService.save(userScore);
 //        
+        
        // scoreService.save(StudentWithFirstGame);
     }
 
