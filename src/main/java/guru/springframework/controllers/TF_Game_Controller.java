@@ -2,6 +2,7 @@ package guru.springframework.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +26,7 @@ import guru.springframework.repositories.TFGameRepository;
 import guru.springframework.repositories.UserRepository;
 import guru.springframework.domain.Comment;
 import guru.springframework.domain.Course;
+import guru.springframework.domain.MCQ_Game;
 import guru.springframework.domain.NewGameNotification;
 import guru.springframework.domain.TF_Game;
 import guru.springframework.domain.User;
@@ -122,6 +124,15 @@ public class TF_Game_Controller {
             System.out.println("no game  found");
             return new ResponseEntity<List<TF_Game >>(HttpStatus.NOT_FOUND);
         }
+        
+        for(int i = 0 ; i < game.size() ; i++)
+        {
+        	if(game.get(i).isCancled() == true)
+        	{
+        		game.remove(i);
+        	}
+        }
+        
         return new ResponseEntity<List<TF_Game > >(game,HttpStatus.OK);
     }
     //-------------------Retrieve TF Game ------------------------------
@@ -140,6 +151,12 @@ public class TF_Game_Controller {
             System.out.println("game with id " + id + " not found");
             return new ResponseEntity<TF_Game>(HttpStatus.NOT_FOUND);
         }
+        
+        if(game.isCancled() == true)
+        {
+        	return new ResponseEntity<TF_Game>(HttpStatus.CONFLICT);
+        }
+        
         return new ResponseEntity<TF_Game>(game, HttpStatus.OK);
     }
     
@@ -179,6 +196,57 @@ public class TF_Game_Controller {
         headers.setLocation(ucBuilder.path("/tfgame/{id}").buildAndExpand(Game.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
+    
+    
+  //-------------------Copy TF game-------------------------------------
+
+  		@PreAuthorize("hasRole('ROLE_TEACHER')")
+  	    @RequestMapping(value = "/tfgame/{courseId}/{gameId}", method = RequestMethod.GET)
+  	    public ResponseEntity<Void> copyTFGame(@PathVariable("courseId") long courseId,@PathVariable("gameId") long gameId) {
+  	        //System.out.println("Copying tf Game " + gameId.getName());
+  	        
+  	        TF_Game Game = TF_Repository.findOne(gameId);
+  	        if (Game == null){
+  	        	System.out.println("Game with ID " + gameId + " Not Found");
+  	        	return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+  	        }
+  	        
+  	        Course course = courseService.findOne(courseId);
+  	        if(course==null){
+  	            System.out.println("Course with ID " + courseId + " Not Found");
+  	            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+  	        }
+  	        
+  	        User user = course.getTeacher();
+  	        if(!isOwner(user)){
+  	     	   System.out.println("trying to copy a game to a Course not belonging to the user ");
+  	     	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+  	        }
+  	        
+  	        TF_Game gameCopy = new TF_Game();
+  	        gameCopy.setName(Game.getName() + "-" + getSaltString());
+  	        gameCopy.setdescption(Game.getdescption());
+  	        gameCopy.setImageSrc(Game.getImageSrc());
+  	        gameCopy.setType(Game.getType());
+  	        gameCopy.setCourse(course);
+  	        gameCopy.setCancled(false);
+  	        gameCopy.setTotalTime(Game.getTotalTime());
+  	        for(int i = 0 ; i < Game.getQuestions().size(); i++)
+  	        {
+  	        	gameCopy.addQuestion(Game.getQuestions().get(i));
+  	        }
+  	        course.addContents(gameCopy);
+  	        TF_Repository.save(gameCopy);
+  	        NotifyUsers(courseId,gameCopy.getId());
+  	        return new ResponseEntity<Void>(HttpStatus.CREATED);
+  	    }
+    
+    
+    
+    
+    
+    
+    
     
     //------------------- Delete a TF game --------------------------------
     
@@ -234,6 +302,20 @@ public class TF_Game_Controller {
         currentGame.setTotalTime(game.getTotalTime());
         TF_Repository.save(currentGame);
         return new ResponseEntity<TF_Game>(currentGame, HttpStatus.OK);
+    }
+    
+  //------------------- Utility function --------------------------------------------------------
+    private String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
     }
     
 }

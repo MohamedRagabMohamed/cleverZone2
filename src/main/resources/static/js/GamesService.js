@@ -43,19 +43,20 @@ app.service('GamesService', [ '$http', function($http) {
 		if (type == "MCQ") return $http.post(mcqBase + id, data);
 		else if (type == "TF") return $http.post(tfBase + id, data);
 	};
+	
 	this.getAllGame = function() {
 		var allGame = [];
 		$http.get(mcqBase)
 			.then(function successCallback(response) {
 				allGame.push(response.data);
 			}, function errorCallback(response) {
-				alert("Game Failed");
+				alert("Game Failed in getAllGames");
 			});
 		$http.get(tfBase)
 			.then(function successCallback(response) {
 				allGame.push(response.data);
 			}, function errorCallback(response) {
-				alert("Game Failed");
+				alert("Game Failed in getAllGames");
 			});
 		return allGame;
 	}
@@ -71,6 +72,12 @@ app.service('GamesService', [ '$http', function($http) {
 		if (type == "MCQ") return $http.put(mcqBase + id, data);
 		else if (type == "TF") return $http.put(tfBase + id, data);
 	};
+	
+	this.cancelGame = function(gameId, type, gameState ) {
+		if (type == "MCQ") return $http.post('http://localhost:8080/cancelmcqgame/' + gameId + '/' + gameState);
+		else if (type == "TF") return $http.post('http://localhost:8080/canceltfgame/' + gameId + '/' + gameState);
+	}
+	
 //
 //        this.deleteCustomer = function (id) {
 //            return $http.delete(urlBase + '/' + id);

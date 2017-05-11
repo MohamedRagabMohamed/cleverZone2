@@ -91,5 +91,10 @@ app.controller('CourseController', [ "$scope", "$location", "$http", "CourseServ
 			});
 
 	}
+	
+	$scope.changeMyRoute = function(path)
+	{
+		$location.path(path);
+	}
 
 } ]);

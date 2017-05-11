@@ -14,7 +14,7 @@
 			</div>
 			<!-- /.row -->
 			<div class="row"   data-ng-init="getAllGames()">
-				<div class="col-lg-4"   data-ng-repeat="game in allGames">
+				<div class="col-lg-4"   data-ng-repeat="game in allGames[0]">
                     <div class="panel panel-default" >
                         <div class="panel-heading" >
                            {{game.name}}
@@ -22,11 +22,28 @@
                     	<div class="panel-body" >
                            {{game.descption}}
                         </div>
-                        <div class="panel-footer fa-copy " data-ng-click = "copygame(cgame.id , game.type)">
-                           Copy Game 
+                        <div class="panel-footer fa-copy ">
+                           <button type = "button" class="btn btn-primary" data-ng-click = "copyGame(game.id , game.type)">Copy Game</button>
                         </div>
                     </div>
                 </div>
+                
+			</div>
+			<div class="row"   data-ng-init="getAllGames()">
+				<div class="col-lg-4"   data-ng-repeat="game in allGames[1]">
+                    <div class="panel panel-default" >
+                        <div class="panel-heading" >
+                           {{game.name}}
+                        </div>
+                    	<div class="panel-body" >
+                           {{game.descption}}
+                        </div>
+                        <div class="panel-footer fa-copy ">
+                           <button type = "button" class="btn btn-primary" data-ng-click = "copyGame(game.id , game.type)">Copy Game</button>
+                        </div>
+                    </div>
+                </div>
+                
 			</div>
 			<!-- /.row -->
 		</div>

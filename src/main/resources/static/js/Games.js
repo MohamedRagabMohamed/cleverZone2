@@ -281,6 +281,23 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 
 	}
 	
+	
+	$scope.gameCancel = function(id, type) {
+		
+		var state = true;
+		GamesService.cancelGame(id, type ,state)
+		.then(function successCallback(response) {
+			console.log(response.status);
+			console.log("Game  canceled successfully");
+		$location.path('/teacher');
+	
+	}, function errorCallback(response) {
+	
+		alert("Error! Game cancel Failed");
+		});
+	
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -294,10 +311,11 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 	}
 	
 	$scope.copyGame = function(id,type){
-		GamesService.copygame(CourseService.getSelectedCourseToEdit.id , id , type)
+		GamesService.copygame(CourseService.getSelectedCourseToEdit().id , id , type)
 		.then(function successCallback(response) {
-			console.log("Game copy successfully");
-			$location.path('/courseEdit');
+			console.log("Game copied successfully");
+			alert("Game copied successfully\nPlease Change Copied Game's Name in your Course");
+			$location.path('/teacher');
 
 		}, function errorCallback(response) {
 			alert("Error! Game copy Failed");

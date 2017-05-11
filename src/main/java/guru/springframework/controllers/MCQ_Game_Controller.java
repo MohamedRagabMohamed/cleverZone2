@@ -2,6 +2,7 @@ package guru.springframework.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -132,6 +133,15 @@ public class MCQ_Game_Controller {
             System.out.println("no game  found");
             return new ResponseEntity<List<MCQ_Game >>(HttpStatus.NOT_FOUND);
         }
+        
+        for(int i = 0 ; i < game.size() ; i++)
+        {
+        	if(game.get(i).isCancled() == true)
+        	{
+        		game.remove(i);
+        	}
+        }
+        
         return new ResponseEntity<List<MCQ_Game > >(game,HttpStatus.OK);
     }
     //-------------------Retrieve MCQ Game ------------------------------
@@ -150,6 +160,12 @@ public class MCQ_Game_Controller {
             System.out.println("game with id " + id + " not found");
             return new ResponseEntity<MCQ_Game>(HttpStatus.NOT_FOUND);
         }
+        
+        if(game.isCancled() == true)
+        {
+        	return new ResponseEntity<MCQ_Game>(HttpStatus.CONFLICT);
+        }
+        
         return new ResponseEntity<MCQ_Game>(game, HttpStatus.OK);
     }
     
@@ -191,6 +207,49 @@ public class MCQ_Game_Controller {
         headers.setLocation(ucBuilder.path("/course/{id}").buildAndExpand(course.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
+	
+	//-------------------Copy MCQ game-------------------------------------
+
+		@PreAuthorize("hasRole('ROLE_TEACHER')")
+	    @RequestMapping(value = "/mcqgame/{courseId}/{gameId}", method = RequestMethod.GET)
+	    public ResponseEntity<Void> copyMCQGame(@PathVariable("courseId") long courseId,@PathVariable("gameId") long gameId) {
+	        //System.out.println("Copying mcq Game " + gameId.getName());
+	        
+	        MCQ_Game Game = MCQService.findOne(gameId);
+	        if (Game == null){
+	        	System.out.println("Game with ID " + gameId + " Not Found");
+	        	return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	        }
+	        
+	        Course course = courseService.findOne(courseId);
+	        if(course==null){
+	            System.out.println("Course with ID " + courseId + " Not Found");
+	            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	        }
+	        
+	        User user = course.getTeacher();
+	        if(!isOwner(user)){
+	     	   System.out.println("trying to copy a game to a Course not belonging to the user ");
+	     	   return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+	        }
+	        
+	        MCQ_Game gameCopy = new MCQ_Game();
+  	        gameCopy.setName(Game.getName() + "-" + getSaltString());
+  	        gameCopy.setdescption(Game.getdescption());
+  	        gameCopy.setImageSrc(Game.getImageSrc());
+  	        gameCopy.setType(Game.getType());
+  	        gameCopy.setCourse(course);
+  	        gameCopy.setCancled(false);
+  	        gameCopy.setTotalTime(Game.getTotalTime());
+  	        for(int i = 0 ; i < Game.getQuestions().size(); i++)
+  	        {
+  	        	gameCopy.addQuestion(Game.getQuestions().get(i));
+  	        }
+	        course.addContents(gameCopy);
+	        MCQService.save(gameCopy);
+	        NotifyUsers(courseId,gameCopy.getId());
+	        return new ResponseEntity<Void>(HttpStatus.CREATED);
+	    }
     
     //------------------- Delete a mcq game --------------------------------
     
@@ -248,4 +307,17 @@ public class MCQ_Game_Controller {
         return new ResponseEntity<MCQ_Game>(currentGame, HttpStatus.OK);
     }
     
+  //------------------- Utility function --------------------------------------------------------
+    private String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
+    }
 }
