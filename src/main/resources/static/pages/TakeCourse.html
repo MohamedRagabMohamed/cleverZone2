@@ -18,7 +18,7 @@
                         </div>
                         <!-- .panel-heading -->
                         <div class="panel-body">
-                            <div class="panel-group" id="accordion" data-ng-repeat = "c in theCourse.contents">
+                            <div class="panel-group" id="accordion" data-ng-repeat = "c in theCourse.contents"  data-ng-if = "c.cancled == 'true'">
                                 <div class="panel panel-default" data-ng-controller = "GamesController"  data-ng-click = "setGamePlay(c.id,c.type)">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">

@@ -298,6 +298,23 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 	
 	}
 	
+	
+	$scope.gameUnCancel = function(id, type) {
+			
+			var state = false;
+			GamesService.cancelGame(id, type ,state)
+			.then(function successCallback(response) {
+				console.log(response.status);
+				console.log("Game  uncanceled successfully");
+		$location.path('/teacher');
+	
+	}, function errorCallback(response) {
+	
+		alert("Error! Game cancel Failed");
+		});
+	
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
