@@ -14,7 +14,7 @@
 			</div>
 			<!-- /.row -->
 			<div class="row"   data-ng-init="getAllGames()">
-				<div class="col-lg-4"   data-ng-repeat="game in allGames[0]" data-ng-if = "game.cancled == 'true'">
+				<div class="col-lg-4"   data-ng-repeat="game in allGames[0] | filter: {cancled: false}">
                     <div class="panel panel-default" >
                         <div class="panel-heading" >
                            {{game.name}}
@@ -30,7 +30,7 @@
                 
 			</div>
 			<div class="row"   data-ng-init="getAllGames()">
-				<div class="col-lg-4"   data-ng-repeat="game in allGames[1]" data-ng-if = "game.cancled == 'true'">
+				<div class="col-lg-4"   data-ng-repeat="game in allGames[1] | filter: {cancled: false}">
                     <div class="panel panel-default" >
                         <div class="panel-heading" >
                            {{game.name}}
