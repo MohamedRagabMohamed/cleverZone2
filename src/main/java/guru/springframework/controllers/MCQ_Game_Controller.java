@@ -304,7 +304,7 @@ public class MCQ_Game_Controller {
         currentGame.setImageSrc(game.getImageSrc());
         currentGame.setTotalTime(game.getTotalTime());
         MCQService.save(currentGame);
-        return new ResponseEntity<MCQ_Game>(currentGame, HttpStatus.OK);
+        return new ResponseEntity<MCQ_Game>(currentGame, HttpStatus.OK); // ?
     }
     
   //------------------- Utility function --------------------------------------------------------
