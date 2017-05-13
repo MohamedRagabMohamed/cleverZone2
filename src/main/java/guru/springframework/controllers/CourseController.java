@@ -132,8 +132,7 @@ public class CourseController {
     * Creates the course.
     *
     * @param userId the user id
-    * @param course the course
-    * @param ucBuilder the uc builder
+    * @param courseId the course id
     * @return the response entity
     */
    @RequestMapping(value = "/course/{userId}/{courseId}", method = RequestMethod.GET)

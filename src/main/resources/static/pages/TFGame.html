@@ -34,6 +34,47 @@
 					</table>
 					<a data-ng-click ="getScore(GamePlay)" class="btn btn-primary pull-right">Submit</a>
 				</div>
+				<br>
+				<div class="chat-panel panel panel-default" data-ng-init = "getComment()">
+                        <div class="panel-heading">
+                            <i class="fa fa-comments fa-fw"></i> Comments
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <ul class="chat">
+                            
+                                <li class="left clearfix" data-ng-repeat = "comment in comments">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">{{comment.commentAuthor}}</strong>
+                                        </div>
+                                        <p>
+                                            {{comment.text}}
+                                        </p>
+                                    </div>
+                                </li>
+                             
+                                
+                            </ul>
+                        </div>
+                        <!-- /.panel-body -->
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input class="form-control input-sm" data-ng-model="commentText" id = "btn-input" placeholder="Type your message here..." name="comment" type="text" autofocus>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning btn-sm" id="btn-chat" data-ng-click = "addComment(GamePlay.id)">
+                                        Send
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- /.panel-footer -->
+                    </div>
+				
+				
 				<!-- /.panel -->
 			</div>
 		</div>

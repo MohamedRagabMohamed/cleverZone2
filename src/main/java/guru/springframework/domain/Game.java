@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Game.
@@ -34,6 +36,7 @@ public abstract class Game extends AbstractContent {
 	private String descption;
 	
 
+	/** The Cancled. */
 	private boolean Cancled;
 	
 	/** The image src. */
@@ -47,29 +50,68 @@ public abstract class Game extends AbstractContent {
 	
 
 
+	/** The score. */
 	@OneToMany( mappedBy = "game",targetEntity = Score.class,cascade = {CascadeType.MERGE})
     private List<Score> score = new ArrayList<Score>();
 	
+	/** The Comments. */
 	@OneToMany( mappedBy="game",targetEntity = Comment.class)
     private List<Comment> Comments = new ArrayList<Comment>();	
 	
+	/** The Collaborators. */
 	@ManyToMany(mappedBy = "GamesCollaboratoredIn")
 	private List<User> Collaborators = new ArrayList<User>();
 	
+	/**
+	 * Gets the collaborators.
+	 *
+	 * @return the collaborators
+	 */
+	@JsonIgnore
 	public List<User> getCollaborators() {
 		return Collaborators;
 	}
+	
+	public List<Long> getcollaborators() {
+		List<Long> collaborators = new ArrayList<Long>();
+		for(int i=0;i<Collaborators.size();i++){
+			collaborators.add(Collaborators.get(i).getId());
+		}
+		return collaborators;
+	}
 
+	/**
+	 * Sets the collaborators.
+	 *
+	 * @param collaborators the new collaborators
+	 */
 	public void setCollaborators(List<User> collaborators) {
 		Collaborators = collaborators;
 	}
 
+	/**
+	 * Gets the comments.
+	 *
+	 * @return the comments
+	 */
 	public List<Comment> getComments() {
 		return Comments;
 	}
+	
+	/**
+	 * Adds the comment.
+	 *
+	 * @param comment the comment
+	 */
 	public void addComment(Comment comment) {
 		Comments.add(comment);
 	}
+	
+	/**
+	 * Sets the comments.
+	 *
+	 * @param comments the new comments
+	 */
 	public void setComments(List<Comment> comments) {
 		Comments = comments;
 	}
@@ -81,15 +123,27 @@ public abstract class Game extends AbstractContent {
 	public Game(){
 		super();
 		score = new ArrayList<Score>();
+		Comments = new ArrayList<Comment>();
+		Collaborators = new ArrayList<User>();
 		name = descption = imageSrc = null;
 		totalTime = 0;
 		Cancled = false;
 	}
 	
+	/**
+	 * Checks if is cancled.
+	 *
+	 * @return true, if is cancled
+	 */
 	public boolean isCancled() {
 		return Cancled;
 	}
 
+	/**
+	 * Sets the cancled.
+	 *
+	 * @param isCancled the new cancled
+	 */
 	public void setCancled(boolean isCancled) {
 		this.Cancled = isCancled;
 	}
@@ -166,6 +220,11 @@ public abstract class Game extends AbstractContent {
 		this.totalTime = totalTime;
 	}
 	
+	/**
+	 * Adds the collaborator.
+	 *
+	 * @param user the user
+	 */
 	public void addCollaborator(User user) {
 		Collaborators.add(user);
 	}

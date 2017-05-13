@@ -46,14 +46,16 @@ public class MCQ_Game_Controller {
 	/** The course service. */
 	CourseRepository courseService;
 	
+	/** The notify service. */
 	NewGameNotificationRepository notifyService;
 	
 	/**
 	 * Instantiates a new MC Q game controller.
 	 *
-	 * @param m the m
+	 * @param mcqgame the mcqgame
 	 * @param userService the user service
 	 * @param courseService the course service
+	 * @param notifyService the notify service
 	 */
 	@Autowired
     public MCQ_Game_Controller(MCQGameRepository mcqgame, UserRepository userService,
@@ -63,6 +65,13 @@ public class MCQ_Game_Controller {
 		this.courseService = courseService;
 		this.notifyService =notifyService;
 	}
+	
+	/**
+	 * Notify users.
+	 *
+	 * @param courseId the course id
+	 * @param gameId the game id
+	 */
 	private void NotifyUsers(Long courseId,Long gameId){
 		Course course =  courseService.getOne(courseId);
 		List<User> users = course.getUsers();
@@ -76,10 +85,23 @@ public class MCQ_Game_Controller {
 		return;
 	}
 	
+    /**
+     * Checks if is owner.
+     *
+     * @param user the user
+     * @return true, if is owner
+     */
     private boolean isOwner(User user){
         UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return user.getUserName().equals(userDetails.getUsername());
     }
+    
+    /**
+     * Checks if is collaborator.
+     *
+     * @param game the game
+     * @return true, if is collaborator
+     */
     private boolean isCollaborator(MCQ_Game game){
     	boolean valid=false;
     	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -89,6 +111,13 @@ public class MCQ_Game_Controller {
         return valid;
     }
     
+    /**
+     * Cancel game.
+     *
+     * @param gameId the game id
+     * @param state the state
+     * @return the response entity
+     */
     //-------------------Cancel specific mcq game -------------------------
     @RequestMapping(value = "/cancelmcqgame/{gameId}/{state}", method = RequestMethod.POST)
     public ResponseEntity<Void> cancelGame(@PathVariable("gameId") long gameId , @PathVariable("state") boolean state) {
@@ -102,6 +131,12 @@ public class MCQ_Game_Controller {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
     
+	/**
+	 * Gets the comment.
+	 *
+	 * @param gameId the game id
+	 * @return the comment
+	 */
 	//-------------------Retrieve all mcqGame Comments  -------------------------
     @RequestMapping(value = "/mcqgamecomment/{gameId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<	List<Comment> > getcomment(@PathVariable("gameId") long gameId) {
@@ -210,7 +245,14 @@ public class MCQ_Game_Controller {
 	
 	//-------------------Copy MCQ game-------------------------------------
 
-		@PreAuthorize("hasRole('ROLE_TEACHER')")
+		/**
+	 * Copy MCQ game.
+	 *
+	 * @param courseId the course id
+	 * @param gameId the game id
+	 * @return the response entity
+	 */
+	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	    @RequestMapping(value = "/mcqgame/{courseId}/{gameId}", method = RequestMethod.GET)
 	    public ResponseEntity<Void> copyMCQGame(@PathVariable("courseId") long courseId,@PathVariable("gameId") long gameId) {
 	        //System.out.println("Copying mcq Game " + gameId.getName());
@@ -304,9 +346,14 @@ public class MCQ_Game_Controller {
         currentGame.setImageSrc(game.getImageSrc());
         currentGame.setTotalTime(game.getTotalTime());
         MCQService.save(currentGame);
-        return new ResponseEntity<MCQ_Game>(currentGame, HttpStatus.OK);
+        return new ResponseEntity<MCQ_Game>(currentGame, HttpStatus.OK); // ?
     }
     
+  /**
+   * Gets the salt string.
+   *
+   * @return the salt string
+   */
   //------------------- Utility function --------------------------------------------------------
     private String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

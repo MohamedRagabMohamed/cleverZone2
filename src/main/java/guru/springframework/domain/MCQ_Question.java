@@ -38,7 +38,6 @@ public class MCQ_Question extends Questions {
 	 * @param Question the question
 	 * @param answer the answer
 	 * @param Choices the choices
-	 * @param time the time
 	 */
 	public MCQ_Question( String Question ,String answer , String [] Choices){
 		this();

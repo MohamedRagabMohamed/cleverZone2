@@ -24,8 +24,9 @@
 			<ul class="dropdown-menu dropdown-alerts" >
 		
 					<li  data-ng-repeat="notify in notifys">
-					<a href=""> <i data-ng-class="{ 'fa  fa-comment fa-fw': notify.type == 'COMMENT','fa fa-gamepad fa-fw' : notify.type == 'GAME'}"></i> {{notify.type}}
-			
+					<a href=""> <i data-ng-class="{ 'fa  fa-comment fa-fw': notify.type == 'COMMENT','fa fa-gamepad fa-fw' : notify.type == 'GAME'}"></i>
+					<span data-ng-if = "notify.type == 'GAME'">New Game was added in "{{notify.courseName}}" Course</span>
+					<span data-ng-if = "notify.type == 'COMMENT'">New Comment was added by {{notify.userName}}</span>
 					</a></li>
 
 				<li class="divider"></li>

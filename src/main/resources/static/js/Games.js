@@ -43,7 +43,11 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 					$location.path('/add-mcq-question');
 				else if(type == "TF")
 					$location.path('/add-tf-question');
-			}	
+			}
+			else if(functionality == "ADDCOLL")
+			{
+				$location.path('/addcollaborator');
+			}
 		}, function errorCallback(response) {
 			alert("Game data in fetching failed");
 		});
@@ -281,6 +285,9 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 
 	}
 	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	$scope.gameCancel = function(id, type) {
 		
@@ -298,8 +305,55 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 	
 	}
 	
+	
+	$scope.gameUnCancel = function(id, type) {
+			
+			var state = false;
+			GamesService.cancelGame(id, type ,state)
+			.then(function successCallback(response) {
+				console.log(response.status);
+				console.log("Game  uncanceled successfully");
+		$location.path('/teacher');
+	
+	}, function errorCallback(response) {
+	
+		alert("Error! Game cancel Failed");
+		});
+	
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	$scope.addComment = function(gameId) {
+		
+		if($scope.commentText == null)
+		{
+			alert('Empty Comment !!!');
+			return;
+		}
+		
+		data = {
+				"text": $scope.commentText
+			  }
+		
+		$http.post('http://localhost:8080/' + 'comment/' + gameId, data)
+		.then(function successCallback(response) {
+			console.log(response.status);
+			console.log("Comment  added successfully");
+			$location.path('/course');
+	
+	}, function errorCallback(response) {
+	
+		alert("Error! Comment addition Failed");
+		});
+	
+	}
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	$scope.changeRoute = function(path)
 	{
@@ -324,6 +378,7 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 	
 	$scope.getComment = function (){
 		$scope.comments = GamesService.getSelectedGameToPlay().comments;
+		console.log($scope.comments);
 	}
 	
 	

@@ -9,6 +9,9 @@ import guru.springframework.domain.NewGameNotification;
 
 
 
+/**
+ * The Interface NewGameNotificationRepository.
+ */
 @Repository
 public interface NewGameNotificationRepository extends JpaRepository<NewGameNotification, Long> {
 	
