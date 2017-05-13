@@ -9,6 +9,9 @@ import guru.springframework.domain.CommentNotification;
 
 
 
+/**
+ * The Interface NewCommentNotificationRepository.
+ */
 @Repository
 public interface NewCommentNotificationRepository extends JpaRepository<CommentNotification, Long> {
 	

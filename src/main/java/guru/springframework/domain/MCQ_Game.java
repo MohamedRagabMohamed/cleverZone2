@@ -37,6 +37,8 @@ public class MCQ_Game extends  Game{
 	 * @param name the name
 	 * @param desc the desc
 	 * @param imageSrc the image src
+	 * @param totalTime the total time
+	 * @param cancled the cancled
 	 */
 	public MCQ_Game(String name , String desc , String imageSrc ,int totalTime,boolean cancled){
 		this();

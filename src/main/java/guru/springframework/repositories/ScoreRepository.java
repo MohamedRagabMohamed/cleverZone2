@@ -8,6 +8,9 @@ import guru.springframework.domain.Score;
 
 
 
+/**
+ * The Interface ScoreRepository.
+ */
 @Repository
 public interface ScoreRepository extends JpaRepository<Score, Long> {
 	

@@ -40,14 +40,23 @@ public class UserController {
 
     /** The user service. */
 	UserRepository userService;  //Service which will do all data retrieval/manipulation work
+	
+	/** The mcq service. */
 	MCQGameRepository mcqService;
+	
+	/** The tf service. */
 	TFGameRepository tfService;
+	
+	/** The new comment notification service. */
 	NewCommentNotificationRepository newCommentNotificationService;
 	
 	/**
 	 * Instantiates a new user controller.
 	 *
 	 * @param userService the user service
+	 * @param mcqService the mcq service
+	 * @param tfService the tf service
+	 * @param newCommentNotificationService the new comment notification service
 	 */
 	@Autowired
 	public UserController(UserRepository userService,MCQGameRepository mcqService,TFGameRepository tfService
@@ -59,14 +68,29 @@ public class UserController {
 	}
 	
 	
+	/**
+	 * Notify users.
+	 *
+	 * @param game the game
+	 * @param commenterName the commenter name
+	 */
 	private void NotifyUsers(Game game,String commenterName){
 		List<User> users = game.getCourse().getUsers();
+		List<User> courseAdmins = game.getCollaborators();
+		courseAdmins.add(game.getCourse().getTeacher());
 		List<CommentNotification> notifys = new ArrayList<CommentNotification>();
-		for(int i=0;i<users.size();i++){
-			CommentNotification tmp = new CommentNotification(users.get(i), commenterName,game.getId() );
+		for(int i=0;i < users.size();i++){
+			CommentNotification tmp = new CommentNotification(users.get(i), commenterName,game.getId());
 			users.get(i).addNotifications(tmp);
 			notifys.add(tmp);
 		}
+		
+		for(int i=0;i < courseAdmins.size();i++){
+			CommentNotification tmp = new CommentNotification(courseAdmins.get(i), commenterName,game.getId());
+			courseAdmins.get(i).addNotifications(tmp);
+			notifys.add(tmp);
+		}
+		
 		newCommentNotificationService.save(notifys);
 		return;
 	}
@@ -223,7 +247,8 @@ public class UserController {
     /**
      * Score the user.
      *
-     * @param user the user
+     * @param gameId the game id
+     * @param scoreValue the score value
      * @return the response entity
      */
     @RequestMapping(value = "/user/{gameId}/{score}", method = RequestMethod.GET)
@@ -250,6 +275,14 @@ public class UserController {
  
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
+    
+    /**
+     * Adds the collaborated user.
+     *
+     * @param userId the user id
+     * @param gameId the game id
+     * @return the response entity
+     */
     //	------------------- add a user to collaborated list --------------------------------
     @RequestMapping(value = "/user/{userId}/{gameId}", method = RequestMethod.POST)
     public ResponseEntity<Void> addCollaboratedUser(@PathVariable("userId") long userId,@PathVariable("gameId") long gameId){
@@ -260,15 +293,26 @@ public class UserController {
         if (user == null||(game1 == null && game2 == null)) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
+        
+        
         Game game;
+        System.out.println("inside add collabrator\n");
         if(game1 == null){
-        	game=new MCQ_Game();
-        	game=game1;
+        	System.out.println("1 mcq");
+        	game = new TF_Game();
+        	game = game2;
+        	System.out.println(game.toString());
+        	
         }
         else{
-        	game=new TF_Game();
-        	game=game2;
+        	System.out.println("2 tf");
+        	game = new MCQ_Game();
+        	game = game1;
+        	System.out.println(game.toString());
         }
+        System.out.println("inside add collabrator 2");
+        
+        
         UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(!game.getCourse().getTeacher().getUserName().equals(userDetails.getUsername())){
       	   System.out.println("tring to update a game to a Course not belonging to the user ");
@@ -279,6 +323,13 @@ public class UserController {
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
     
+    /**
+     * Adds the comment.
+     *
+     * @param gameId the game id
+     * @param comment the comment
+     * @return the response entity
+     */
     //	------------------- add commet --------------------------------
     @RequestMapping(value = "/comment/{gameId}", method = RequestMethod.POST)
     public ResponseEntity<Void> addComment(@PathVariable("gameId") long gameId,@RequestBody Comment comment){
@@ -296,7 +347,7 @@ public class UserController {
         	Newcomment=new Comment(game1, comment.getText());
         }
         else{
-        	Newcomment=new Comment(game1, comment.getText());
+        	Newcomment=new Comment(game2, comment.getText());
         }
         user.addComment(Newcomment);
         userService.save(user);

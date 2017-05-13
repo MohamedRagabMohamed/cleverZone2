@@ -62,22 +62,26 @@ public class User {
 	private List<Course> CoursesCreated;
 	
 	
-	/** The Courses register */
+	/**  The Courses register. */
 	@ManyToMany(cascade = {CascadeType.ALL} )
 	private List<Course> CoursesRegistedin = new ArrayList<Course>();
 	
 
 
+	/** The Scores. */
 	@OneToMany(mappedBy="user", cascade = {CascadeType.MERGE} )
     private List<Score> Scores = new ArrayList<Score>();
 	
+	/** The Comments. */
 	@OneToMany( mappedBy="user", cascade = {CascadeType.MERGE} )
     private List<Comment> Comments = new ArrayList<Comment>();	
 
 
+	/** The Games collaboratored in. */
 	@ManyToMany( cascade = CascadeType.ALL )
 	private List<Game> GamesCollaboratoredIn = new ArrayList<Game>();
 
+	/** The Notifications. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", targetEntity = Notification.class)
 	private List<Notification> Notifications;
 	
@@ -120,13 +124,30 @@ public class User {
 		return Comments;
 	}
 
+	/**
+	 * Sets the comments.
+	 *
+	 * @param comments the new comments
+	 */
 	public void setComments(List<Comment> comments) {
 		Comments = comments;
 	}
+	
+	/**
+	 * Adds the comment.
+	 *
+	 * @param comment the comment
+	 */
 	public void addComment(Comment comment) {
 		comment.setUser(this);
 		Comments.add(comment);
 	}
+	
+	/**
+	 * Gets the roles.
+	 *
+	 * @return the roles
+	 */
 	public String[] getRoles() {
 		return Roles;
 	}
@@ -139,10 +160,21 @@ public class User {
 	public void setRoles(String[] roles) {
 		Roles = roles;
 	}
+	
+	/**
+	 * Gets the games collaboratored in.
+	 *
+	 * @return the games collaboratored in
+	 */
 	public List<Game> getGamesCollaboratoredIn() {
 		return GamesCollaboratoredIn;
 	}
 
+	/**
+	 * Sets the games collaboratored in.
+	 *
+	 * @param gamesCollaboratoredIn the new games collaboratored in
+	 */
 	public void setGamesCollaboratoredIn(List<Game> gamesCollaboratoredIn) {
 		GamesCollaboratoredIn = gamesCollaboratoredIn;
 	}
@@ -259,7 +291,7 @@ public class User {
 	/**
 	 * Adds the courses CollaboratoredIn.
 	 *
-	 * @param courseCollaboratoredIn the courses CollaboratoredIn
+	 * @param gameCollaboratoredIn the game collaboratored in
 	 */
 	public void addGameCollaboratoredIn(Game gameCollaboratoredIn) {
 		gameCollaboratoredIn.addCollaborator(this);
@@ -275,18 +307,38 @@ public class User {
 		CoursesRegistedin.add(coursesRegistedin);
 	}
 	
+	/**
+	 * Gets the notifications.
+	 *
+	 * @return the notifications
+	 */
 	public List<Notification> getNotifications() {
 		return Notifications;
 	}
 
+	/**
+	 * Adds the notifications.
+	 *
+	 * @param notification the notification
+	 */
 	public void addNotifications(Notification notification) {
 		Notifications.add(notification);
 	}
 
+	/**
+	 * Gets the scores.
+	 *
+	 * @return the scores
+	 */
 	public List<Score> getScores() {
 		return Scores;
 	}
 	
+	/**
+	 * Adds the scores.
+	 *
+	 * @param score the score
+	 */
 	public void addScores(Score score) {
 		score.setUser(this);
 		Scores.add(score);

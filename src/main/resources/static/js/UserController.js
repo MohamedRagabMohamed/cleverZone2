@@ -54,20 +54,49 @@ app.controller('UserController', [	"$scope","$http","$location","UserService",	f
 			}
 			
 		}
+		
 		$scope.getNotify = function(){
-			//$scope.notify = UserService.getUser().notify;
 			
-			$scope.notifys = [];
-			$scope.notifys.push({
-				"type" : "COMMENT",
-				"gameID" : 3
-			});
-			$scope.notifys.push({
-				"type" : "GAME",
-				"gameID" : 3
-			});
+			$scope.notifys = UserService.getUser().notifications;
 			console.log($scope.notifys);
 		}
+		
+		/////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////
+		
+	$scope.getAllUsers = function(){
+				
+		UserService.alluser().then(function successCallback(response) {
+
+			$scope.allUsers = response.data;
+			console.log(response.status);
+			console.log(response.data);
+			console.log("get user executed successfully");
+	
+	}, function errorCallback(response) {
+	
+		alert("Error! Get all users function Failed");
+		});
+	}
+	
+	$scope.addcoll = function(userid,gameid){
+		data = {
+				
+		}
+		console.log(userid);
+		console.log(gameid);
+		UserService.addcollaborator(userid, gameid, data)
+		.then(function successCallback(response) {
+			console.log(response.status);
+			console.log("Collaborator Added successfully");
+			$location.path('/teacher');
+	}, function errorCallback(response) {
+		console.log(response.status);
+		alert("Error!  Failed");
+		});
+	}
+
+
 
 
 

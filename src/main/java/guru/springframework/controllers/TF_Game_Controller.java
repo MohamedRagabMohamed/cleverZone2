@@ -47,8 +47,17 @@ public class TF_Game_Controller {
 	/** The course service. */
 	CourseRepository courseService;
 	
+	/** The notify service. */
 	NewGameNotificationRepository notifyService;
 	
+	/**
+	 * Instantiates a new t F game controller.
+	 *
+	 * @param tF_Repository the t F repository
+	 * @param userService the user service
+	 * @param courseService the course service
+	 * @param notifyService the notify service
+	 */
 	@Autowired
     public TF_Game_Controller(TFGameRepository tF_Repository, UserRepository userService,
 			CourseRepository courseService,NewGameNotificationRepository notifyService ) {
@@ -58,6 +67,12 @@ public class TF_Game_Controller {
 		this.notifyService =notifyService;
 	}
 	
+	/**
+	 * Notify users.
+	 *
+	 * @param courseId the course id
+	 * @param gameId the game id
+	 */
 	private void NotifyUsers(Long courseId,Long gameId){
 		Course course =  courseService.getOne(courseId);
 		List<User> users = course.getUsers();
@@ -72,10 +87,23 @@ public class TF_Game_Controller {
 	}
 	
 	
+    /**
+     * Checks if is owner.
+     *
+     * @param user the user
+     * @return true, if is owner
+     */
     private boolean isOwner(User user){
         UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return user.getUserName().equals(userDetails.getUsername());
     }
+    
+    /**
+     * Checks if is collaborator.
+     *
+     * @param game the game
+     * @return true, if is collaborator
+     */
     private boolean isCollaborator(TF_Game game){
     	boolean valid=false;
     	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -86,6 +114,13 @@ public class TF_Game_Controller {
     }
 
 	
+    /**
+     * Cancel game.
+     *
+     * @param gameId the game id
+     * @param state the state
+     * @return the response entity
+     */
     //-------------------Cancel specific TF game -------------------------
     @RequestMapping(value = "/canceltfgame/{gameId}/{state}", method = RequestMethod.POST)
     public ResponseEntity<Void> cancelGame(@PathVariable("gameId") long gameId , @PathVariable("state") boolean state) {
@@ -98,6 +133,13 @@ public class TF_Game_Controller {
         TF_Repository.save(game);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+	
+	/**
+	 * Gets the comment.
+	 *
+	 * @param gameId the game id
+	 * @return the comment
+	 */
 	//-------------------Retrieve all TFGame Comments  -------------------------
     @RequestMapping(value = "/tfgamecomment/{gameId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<	List<Comment> > getcomment(@PathVariable("gameId") long gameId) {
@@ -200,7 +242,14 @@ public class TF_Game_Controller {
     
   //-------------------Copy TF game-------------------------------------
 
-  		@PreAuthorize("hasRole('ROLE_TEACHER')")
+  		/**
+   * Copy TF game.
+   *
+   * @param courseId the course id
+   * @param gameId the game id
+   * @return the response entity
+   */
+  @PreAuthorize("hasRole('ROLE_TEACHER')")
   	    @RequestMapping(value = "/tfgame/{courseId}/{gameId}", method = RequestMethod.GET)
   	    public ResponseEntity<Void> copyTFGame(@PathVariable("courseId") long courseId,@PathVariable("gameId") long gameId) {
   	        //System.out.println("Copying tf Game " + gameId.getName());
@@ -304,6 +353,11 @@ public class TF_Game_Controller {
         return new ResponseEntity<TF_Game>(currentGame, HttpStatus.OK);
     }
     
+  /**
+   * Gets the salt string.
+   *
+   * @return the salt string
+   */
   //------------------- Utility function --------------------------------------------------------
     private String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

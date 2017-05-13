@@ -19,18 +19,15 @@
         	return this.user;
         }
         
+        ///////////////////////////////////////////////////////////////
+        
+        this.alluser = function(){
+        	return $http.get(urlBase+'user/');
+        }
+        this.addcollaborator = function(userid,gameid, data){
+        	return $http.post(urlBase+'user/'+userid+'/'+gameid, data);
+        }
         
         
-//
-//        this.updateCustomer = function (cust) {
-//            return $http.put(urlBase + '/' + cust.ID, cust)
-//        };
-//
-//        this.deleteCustomer = function (id) {
-//            return $http.delete(urlBase + '/' + id);
-//        };
-//
-//        this.getOrders = function (id) {
-//            return $http.get(urlBase + '/' + id + '/orders');
-//        };
+        
     }]);

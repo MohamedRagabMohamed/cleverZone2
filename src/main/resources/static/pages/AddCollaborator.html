@@ -1,0 +1,30 @@
+<div id="wrapper">
+	<div data-ng-controller="UserController" data-ng-include="getTheUserType()"></div>
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">All Teachers</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+			<div class="row"   data-ng-init="getAllUsers()">
+				<div class="col-lg-4"   data-ng-repeat="user in allUsers | filter: {roles: 'ROLE_TEACHER'}">
+                    <div class="panel panel-default" >
+                        <div class="panel-heading" >
+                        	UserName  : {{user.userName}}
+                        	<br>
+                        	FirstName : {{user.firstName}}
+                        </div>
+                        <div class="panel-footer fa-copy " data-ng-controller="GamesController" data-ng-init = "getGameToEdit()">
+                           <button type = "button" data-ng-controller="UserController" class="btn btn-primary" data-ng-click="addcoll(user.id,theGame.id)"> Add Collaborator </button>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+	
+	</div>
+	
