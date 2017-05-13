@@ -2,29 +2,20 @@ package guru.springframework.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 public class CommentPK implements Serializable {
 
-    private Long game;
+	
+    private Game game;
     
-    private Long user;
+    private User user;
 
 
-	public Long getGame() {
-		return game;
+
+	public Long getId() {
+		return id;
 	}
 
-
-	public void setGame(Long game) {
-		this.game = game;
-	}
-
-
-	public Long getUser() {
-		return user;
-	}
-
-
-	public void setUser(Long user) {
-		this.user = user;
-	}
 }

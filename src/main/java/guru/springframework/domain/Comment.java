@@ -1,6 +1,8 @@
 package guru.springframework.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -11,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @IdClass(CommentPK.class)
 public class Comment {
+
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "gameID" ,referencedColumnName = "id")
@@ -25,37 +28,35 @@ public class Comment {
 
 	public Comment() {
 		super();
+		this.id = null;
 		this.game = null;
 		this.user = null;
 		Text = null;
 	}
 	public Comment(Game game, User user, String text) {
-		super();
+		this();
 		this.game = game;
 		this.user = user;
 		Text = text;
 	}
+
 	public Comment(Game game, String text) {
-		super();
+		this();
 		this.game = game;
-		this.Text = text;
+		Text = text;
 	}
-	@JsonIgnore
-	public Game getGame() {
-		return game;
-	}
+
 
 	public void setGame(Game game) {
 		this.game = game;
-	}
-	@JsonIgnore
-	public User getUser() {
-		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
 	}
+//	public Long getUser(){
+//		return user;
+//	}
 
 	public String getText() {
 		return Text;
