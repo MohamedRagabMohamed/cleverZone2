@@ -126,6 +126,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 			templateUrl : '/pages/AddCollaborator.html',
 			controller : 'UserController'
 		})
+		.when('/ColabratorGames', {
+			templateUrl : '/pages/ColabratorGames.html',
+			controller : 'UserController'
+		})
 		.when('/notify', {
 			templateUrl : '/pages/notify.html',
 			controller : 'UserController'

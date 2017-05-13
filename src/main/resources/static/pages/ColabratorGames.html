@@ -1,0 +1,60 @@
+
+
+
+	<div id="wrapper">
+		<div data-ng-controller="UserController" data-ng-include="getTheUserType()"></div>
+
+
+		<div id="page-wrapper">
+			<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading"> 
+						My Games
+					</div>
+					
+					<!-- .panel-heading -->
+					<div class="panel-body" data-ng-init = "ColabratedGame()">
+						<div class="panel-group" id="accordion"  data-ng-repeat="c in GameColabrated" >
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="true" class="">{{c.name}}</a>
+
+										<a href=''> <span class='glyphicon glyphicon-trash pull-right'></span></a>
+										<a href='' data-ng-click = "setGameToEdit(c.id, c.type, 'EDIT')"> <span class='glyphicon glyphicon-pencil pull-right'></span></a>
+										<a href='' data-ng-click = "setGameToEdit(c.id, c.type, 'ADDQUESTION')"> <span class='glyphicon glyphicon-plus pull-right' ></span></a>
+										<a href=''  data-ng-click = "gameCancel(c.id, c.type)" > <span  data-ng-class = "{ 'glyphicon glyphicon-minus pull-right'   : c.cancled === false }"> </span> </a>
+										<a href=''  data-ng-click = "gameUnCancel(c.id, c.type)" > <span  data-ng-class = "{ 'glyphicon glyphicon-ok pull-right'    : c.cancled === true }"> </span> </a>
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true" style="">
+									<div class="panel-body">{{c.descption}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- .panel-body -->
+				</div>
+				<!-- /.panel -->
+			</div>
+		</div>
+			<!-- /.row -->
+			
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+

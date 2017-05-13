@@ -95,7 +95,12 @@ app.controller('UserController', [	"$scope","$http","$location","UserService",	f
 		alert("Error!  Failed");
 		});
 	}
-
+	
+	$scope.ColabratedGame = function(){
+		$scope.GameColabrated = UserService.getUser().gamesCollaboratoredIn;
+		console.log($scope.GameColabrated);
+		alert($scope.GameColabrated);
+	}
 
 
 
