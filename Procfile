@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/*.jar
+web: java -cp target/classes/:target/dependency/* guru.springframework.SpringBootWebApplication
