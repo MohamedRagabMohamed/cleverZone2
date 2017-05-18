@@ -1,1 +1,1 @@
-web: java -cp target/classes/:target/dependency/* guru.springframework.SpringBootWebApplication
+web: java -cp target/classes/:target/dependency/guru.springframework.SpringBootWebApplication
