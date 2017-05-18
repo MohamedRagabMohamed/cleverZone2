@@ -199,7 +199,7 @@
 					<configuration>
 						<archive>
 							<manifest>
-								<mainClass>main.java.guru.springframework.SpringBootWebApplication</mainClass>
+								<mainClass>classes.guru.springframework.SpringBootWebApplication</mainClass>
 							</manifest>
 						</archive>
 					</configuration>
