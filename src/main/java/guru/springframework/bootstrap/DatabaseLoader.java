@@ -82,105 +82,105 @@ public class DatabaseLoader implements ApplicationListener<ContextRefreshedEvent
      */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-
-    	ArrayList<User> UsersData = new ArrayList<User>(); 
-    	User MCQTeacher = new User("T","nour" , "ahmed" , "P" ,new String[] {"ROLE_TEACHER","ROLE_ADMIN"} );
-    	User TFTeacher = new User("TT","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_TEACHER"} );
-    	User Student = new User("S","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_STUDENT"} );
-    	User Student2 = new User("S2","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_STUDENT"} );
-
-		ArrayList<Course> CoursesData = new ArrayList<Course>(); 
-		Course firstCourse = new Course("Arabic","the aradbic","thea arcbi");
-		Course secondCourse = new Course("Math","the Mathvvve","tsdghea arcbi");
-		Course thirdCourse = new Course("Programming","the Programmingved","thea ardsdfbcbi");
-		Course fourthCourse = new Course("English","the Eng","ee eeee21");
-		
-        MCQ_Game theFirstGame = new MCQ_Game("Game1", "the desc", "imageSrc1",10,false);
-        TF_Game theSecondGame = new TF_Game("Game2", "thesdv desc", "imageSrc2",10,false);
-        MCQ_Game theThirdGame = new MCQ_Game("Game3", "the desdvsc", "isdmageSrc3",10,false);
-        TF_Game thefourthGame = new TF_Game("Game4", "thesdv desc", "imageSrc2",10,false);
-        
-
-        
-        // testing not magic numbers 
-        TF_Question firstQuestion = new TF_Question("Question1", "TRUE");
-        String choices [] = new String [4];
-        choices[0]="CHOICE1";
-        choices[1]="CHOICE2";
-        choices[2]="CHOICE3";
-        choices[3]="CHOICE4";
-        MCQ_Question secondQuestion = new MCQ_Question("Question2", "CHOICE2",choices);
-        MCQ_Question thirdQuestion = new MCQ_Question("Question3", "CHOICE3",choices);
-        
-        // add comments test
-        Comment comment=new Comment(theThirdGame,"Commentttttttttttt Number 1");
-        Student.addComment(comment);
-        System.out.println("Comments ===> "+theThirdGame.getComments().size());
-        
-        // add comments test for mcq game with id 4
-        theThirdGame.addCollaborator(TFTeacher);
-        theThirdGame.addCollaborator(MCQTeacher);
-
-        theFirstGame.addQuestion(secondQuestion);
-        theSecondGame.addQuestion(firstQuestion);
-        theThirdGame.addQuestion(secondQuestion);
-        thefourthGame.addQuestion(firstQuestion);
-        theFirstGame.addQuestion(thirdQuestion);
-        theThirdGame.addQuestion(thirdQuestion);
-  	
-        
-        firstCourse.addContents(theFirstGame);
-        secondCourse.addContents(theSecondGame);
-        thirdCourse.addContents(theThirdGame);
-        fourthCourse.addContents(thefourthGame);
-        
-        CoursesData.add(firstCourse);
-        CoursesData.add(secondCourse);
-        CoursesData.add(thirdCourse);
-        CoursesData.add(fourthCourse);
-        
-        MCQTeacher.addCourses(firstCourse);
-        MCQTeacher.addCourses(thirdCourse);
-        TFTeacher.addCourses(secondCourse);
-        TFTeacher.addCourses(fourthCourse);
-        
-        Student.addCoursesRegistedin(firstCourse);
-        Student.addCoursesRegistedin(secondCourse);
-        Student.addCoursesRegistedin(thirdCourse);
-        Student.addCoursesRegistedin(fourthCourse);
-        
-        Student2.addCoursesRegistedin(firstCourse);
-        Student2.addCoursesRegistedin(secondCourse);
-        Student2.addCoursesRegistedin(thirdCourse);
-        Student2.addCoursesRegistedin(fourthCourse);
-        
-//        Score StudentWithFirstGame = new Score(theFirstGame);
-//        StudentWithFirstGame.setScoreValue(100000);
-//        Student.addScores(StudentWithFirstGame);
-        
-        UsersData.add(TFTeacher);
-        UsersData.add(MCQTeacher);
-        UsersData.add(Student);
-        UsersData.add(Student2);
-        
-        System.out.println(TFTeacher.getCoursesCreated().size());
-        System.out.println(MCQTeacher.getCoursesCreated().size());
-        
-        /*mcqQuestionService.save(secondQuestion);
-        tfQuestionService.save(firstQuestion);
-        tfService.save(thefourthGame);tfService.save(theSecondGame);
-        mcqService.save(theFirstGame);mcqService.save(theThirdGame);
-        CourseService.save(CoursesData);*/ 	
-        userService.save(UsersData);
-        
-//        Score StudentWithFirstGame = new Score(theFirstGame);
-//        StudentWithFirstGame.setScoreValue(100000);
-//        User userScore = userService.findByuserName("S");
-//        userScore.addScores(StudentWithFirstGame);
-//        userService.save(userScore);
+//
+//    	ArrayList<User> UsersData = new ArrayList<User>(); 
+//    	User MCQTeacher = new User("T","nour" , "ahmed" , "P" ,new String[] {"ROLE_TEACHER","ROLE_ADMIN"} );
+//    	User TFTeacher = new User("TT","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_TEACHER"} );
+//    	User Student = new User("S","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_STUDENT"} );
+//    	User Student2 = new User("S2","nour1" , "ahmed1" , "P" ,new String[] {"ROLE_STUDENT"} );
+//
+//		ArrayList<Course> CoursesData = new ArrayList<Course>(); 
+//		Course firstCourse = new Course("Arabic","the aradbic","thea arcbi");
+//		Course secondCourse = new Course("Math","the Mathvvve","tsdghea arcbi");
+//		Course thirdCourse = new Course("Programming","the Programmingved","thea ardsdfbcbi");
+//		Course fourthCourse = new Course("English","the Eng","ee eeee21");
+//		
+//        MCQ_Game theFirstGame = new MCQ_Game("Game1", "the desc", "imageSrc1",10,false);
+//        TF_Game theSecondGame = new TF_Game("Game2", "thesdv desc", "imageSrc2",10,false);
+//        MCQ_Game theThirdGame = new MCQ_Game("Game3", "the desdvsc", "isdmageSrc3",10,false);
+//        TF_Game thefourthGame = new TF_Game("Game4", "thesdv desc", "imageSrc2",10,false);
 //        
-        
-       // scoreService.save(StudentWithFirstGame);
+//
+//        
+//        // testing not magic numbers 
+//        TF_Question firstQuestion = new TF_Question("Question1", "TRUE");
+//        String choices [] = new String [4];
+//        choices[0]="CHOICE1";
+//        choices[1]="CHOICE2";
+//        choices[2]="CHOICE3";
+//        choices[3]="CHOICE4";
+//        MCQ_Question secondQuestion = new MCQ_Question("Question2", "CHOICE2",choices);
+//        MCQ_Question thirdQuestion = new MCQ_Question("Question3", "CHOICE3",choices);
+//        
+//        // add comments test
+//        Comment comment=new Comment(theThirdGame,"Commentttttttttttt Number 1");
+//        Student.addComment(comment);
+//        System.out.println("Comments ===> "+theThirdGame.getComments().size());
+//        
+//        // add comments test for mcq game with id 4
+//        theThirdGame.addCollaborator(TFTeacher);
+//        theThirdGame.addCollaborator(MCQTeacher);
+//
+//        theFirstGame.addQuestion(secondQuestion);
+//        theSecondGame.addQuestion(firstQuestion);
+//        theThirdGame.addQuestion(secondQuestion);
+//        thefourthGame.addQuestion(firstQuestion);
+//        theFirstGame.addQuestion(thirdQuestion);
+//        theThirdGame.addQuestion(thirdQuestion);
+//  	
+//        
+//        firstCourse.addContents(theFirstGame);
+//        secondCourse.addContents(theSecondGame);
+//        thirdCourse.addContents(theThirdGame);
+//        fourthCourse.addContents(thefourthGame);
+//        
+//        CoursesData.add(firstCourse);
+//        CoursesData.add(secondCourse);
+//        CoursesData.add(thirdCourse);
+//        CoursesData.add(fourthCourse);
+//        
+//        MCQTeacher.addCourses(firstCourse);
+//        MCQTeacher.addCourses(thirdCourse);
+//        TFTeacher.addCourses(secondCourse);
+//        TFTeacher.addCourses(fourthCourse);
+//        
+//        Student.addCoursesRegistedin(firstCourse);
+//        Student.addCoursesRegistedin(secondCourse);
+//        Student.addCoursesRegistedin(thirdCourse);
+//        Student.addCoursesRegistedin(fourthCourse);
+//        
+//        Student2.addCoursesRegistedin(firstCourse);
+//        Student2.addCoursesRegistedin(secondCourse);
+//        Student2.addCoursesRegistedin(thirdCourse);
+//        Student2.addCoursesRegistedin(fourthCourse);
+//        
+////        Score StudentWithFirstGame = new Score(theFirstGame);
+////        StudentWithFirstGame.setScoreValue(100000);
+////        Student.addScores(StudentWithFirstGame);
+//        
+//        UsersData.add(TFTeacher);
+//        UsersData.add(MCQTeacher);
+//        UsersData.add(Student);
+//        UsersData.add(Student2);
+//        
+//        System.out.println(TFTeacher.getCoursesCreated().size());
+//        System.out.println(MCQTeacher.getCoursesCreated().size());
+//        
+//        /*mcqQuestionService.save(secondQuestion);
+//        tfQuestionService.save(firstQuestion);
+//        tfService.save(thefourthGame);tfService.save(theSecondGame);
+//        mcqService.save(theFirstGame);mcqService.save(theThirdGame);
+//        CourseService.save(CoursesData);*/ 	
+//        userService.save(UsersData);
+//        
+////        Score StudentWithFirstGame = new Score(theFirstGame);
+////        StudentWithFirstGame.setScoreValue(100000);
+////        User userScore = userService.findByuserName("S");
+////        userScore.addScores(StudentWithFirstGame);
+////        userService.save(userScore);
+////        
+//        
+//       // scoreService.save(StudentWithFirstGame);
     }
 
 

@@ -337,7 +337,7 @@ function($scope, $location, $http,GamesService,CourseService, QuestionService,Us
 				"text": $scope.commentText
 			  }
 		
-		$http.post('http://localhost:8080/' + 'comment/' + gameId, data)
+		$http.post('https://cleverzone.herokuapp.com/' + 'comment/' + gameId, data)
 		.then(function successCallback(response) {
 			console.log(response.status);
 			console.log("Comment  added successfully");
