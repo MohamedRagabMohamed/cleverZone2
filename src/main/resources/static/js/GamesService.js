@@ -1,8 +1,8 @@
 app.service('GamesService', [ '$http', function($http) {
 
-	var mcqBase = 'http://localhost:8080/mcqgame/';
-	var tfBase = 'http://localhost:8080/tfgame/';
-	var user = 'http://localhost:8080/user/';
+	var mcqBase = 'https://cleverzone.herokuapp.com/mcqgame/';
+	var tfBase = 'https://cleverzone.herokuapp.com/tfgame/';
+	var user = 'https://cleverzone.herokuapp.com/user/';
 	var selectedGameToPlay;
 	var selectedGameToEdit;
 	var gameScore;

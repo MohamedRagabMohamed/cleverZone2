@@ -1,6 +1,6 @@
  app.service('CourseService', ['$http', function ($http) {
 
-        var urlBase = 'http://localhost:8080/';
+        var urlBase = 'https://cleverzone.herokuapp.com/';
         var selectedCourseToPlay ;
         var selectedCourseToEdit ;
         

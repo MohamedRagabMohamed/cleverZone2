@@ -1,7 +1,7 @@
  app.service('QuestionService', ['$http', function ($http) {
 
-        var mcqBase = 'http://localhost:8080/MCQQuestion/';
-        var tfBase = 'http://localhost:8080/tfquestion/';
+        var mcqBase = 'https://cleverzone.herokuapp.com/MCQQuestion/';
+        var tfBase = 'https://cleverzone.herokuapp.com/tfquestion/';
 
         var selectedQuestionToEdit ;
      

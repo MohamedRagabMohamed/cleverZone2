@@ -1,6 +1,6 @@
  app.service('UserService', ['$http', function ($http) {
 
-        var urlBase = 'http://localhost:8080/';
+        var urlBase = 'https://cleverzone.herokuapp.com/';
         var user ; 
         this.login = function () {
             return $http.get(urlBase+'getuser/');
